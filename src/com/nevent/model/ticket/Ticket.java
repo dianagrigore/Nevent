@@ -2,12 +2,22 @@ package com.nevent.model.ticket;
 
 import com.nevent.model.client.Client;
 import com.nevent.model.event.Event;
+/* Ticket a user can buy, book, return
+ */
+import java.util.Objects;
 
 public class Ticket {
     private String ticketId;
     private Event event;
     private Client client;
     private String type;
+
+    public Ticket(String ticketId, Event event, Client client, String type) {
+        this.ticketId = ticketId;
+        this.event = event;
+        this.client = client;
+        this.type = type;
+    }
 
     public String getTicketId() {
         return ticketId;
@@ -39,5 +49,36 @@ public class Ticket {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 31;
+        int prime = 17;
+        hashCode = ticketId == null ? 0 : prime * ticketId.hashCode();
+        hashCode += event == null ? 0 : prime * event.hashCode();
+        hashCode += client == null ? 0 : prime * client.hashCode();
+        hashCode += type == null ? 0 : prime * type.hashCode();
+        return hashCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket " +
+                "no. " + ticketId  +
+                ", for event: " + event.getId() +
+                "\nDate: " + event.getDateTime() +
+                "\nDuration: " + event.getDuration() +
+                "\nLocation: " + event.getLocation().getAddress() +
+                "\nName: " + client.getName() + " " + client.getSurname() +
+                "\nCategory: " + type + '\n' ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(ticketId, ticket.ticketId) && Objects.equals(event, ticket.event) && Objects.equals(client, ticket.client) && Objects.equals(type, ticket.type);
     }
 }

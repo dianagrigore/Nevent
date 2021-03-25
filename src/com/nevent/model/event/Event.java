@@ -17,6 +17,26 @@ public abstract class Event {
     private Date dateTime;
     private Map<String, Double> pricePerTicketType;
 
+    public Event(String id,
+                 String description,
+                 Integer ageRestriction,
+                 Integer duration,
+                 Location location,
+                 List<Ticket> soldTickets,
+                 ArrayList<Reservation> reservations,
+                 Date dateTime,
+                 Map<String, Double> pricePerTicketType) {
+        this.id = id;
+        this.description = description;
+        this.ageRestriction = ageRestriction;
+        this.duration = duration;
+        this.location = location;
+        this.soldTickets = soldTickets;
+        this.reservations = reservations;
+        this.dateTime = dateTime;
+        this.pricePerTicketType = pricePerTicketType;
+    }
+
 
     public String getDescription() {
         return description;
@@ -67,31 +87,6 @@ public abstract class Event {
     }
 
 
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id='" + id + '\'' +
-                ", description='" + description + '\'' +
-                ", ageRestriction=" + ageRestriction +
-                ", duration=" + duration +
-                ", dateTime=" + dateTime +
-                ", pricePerTicketType=" + pricePerTicketType +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return id.equals(event.id) && Objects.equals(description, event.description) && Objects.equals(ageRestriction, event.ageRestriction) && Objects.equals(duration, event.duration) && Objects.equals(dateTime, event.dateTime) && Objects.equals(pricePerTicketType, event.pricePerTicketType);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, description, ageRestriction, duration, dateTime, pricePerTicketType);
-    }
-
     public Location getLocation() {
         return location;
     }
@@ -114,5 +109,44 @@ public abstract class Event {
 
     public void setReservations(ArrayList<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(id, event.id) && Objects.equals(description, event.description) && Objects.equals(ageRestriction, event.ageRestriction) && Objects.equals(duration, event.duration) && Objects.equals(location, event.location) && Objects.equals(soldTickets, event.soldTickets) && Objects.equals(reservations, event.reservations) && Objects.equals(dateTime, event.dateTime) && Objects.equals(pricePerTicketType, event.pricePerTicketType);
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 31;
+        int prime = 17;
+        hashCode = id == null ? 0 : prime * id.hashCode();
+        hashCode += description == null ? 0 : prime * description.hashCode();
+        hashCode += ageRestriction == null ? 0 : prime * ageRestriction.hashCode();
+        hashCode += duration == null ? 0 : prime * duration.hashCode();
+        hashCode += location == null ? 0 : prime * location.hashCode();
+        hashCode += soldTickets == null ? 0 : prime * soldTickets.hashCode();
+        hashCode += reservations == null ? 0 : prime * reservations.hashCode();
+        hashCode += dateTime == null ? 0 : prime * dateTime.hashCode();
+        hashCode += pricePerTicketType == null ? 0 : prime * pricePerTicketType.hashCode();
+        return hashCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", ageRestriction=" + ageRestriction +
+                ", duration=" + duration +
+                ", location=" + location +
+                ", soldTickets=" + soldTickets +
+                ", reservations=" + reservations +
+                ", dateTime=" + dateTime +
+                ", pricePerTicketType=" + pricePerTicketType +
+                '}';
     }
 }

@@ -1,14 +1,37 @@
 package com.nevent.model.event;
 
+import com.nevent.model.client.Reservation;
+import com.nevent.model.location.Location;
 import com.nevent.model.performer.Performer;
+import com.nevent.model.ticket.Ticket;
 
-import java.util.Map;
+import java.util.*;
 
 public class Movie extends Event {
     private String genre;
     private String name;
     private String director;
     private Map<Performer, String> cast;
+
+    public Movie(String id,
+                 String description,
+                 Integer ageRestriction,
+                 Integer duration,
+                 Location location,
+                 List<Ticket> soldTickets,
+                 ArrayList<Reservation> reservations,
+                 Date dateTime,
+                 Map<String, Double> pricePerTicketType,
+                 String genre,
+                 String name,
+                 String director,
+                 Map<Performer, String> cast) {
+        super(id, description, ageRestriction, duration, location, soldTickets, reservations, dateTime, pricePerTicketType);
+        this.genre = genre;
+        this.name = name;
+        this.director = director;
+        this.cast = cast;
+    }
 
     public String getGenre() {
         return genre;
@@ -40,5 +63,36 @@ public class Movie extends Event {
 
     public void setCast(Map<Performer, String> cast) {
         this.cast = cast;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(genre, movie.genre) && Objects.equals(name, movie.name) && Objects.equals(director, movie.director) && Objects.equals(cast, movie.cast);
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 31;
+        int prime = 17;
+        hashCode = genre == null ? 0 : prime * genre.hashCode();
+        hashCode += name == null ? 0 : prime * name.hashCode();
+        hashCode += director == null ? 0 : prime * director.hashCode();
+        hashCode += cast == null ? 0 : prime * cast.hashCode();
+        hashCode += super.hashCode();
+        return hashCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "genre='" + genre + '\'' +
+                ", name='" + name + '\'' +
+                ", director='" + director + '\'' +
+                ", cast=" + cast +
+                "} " + super.toString();
     }
 }

@@ -4,6 +4,7 @@ import com.nevent.model.client.Client;
 import com.nevent.model.ticket.Ticket;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 public class Reservation {
@@ -11,6 +12,13 @@ public class Reservation {
     private Date dateOfReservation;
     private Date dateOfExpiration;
     private Set<Ticket> tickets;
+
+    public Reservation(Client client, Date dateOfReservation, Date dateOfExpiration, Set<Ticket> tickets) {
+        this.client = client;
+        this.dateOfReservation = dateOfReservation;
+        this.dateOfExpiration = dateOfExpiration;
+        this.tickets = tickets;
+    }
 
     public Client getClient() {
         return client;
@@ -42,5 +50,34 @@ public class Reservation {
 
     public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return Objects.equals(client, that.client) && Objects.equals(dateOfReservation, that.dateOfReservation) && Objects.equals(dateOfExpiration, that.dateOfExpiration) && Objects.equals(tickets, that.tickets);
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 31;
+        int prime = 17;
+        hashCode = client == null ? 0 : prime * client.hashCode();
+        hashCode += dateOfReservation == null ? 0 : prime * dateOfReservation.hashCode();
+        hashCode += dateOfExpiration == null ? 0 : prime * dateOfExpiration.hashCode();
+        hashCode += tickets == null ? 0 : prime * tickets.hashCode();
+        return hashCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "client=" + client +
+                ", dateOfReservation=" + dateOfReservation +
+                ", dateOfExpiration=" + dateOfExpiration +
+                ", tickets=" + tickets +
+                '}';
     }
 }
