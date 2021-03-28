@@ -1,9 +1,11 @@
 package com.nevent.model.client;
 
 import com.nevent.model.client.payment.Account;
+import com.nevent.model.event.Event;
 import com.nevent.model.ticket.Ticket;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,28 +19,20 @@ public class Client {
     private ArrayList<Ticket> tickets;
     private Set<Reservation> reservations;
 
-    public Client(String clientId,
-                  String name,
+    public Client(String name,
                   String surname,
-                  Integer age,
-                  Account paymentMethod,
-                  ArrayList<Ticket> tickets,
-                  Set<Reservation> reservations) {
-        this.clientId = clientId;
+                  Integer age) {
+        this.clientId = (++numberOfClients).toString();
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.paymentMethod = paymentMethod;
-        this.tickets = tickets;
-        this.reservations = reservations;
+        this.paymentMethod = new Account(clientId);
+        this.tickets = new ArrayList<Ticket>();
+        this.reservations = new HashSet<Reservation>();
     }
 
     public static Integer getNumberOfClients() {
         return numberOfClients;
-    }
-
-    public static void setNumberOfClients(Integer numberOfClients) {
-        Client.numberOfClients = numberOfClients;
     }
 
     public String getClientId() {
@@ -97,6 +91,25 @@ public class Client {
         this.reservations = reservations;
     }
 
+    public void checkMyBalance(){
+        Account myAccount = this.getPaymentMethod();
+        Double moneyLeft = myAccount.getLeftBalance();
+        System.out.println("You have " + moneyLeft.toString() + " lei left in your account");
+        myAccount.seeMyVouchers();
+    }
+
+    public boolean canIBuyTicket(Event certainEvent){
+        Integer requiredMinimumAge = certainEvent.getAgeRestriction();
+        Integer myAge = this.getAge();
+        if (myAge > requiredMinimumAge){
+            System.out.println("You can buy a ticket for " + certainEvent.getId());
+            return true;
+        }
+        else {
+            System.out.println("You don't have the right age to buy a ticket for this event.");
+            return false;
+        }
+    }
 
     @Override
     public String toString() {
