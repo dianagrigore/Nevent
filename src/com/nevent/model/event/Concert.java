@@ -13,20 +13,18 @@ public class Concert extends Event {
     Integer performanceTimeOpener;
     Integer performanceTimeMainAct;
 
-    public Concert(String id,
+    public Concert(
                    String description,
                    Integer ageRestriction,
                    Integer duration,
                    Location location,
-                   List<Ticket> soldTickets,
-                   ArrayList<Reservation> reservations,
                    Date dateTime,
                    Map<String, Double> pricePerTicketType,
                    Performer opener,
                    Performer mainAct,
                    Integer performanceTimeOpener,
                    Integer performanceTimeMainAct) {
-        super(id, description, ageRestriction, duration, location, soldTickets, reservations, dateTime, pricePerTicketType);
+        super(description, ageRestriction, duration, location, dateTime, pricePerTicketType);
         this.opener = opener;
         this.mainAct = mainAct;
         this.performanceTimeOpener = performanceTimeOpener;

@@ -13,25 +13,14 @@ public class Movie extends Event {
     private String director;
     private Map<Performer, String> cast;
 
-    public Movie(String id,
-                 String description,
-                 Integer ageRestriction,
-                 Integer duration,
-                 Location location,
-                 List<Ticket> soldTickets,
-                 ArrayList<Reservation> reservations,
-                 Date dateTime,
-                 Map<String, Double> pricePerTicketType,
-                 String genre,
-                 String name,
-                 String director,
-                 Map<Performer, String> cast) {
-        super(id, description, ageRestriction, duration, location, soldTickets, reservations, dateTime, pricePerTicketType);
+    public Movie(String description, Integer ageRestriction, Integer duration, Location location, Date dateTime, Map<String, Double> pricePerTicketType, String genre, String name, String director, Map<Performer, String> cast) {
+        super(description, ageRestriction, duration, location, dateTime, pricePerTicketType);
         this.genre = genre;
         this.name = name;
         this.director = director;
         this.cast = cast;
     }
+
 
     public String getGenre() {
         return genre;

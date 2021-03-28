@@ -1,9 +1,7 @@
 package com.nevent.model.event;
 
-import com.nevent.model.client.Reservation;
-import com.nevent.model.location.Location;
-import com.nevent.model.performer.Actor;
-import com.nevent.model.ticket.Ticket;
+import com.nevent.model.location.Location;;
+import com.nevent.model.performer.Performer;
 
 import java.util.*;
 
@@ -12,23 +10,10 @@ public class TheatrePlay extends Event {
     private String name;
     private String directorName;
     private String dressCode;
-    private Map<Actor, String> cast;
+    private Map<Performer, String> cast;
 
-    public TheatrePlay(String id,
-                       String description,
-                       Integer ageRestriction,
-                       Integer duration,
-                       Location location,
-                       List<Ticket> soldTickets,
-                       ArrayList<Reservation> reservations,
-                       Date dateTime,
-                       Map<String, Double> pricePerTicketType,
-                       String genre,
-                       String name,
-                       String directorName,
-                       String dressCode,
-                       Map<Actor, String> cast) {
-        super(id, description, ageRestriction, duration, location, soldTickets, reservations, dateTime, pricePerTicketType);
+    public TheatrePlay(String description, Integer ageRestriction, Integer duration, Location location, Date dateTime, Map<String, Double> pricePerTicketType, String genre, String name, String directorName, String dressCode, Map<Performer, String> cast) {
+        super(description, ageRestriction, duration, location, dateTime, pricePerTicketType);
         this.genre = genre;
         this.name = name;
         this.directorName = directorName;
@@ -68,11 +53,11 @@ public class TheatrePlay extends Event {
         this.dressCode = dressCode;
     }
 
-    public Map<Actor, String> getCast() {
+    public Map<Performer, String> getCast() {
         return cast;
     }
 
-    public void setCast(Map<Actor, String> cast) {
+    public void setCast(Map<Performer, String> cast) {
         this.cast = cast;
     }
 

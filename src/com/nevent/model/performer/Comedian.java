@@ -13,8 +13,8 @@ public class Comedian extends Performer{
     private Integer timePerSet;
     List<String> podcasts;
 
-    public Comedian(String performerId, String name, String description, Set<Event> currentEvents, String genreOfComedy, String positionInShow, Integer tenure, Integer timePerSet, List<String> podcasts) {
-        super(performerId, name, description, currentEvents);
+    public Comedian( String name, String description, String genreOfComedy, String positionInShow, Integer tenure, Integer timePerSet, List<String> podcasts) {
+        super(name, description);
         this.genreOfComedy = genreOfComedy;
         this.positionInShow = positionInShow;
         this.tenure = tenure;
@@ -62,6 +62,12 @@ public class Comedian extends Performer{
         this.podcasts = podcasts;
     }
 
+    @Override
+    public void getPortrait() {
+        System.out.println("id: " + this.getPerformerId() + "\n" + "name: " + this.getName()
+                + "\n" + this.getDescription() + "\n Comedy genre: " + this.getGenreOfComedy() + "\n Podcasts: "
+                + this.getPodcasts() + '\n');
+    }
 
     @Override
     public boolean equals(Object o) {

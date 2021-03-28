@@ -10,9 +10,9 @@ public class Actor extends Performer{
     private List<String> awards;
     private List<String> pastProductions;
 
-    public Actor(String performerId, String name, String description, Set<Event> currentEvents,
+    public Actor(String name, String description,
                  List<String> awards, List<String> pastProductions) {
-        super(performerId, name, description, currentEvents);
+        super(name, description);
         this.awards = awards;
         this.pastProductions = pastProductions;
     }
@@ -33,7 +33,12 @@ public class Actor extends Performer{
         this.pastProductions = pastProductions;
     }
 
-
+    @Override
+    public void getPortrait(){
+            System.out.println("id: " + this.getPerformerId() + "\n" + "name: " + this.getName()
+            + "\n" + this.getDescription() + "\n Awards: " + this.getAwards() + "\n Past productions: "
+            + this.getPastProductions() + '\n');
+    }
 
     @Override
     public String toString() {

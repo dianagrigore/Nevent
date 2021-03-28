@@ -13,15 +13,13 @@ public class Singer extends Performer{
     private List<String> bestKnownSongs;
 
     public Singer(
-                  String performerId,
                   String name,
                   String description,
-                  Set<Event> currentEvents,
                   String musicGenre,
                   Boolean isGroup,
                   List<String> memberNames,
                   List<String> bestKnownSongs) {
-        super(performerId, name, description, currentEvents);
+        super( name, description);
         this.musicGenre = musicGenre;
         this.isGroup = isGroup;
         this.memberNames = memberNames;
@@ -61,7 +59,12 @@ public class Singer extends Performer{
         this.bestKnownSongs = bestKnownSongs;
     }
 
-
+    @Override
+    public void getPortrait() {
+        System.out.println("id: " + this.getPerformerId() + "\n" + "name: " + this.getName()
+                + "\n" + this.getDescription() + "\n Music genre: " + this.getMusicGenre() + "\n Members: "
+                + this.getMemberNames() + "\nBest known songs: " + this.getBestKnownSongs());
+    }
 
     @Override
     public String toString() {

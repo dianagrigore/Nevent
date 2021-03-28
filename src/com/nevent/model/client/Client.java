@@ -111,6 +111,32 @@ public class Client {
         }
     }
 
+    public void retrieveMoneyFromAccount(Double amount){
+        Double currentAmount = getPaymentMethod().getLeftBalance();
+        this.getPaymentMethod().setLeftBalance(currentAmount - amount);
+    }
+
+    public void addANewTicket(Ticket ticket){
+        this.tickets.add(ticket);
+    }
+
+    public void reimburseAndDeleteTicket(Ticket ticket){
+        this.tickets.remove(ticket); //remove the ticket from the list
+        Double currentBalance = this.getPaymentMethod().getLeftBalance();
+        String type = ticket.getType();
+        Event event = ticket.getEvent();
+        Double ticketValue = event.getPricePerTicketType().get(type);
+        this.getPaymentMethod().setLeftBalance(currentBalance + ticketValue); //add the amount back in account
+    }
+
+    public void addReservation(Reservation reservation){
+        this.reservations.add(reservation);
+    }
+
+    public void cancelReservation(Reservation reservation){
+        this.reservations.remove(reservation);
+    }
+
     @Override
     public String toString() {
         return "Client{" +

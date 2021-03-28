@@ -2,20 +2,22 @@ package com.nevent.model.performer;
 
 import com.nevent.model.event.Event;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class Performer {
     private String performerId;
     private String name;
+    private static Integer numberOfPerformers;
     private String description;
     Set<Event> currentEvents;
 
-    public Performer(String performerId, String name, String description, Set<Event> currentEvents) {
-        this.performerId = performerId;
+    public Performer(String name, String description) {
+        this.performerId = (++numberOfPerformers).toString();
         this.name = name;
         this.description = description;
-        this.currentEvents = currentEvents;
+        this.currentEvents = new HashSet<>();
     }
 
     public String getPerformerId() {
@@ -50,6 +52,10 @@ public class Performer {
         this.currentEvents = currentEvents;
     }
 
+    public void getPortrait(){
+        System.out.println("id: " + this.getPerformerId() + "\n" + "name: " + this.getName()
+                + "\n" + this.getDescription());
+    }
 
     @Override
     public String toString() {

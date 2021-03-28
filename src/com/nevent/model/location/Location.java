@@ -10,8 +10,8 @@ public class Location {
     private Seating seating;
     private static Integer numberOfLocations;
 
-    public Location(String id, String nameOfVenue, String address, String city, Seating seating) {
-        this.id = id;
+    public Location(String nameOfVenue, String address, String city, Seating seating) {
+        this.id = (++numberOfLocations).toString();
         this.nameOfVenue = nameOfVenue;
         this.address = address;
         this.city = city;

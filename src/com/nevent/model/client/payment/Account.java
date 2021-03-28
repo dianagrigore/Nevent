@@ -44,6 +44,25 @@ public class Account {
         }
     }
 
+    public Double getTheValueOfThisVoucher(String reason){
+        for(Voucher voucher : getVouchers()){
+            if (voucher.getReason().equals(reason))
+                return voucher.getValue();
+        }
+        return 0.0;
+    }
+
+    public boolean useTheVoucher(String reason){
+        if(reason != null) {
+            for (Voucher voucher : getVouchers()) {
+                if (voucher.getReason().equals(reason)) {
+                    getVouchers().remove(voucher);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     @Override
     public String toString() {
         return "Account{" +
