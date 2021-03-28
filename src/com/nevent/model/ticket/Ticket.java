@@ -51,16 +51,6 @@ public class Ticket {
         this.type = type;
     }
 
-    @Override
-    public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = ticketId == null ? 0 : prime * ticketId.hashCode();
-        hashCode += event == null ? 0 : prime * event.hashCode();
-        hashCode += client == null ? 0 : prime * client.hashCode();
-        hashCode += type == null ? 0 : prime * type.hashCode();
-        return hashCode;
-    }
 
     @Override
     public String toString() {
@@ -80,5 +70,10 @@ public class Ticket {
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
         return Objects.equals(ticketId, ticket.ticketId) && Objects.equals(event, ticket.event) && Objects.equals(client, ticket.client) && Objects.equals(type, ticket.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ticketId, event, client, type);
     }
 }

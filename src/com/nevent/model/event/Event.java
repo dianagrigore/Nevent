@@ -111,29 +111,7 @@ public abstract class Event {
         this.reservations = reservations;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return Objects.equals(id, event.id) && Objects.equals(description, event.description) && Objects.equals(ageRestriction, event.ageRestriction) && Objects.equals(duration, event.duration) && Objects.equals(location, event.location) && Objects.equals(soldTickets, event.soldTickets) && Objects.equals(reservations, event.reservations) && Objects.equals(dateTime, event.dateTime) && Objects.equals(pricePerTicketType, event.pricePerTicketType);
-    }
 
-    @Override
-    public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = id == null ? 0 : prime * id.hashCode();
-        hashCode += description == null ? 0 : prime * description.hashCode();
-        hashCode += ageRestriction == null ? 0 : prime * ageRestriction.hashCode();
-        hashCode += duration == null ? 0 : prime * duration.hashCode();
-        hashCode += location == null ? 0 : prime * location.hashCode();
-        hashCode += soldTickets == null ? 0 : prime * soldTickets.hashCode();
-        hashCode += reservations == null ? 0 : prime * reservations.hashCode();
-        hashCode += dateTime == null ? 0 : prime * dateTime.hashCode();
-        hashCode += pricePerTicketType == null ? 0 : prime * pricePerTicketType.hashCode();
-        return hashCode;
-    }
 
     @Override
     public String toString() {
@@ -148,5 +126,18 @@ public abstract class Event {
                 ", dateTime=" + dateTime +
                 ", pricePerTicketType=" + pricePerTicketType +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(id, event.id) && Objects.equals(description, event.description) && Objects.equals(ageRestriction, event.ageRestriction) && Objects.equals(duration, event.duration) && Objects.equals(location, event.location) && Objects.equals(soldTickets, event.soldTickets) && Objects.equals(reservations, event.reservations) && Objects.equals(dateTime, event.dateTime) && Objects.equals(pricePerTicketType, event.pricePerTicketType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, ageRestriction, duration, location, soldTickets, reservations, dateTime, pricePerTicketType);
     }
 }

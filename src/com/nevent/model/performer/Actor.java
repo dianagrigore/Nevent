@@ -33,6 +33,17 @@ public class Actor extends Performer{
         this.pastProductions = pastProductions;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Actor{" +
+                "awards=" + awards +
+                ", pastProductions=" + pastProductions +
+                ", currentEvents=" + currentEvents +
+                "} " + super.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,20 +55,6 @@ public class Actor extends Performer{
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = awards == null ? 0 : prime * awards.hashCode();
-        hashCode += pastProductions == null ? 0 : prime * pastProductions.hashCode();
-        hashCode += super.hashCode();
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Actor{" +
-                "awards=" + awards +
-                ", pastProductions=" + pastProductions +
-                ", currentEvents=" + currentEvents +
-                "} " + super.toString();
+        return Objects.hash(super.hashCode(), awards, pastProductions);
     }
 }

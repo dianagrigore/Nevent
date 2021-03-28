@@ -66,25 +66,7 @@ public class Location {
         Location.numberOfLocations = numberOfLocations;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Location location = (Location) o;
-        return Objects.equals(id, location.id) && Objects.equals(nameOfVenue, location.nameOfVenue) && Objects.equals(address, location.address) && Objects.equals(city, location.city) && Objects.equals(seating, location.seating);
-    }
 
-    @Override
-    public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = id == null ? 0 : prime * id.hashCode();
-        hashCode += nameOfVenue == null ? 0 : prime * nameOfVenue.hashCode();
-        hashCode += address == null ? 0 : prime * address.hashCode();
-        hashCode += city == null ? 0 : prime * city.hashCode();
-        hashCode += seating == null ? 0 : prime * seating.hashCode();
-        return hashCode;
-    }
 
     @Override
     public String toString() {
@@ -95,5 +77,18 @@ public class Location {
                 ", city='" + city + '\'' +
                 ", seating=" + seating +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return Objects.equals(id, location.id) && Objects.equals(nameOfVenue, location.nameOfVenue) && Objects.equals(address, location.address) && Objects.equals(city, location.city) && Objects.equals(seating, location.seating);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nameOfVenue, address, city, seating);
     }
 }

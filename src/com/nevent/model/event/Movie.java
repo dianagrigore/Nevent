@@ -65,6 +65,18 @@ public class Movie extends Event {
         this.cast = cast;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "genre='" + genre + '\'' +
+                ", name='" + name + '\'' +
+                ", director='" + director + '\'' +
+                ", cast=" + cast +
+                "} " + super.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,23 +88,6 @@ public class Movie extends Event {
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = genre == null ? 0 : prime * genre.hashCode();
-        hashCode += name == null ? 0 : prime * name.hashCode();
-        hashCode += director == null ? 0 : prime * director.hashCode();
-        hashCode += cast == null ? 0 : prime * cast.hashCode();
-        hashCode += super.hashCode();
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "genre='" + genre + '\'' +
-                ", name='" + name + '\'' +
-                ", director='" + director + '\'' +
-                ", cast=" + cast +
-                "} " + super.toString();
+        return Objects.hash(super.hashCode(), genre, name, director, cast);
     }
 }

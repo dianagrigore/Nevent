@@ -54,6 +54,17 @@ public class StandUpShow extends Event {
         this.rolesInShow = rolesInShow;
     }
 
+
+    @Override
+    public String toString() {
+        return "StandUpShow{" +
+                "comedians=" + comedians +
+                ", schedule=" + schedule +
+                ", rolesInShow=" + rolesInShow +
+                "} " + super.toString();
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,21 +76,6 @@ public class StandUpShow extends Event {
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = comedians == null ? 0 : prime * comedians.hashCode();
-        hashCode += schedule == null ? 0 : prime * schedule.hashCode();
-        hashCode += rolesInShow == null ? 0 : prime * rolesInShow.hashCode();
-        hashCode += super.hashCode();
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "StandUpShow{" +
-                "comedians=" + comedians +
-                ", schedule=" + schedule +
-                ", rolesInShow=" + rolesInShow +
-                "} " + super.toString();
+        return Objects.hash(super.hashCode(), comedians, schedule, rolesInShow);
     }
 }

@@ -50,24 +50,6 @@ public class Performer {
         this.currentEvents = currentEvents;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Performer performer = (Performer) o;
-        return Objects.equals(performerId, performer.performerId) && Objects.equals(name, performer.name)
-                && Objects.equals(description, performer.description) && Objects.equals(currentEvents, performer.currentEvents);
-    }
-
-    @Override
-    public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = name == null ? 0 : prime * name.hashCode();
-        hashCode += description == null ? 0 : prime * description.hashCode();
-        hashCode += currentEvents == null ? 0 : prime * currentEvents.hashCode();
-        return hashCode;
-    }
 
     @Override
     public String toString() {
@@ -77,5 +59,18 @@ public class Performer {
                 ", description='" + description + '\'' +
                 ", currentEvents=" + currentEvents +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Performer performer = (Performer) o;
+        return Objects.equals(performerId, performer.performerId) && Objects.equals(name, performer.name) && Objects.equals(description, performer.description) && Objects.equals(currentEvents, performer.currentEvents);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(performerId, name, description, currentEvents);
     }
 }

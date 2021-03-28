@@ -61,6 +61,18 @@ public class Singer extends Performer{
         this.bestKnownSongs = bestKnownSongs;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Singer{" +
+                "musicGenre='" + musicGenre + '\'' +
+                ", isGroup=" + isGroup +
+                ", memberNames=" + memberNames +
+                ", bestKnownSongs=" + bestKnownSongs +
+                "} " + super.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,23 +84,6 @@ public class Singer extends Performer{
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = musicGenre == null ? 0 : prime * musicGenre.hashCode();
-        hashCode += isGroup == null ? 0 : prime * isGroup.hashCode();
-        hashCode += memberNames == null ? 0 : prime * memberNames.hashCode();
-        hashCode += bestKnownSongs == null ? 0 : prime * bestKnownSongs.hashCode();
-        hashCode += super.hashCode();
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Singer{" +
-                "musicGenre='" + musicGenre + '\'' +
-                ", isGroup=" + isGroup +
-                ", memberNames=" + memberNames +
-                ", bestKnownSongs=" + bestKnownSongs +
-                "} " + super.toString();
+        return Objects.hash(super.hashCode(), musicGenre, isGroup, memberNames, bestKnownSongs);
     }
 }

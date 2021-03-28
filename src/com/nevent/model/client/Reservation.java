@@ -52,6 +52,18 @@ public class Reservation {
         this.tickets = tickets;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "client=" + client +
+                ", dateOfReservation=" + dateOfReservation +
+                ", dateOfExpiration=" + dateOfExpiration +
+                ", tickets=" + tickets +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,22 +74,6 @@ public class Reservation {
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = client == null ? 0 : prime * client.hashCode();
-        hashCode += dateOfReservation == null ? 0 : prime * dateOfReservation.hashCode();
-        hashCode += dateOfExpiration == null ? 0 : prime * dateOfExpiration.hashCode();
-        hashCode += tickets == null ? 0 : prime * tickets.hashCode();
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "client=" + client +
-                ", dateOfReservation=" + dateOfReservation +
-                ", dateOfExpiration=" + dateOfExpiration +
-                ", tickets=" + tickets +
-                '}';
+        return Objects.hash(client, dateOfReservation, dateOfExpiration, tickets);
     }
 }

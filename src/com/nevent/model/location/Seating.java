@@ -28,6 +28,15 @@ public class Seating {
                 this.ticketsOfEachType = ticketsOfEachType;
         }
 
+
+        @Override
+        public String toString() {
+                return "Seating{" +
+                        "numberOfSeats=" + numberOfSeats +
+                        ", ticketsOfEachType=" + ticketsOfEachType +
+                        '}';
+        }
+
         @Override
         public boolean equals(Object o) {
                 if (this == o) return true;
@@ -38,18 +47,6 @@ public class Seating {
 
         @Override
         public int hashCode() {
-                int hashCode = 31;
-                int prime = 17;
-                hashCode = numberOfSeats == null ? 0 : prime * numberOfSeats.hashCode();
-                hashCode += ticketsOfEachType == null ? 0 : prime * ticketsOfEachType.hashCode();
-                return hashCode;
-        }
-
-        @Override
-        public String toString() {
-                return "Seating{" +
-                        "numberOfSeats=" + numberOfSeats +
-                        ", ticketsOfEachType=" + ticketsOfEachType +
-                        '}';
+                return Objects.hash(numberOfSeats, ticketsOfEachType);
         }
 }

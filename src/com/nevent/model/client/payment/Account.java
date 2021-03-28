@@ -28,6 +28,16 @@ public class Account {
         this.vouchers = vouchers;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "leftBalance=" + leftBalance +
+                ", vouchers=" + vouchers +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,18 +48,6 @@ public class Account {
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = leftBalance == null ? 0 : prime * leftBalance.hashCode();
-        hashCode += vouchers == null ? 0 : prime * vouchers.hashCode();
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "leftBalance=" + leftBalance +
-                ", vouchers=" + vouchers +
-                '}';
+        return Objects.hash(leftBalance, vouchers);
     }
 }

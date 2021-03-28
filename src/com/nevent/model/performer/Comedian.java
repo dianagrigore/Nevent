@@ -62,6 +62,7 @@ public class Comedian extends Performer{
         this.podcasts = podcasts;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,14 +74,6 @@ public class Comedian extends Performer{
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = genreOfComedy == null ? 0 : prime * genreOfComedy.hashCode();
-        hashCode += positionInShow == null ? 0 : prime * positionInShow.hashCode();
-        hashCode += tenure == null ? 0 : prime * tenure.hashCode();
-        hashCode += timePerSet == null ? 0 : prime * timePerSet.hashCode();
-        hashCode += podcasts == null ? 0 : prime * podcasts.hashCode();
-        hashCode += super.hashCode();
-        return hashCode;
+        return Objects.hash(super.hashCode(), genreOfComedy, positionInShow, tenure, timePerSet, podcasts);
     }
 }

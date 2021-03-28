@@ -76,6 +76,19 @@ public class Festival extends Event {
         this.stages = stages;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Festival{" +
+                "performers=" + performers +
+                ", name='" + name + '\'' +
+                ", actLength=" + actLength +
+                ", dateOfPerformance=" + dateOfPerformance +
+                ", stages=" + stages +
+                "} " + super.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,25 +100,6 @@ public class Festival extends Event {
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = performers == null ? 0 : prime * performers.hashCode();
-        hashCode += name == null ? 0 : prime * name.hashCode();
-        hashCode += actLength == null ? 0 : prime * actLength.hashCode();
-        hashCode += dateOfPerformance == null ? 0 : prime * dateOfPerformance.hashCode();
-        hashCode += stages == null ? 0 : prime * stages.hashCode();
-        hashCode += super.hashCode();
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Festival{" +
-                "performers=" + performers +
-                ", name='" + name + '\'' +
-                ", actLength=" + actLength +
-                ", dateOfPerformance=" + dateOfPerformance +
-                ", stages=" + stages +
-                "} " + super.toString();
+        return Objects.hash(super.hashCode(), performers, name, actLength, dateOfPerformance, stages);
     }
 }

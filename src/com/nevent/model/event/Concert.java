@@ -65,6 +65,17 @@ public class Concert extends Event {
         this.mainAct = mainAct;
     }
 
+
+    @Override
+    public String toString() {
+        return "Concert{" +
+                "opener=" + opener +
+                ", mainAct=" + mainAct +
+                ", performanceTimeOpener=" + performanceTimeOpener +
+                ", performanceTimeMainAct=" + performanceTimeMainAct +
+                "} " + super.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,23 +87,6 @@ public class Concert extends Event {
 
     @Override
     public int hashCode() {
-        int hashCode = 31;
-        int prime = 17;
-        hashCode = opener == null ? 0 : prime * opener.hashCode();
-        hashCode += mainAct == null ? 0 : prime * mainAct.hashCode();
-        hashCode += performanceTimeOpener == null ? 0 : prime * performanceTimeOpener.hashCode();
-        hashCode += performanceTimeMainAct == null ? 0 : prime * performanceTimeMainAct.hashCode();
-        hashCode += super.hashCode();
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Concert{" +
-                "opener=" + opener +
-                ", mainAct=" + mainAct +
-                ", performanceTimeOpener=" + performanceTimeOpener +
-                ", performanceTimeMainAct=" + performanceTimeMainAct +
-                "} " + super.toString();
+        return Objects.hash(super.hashCode(), opener, mainAct, performanceTimeOpener, performanceTimeMainAct);
     }
 }
