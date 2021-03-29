@@ -1,7 +1,8 @@
 package com.nevent.model.location;
 
 import java.util.Objects;
-
+/*Location class, can be found on the ticket and is specific to event
+* Has Seating */
 public class Location {
     private String id;
     private String nameOfVenue;

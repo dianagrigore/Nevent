@@ -1,7 +1,7 @@
 package com.nevent.model.client.payment;
 
 import java.util.Objects;
-
+/* Voucher, is a way to give users price cuts on tickets for various reasons*/
 public class Voucher {
     private String reason;
     private Double value;

@@ -3,6 +3,8 @@ package com.nevent.model.ticket;
 import com.nevent.model.client.Client;
 import com.nevent.model.event.Event;
 /* Ticket a user can buy, book, return
+* Reserved ticket id's start with RES,
+* the rest start with TIKET
  */
 import java.util.Objects;
 

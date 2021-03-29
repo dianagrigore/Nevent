@@ -6,7 +6,10 @@ import com.nevent.model.ticket.Ticket;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-
+/*Reservation = Booking of a ticket for an event, without buying it
+* User can book multiple tickets at once -> to be implemented
+* Each ticket reservation belongs to the user that made it
+* */
 public class Reservation {
     private Client client;
     private Date dateOfReservation;

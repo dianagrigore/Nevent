@@ -1,4 +1,5 @@
 import com.nevent.model.client.Client;
+import com.nevent.model.client.payment.Account;
 import com.nevent.model.event.*;
 import com.nevent.model.location.Location;
 import com.nevent.model.location.Seating;
@@ -8,22 +9,26 @@ import com.nevent.model.performer.Performer;
 import com.nevent.model.performer.Singer;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.Random;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-public class Service
+public class MainService
 {
     private ArrayList<Location> Locations;
     private ArrayList<Performer> Performers;
     private ArrayList<Event> Events;
     private ArrayList<Client> Clients;
+    private final Random random;
 
-    public Service() {
+    public MainService() {
         Locations = new ArrayList<Location>();
         Performers = new ArrayList<Performer>();
         Events = new ArrayList<Event>();
         Clients = new ArrayList<Client>();
+        random = new Random();
     }
 
     public void addANewLocation(){
@@ -347,6 +352,238 @@ public class Service
             event.getPresentation();
         }
     }
+    public void displayEvent(Event event){
+        event.toString();
+    }
+
+    public Client clientGenerator(){
+        String[] VECTOR_NAME = {"Jacque", "Rutigliano", "Gracia", "Hohl", "Jonas","Bermudes", "Linda","Unruh",
+                "Lavoni","Gathers", "Lashell","Bolton", "Sadie","Nowlen",
+                "Cheryl","Vicari", "Mitzi","Farrar", "Lanelle","Spoto",
+                "Aleida","Linhart", "Kelsie","Turcotte", "Tameka","Giunta",
+                "Alishia","Cudd", "Dyan","Ladue", "Darnell","Lema",
+                "Natalie","Krawczyk", "Regenia","Gregory", "Renata","Aziz", "Sona","Rothfuss "};
+        String name = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
+        String surname = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
+        Integer age = random.nextInt(99);
+        return new Client(name, surname, age);
+    }
+
+    private Seating seatingGenerator(){
+        Integer basic = random.nextInt(200);
+        Integer premium = random.nextInt(200);
+        Integer vip = random.nextInt(20);
+        Map<String, Integer> hartaLocuri = new HashMap<>();
+        hartaLocuri.put("BASIC", basic);
+        hartaLocuri.put("PREMIUM", premium);
+        hartaLocuri.put("VIP", vip);
+        Integer total = basic + premium + vip;
+        return new Seating(total, hartaLocuri);
+    }
+    public Location locationGenerator(){
+        String[] CITIES = {"Istanbul", "Bucharest", "Moscow", "London", "Saint Petersburg",
+        "Berlin", "Madrid", "Kiev", "Rome", "Paris", "Iasi", "Berlin", "Luxembourg",
+        "Milan", "Budapest", "Warsaw", "Hamburg"};
+        String[] PREPOSITIONS = {"Theatre", "Cinema", "Restaurant", "Garden", "Plaza"};
+        String[] ADDR = {"Boulevard", "Street", "Str."};
+        String nameOfVenue = CITIES[random.nextInt(CITIES.length)] + " " + PREPOSITIONS[random.nextInt(PREPOSITIONS.length)];
+        String address = ADDR[random.nextInt(ADDR.length)] + " " +  CITIES[random.nextInt(CITIES.length)];
+        String city = CITIES[random.nextInt(CITIES.length)];
+        Seating seating = seatingGenerator();
+        return new Location(nameOfVenue, address, city, seating);
+    }
+
+    public Performer performerGenerator(String type){
+        String[] AWARDS = {"Oscar", "Emmy", "Golden Globe", "Golden bear", "Venice Festival Winner"};
+        String[] VECTOR_NAME = {"Jacque", "Rutigliano", "Gracia", "Hohl", "Jonas","Bermudes", "Linda","Unruh",
+                "Lavoni","Gathers", "Lashell","Bolton", "Sadie","Nowlen",
+                "Cheryl","Vicari", "Mitzi","Farrar", "Lanelle","Spoto",
+                "Aleida","Linhart", "Kelsie","Turcotte", "Tameka","Giunta",
+                "Alishia","Cudd", "Dyan","Ladue", "Darnell","Lema",
+                "Natalie","Krawczyk", "Regenia","Gregory", "Renata","Aziz", "Sona","Rothfuss "};
+        String[] DESCRIPTION = {"it's awesome", "amazing", "showstopping", "never the same"};
+        String name = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
+        String description = DESCRIPTION[random.nextInt(DESCRIPTION.length)];
+        String[] MOVIES = {"Redemption", "Bitter Moon", "Control", "Titanic", "Everything", "Mary"};
+        switch(type){
+            case "Actor":
+                Integer noOfAwards = random.nextInt(3);
+                List<String> awards = new ArrayList<>();
+                for(int i = 0; i < noOfAwards; i++) {
+                    awards.add(AWARDS[random.nextInt(AWARDS.length)]);
+                }
+
+                Integer noOfPP = random.nextInt(3);
+                List<String> pastP = new ArrayList<>();
+                for (int i = 0; i < noOfPP; i++){
+                    pastP.add(MOVIES[random.nextInt(MOVIES.length)]);
+                }
+                return new Actor(name, description, awards, pastP);
+            case "Comedian":
+                String[] COMEDY_GENRE = {"Alternative", "Character", "Music", "Improv", "Insult",
+                "Observational", "Political satire", "Surreal"};
+                String[] POSITIONS = {"opener", "headliner", "middler"};
+                String[] PODCASTS = {"Dannish and O'Neill", "This is Important to Me", "The Comedy Snobs",
+                "Comedy Fight Club", "Radio Nonsense"};
+                String comedyGenre = COMEDY_GENRE[random.nextInt(COMEDY_GENRE.length)];
+                String positionInShow = COMEDY_GENRE[random.nextInt(POSITIONS.length)];
+                Integer tenure = random.nextInt(20);
+                Integer timePerSet = random.nextInt(60);
+                int noPodcasts = random.nextInt(3);
+                List<String> podcasts = new ArrayList<>();
+                for(int i = 0; i < noPodcasts; i++){
+                    String pod = PODCASTS[random.nextInt(PODCASTS.length)];
+                    podcasts.add(pod);
+                }
+                return new Comedian(name, description, comedyGenre, positionInShow, tenure, timePerSet, podcasts);
+            case "Singer":
+                String[] MUSIC_GENRES = {"Rock", "Pop", "EDM", "Hip-Hop", "Rap", "Jazz", "Classical"};
+                String[] SONG_NAMES = {"Unfortunate", "Take it all", "Think about clouds", "Some Minutes", "Beloved Evening"};
+                String musicGenre = MUSIC_GENRES[random.nextInt(MUSIC_GENRES.length)];
+                Boolean isGroup = random.nextBoolean();
+                List<String> memberNames = new ArrayList<>();
+                if(isGroup){
+                    memberNames.add(VECTOR_NAME[random.nextInt(VECTOR_NAME.length)]);
+                } else {
+                    int maxMembers = random.nextInt(4);
+                    for(int i = 0; i < maxMembers; i++){
+                        memberNames.add(VECTOR_NAME[random.nextInt(VECTOR_NAME.length)]);
+                    }
+                }
+                int noOfSongs = random.nextInt( 3);
+                List<String> bestKnownSongs = new ArrayList<>();
+                for(int i = 0; i < noOfSongs; i++){
+                    bestKnownSongs.add(SONG_NAMES[random.nextInt(SONG_NAMES.length)]);
+                }
+                return new Singer(name, description, musicGenre, isGroup, memberNames, bestKnownSongs);
+            default:
+                System.out.println("You did not choose one of the viable options");
+                return null;
+        }
+
+    }
+    public static int createRandomIntBetween(int start, int end) {
+        return start + (int) Math.round(Math.random() * (end - start));
+    }
+
+    public static Date createRandomDate(int startYear, int endYear) throws ParseException {
+        int day = createRandomIntBetween(1, 28);
+        int month = createRandomIntBetween(1, 12);
+        int year = createRandomIntBetween(startYear, endYear);
+        String data = day + "/" + month + "/" + year;
+        return new SimpleDateFormat("dd/MM/yyyy").parse(data);
+    }
+    public Event randomEvent(String type) throws ParseException {
+        String[] VECTOR_NAME = {"Jacque", "Rutigliano", "Gracia", "Hohl", "Jonas","Bermudes", "Linda","Unruh",
+                "Lavoni","Gathers", "Lashell","Bolton", "Sadie","Nowlen",
+                "Cheryl","Vicari", "Mitzi","Farrar", "Lanelle","Spoto",
+                "Aleida","Linhart", "Kelsie","Turcotte", "Tameka","Giunta",
+                "Alishia","Cudd", "Dyan","Ladue", "Darnell","Lema",
+                "Natalie","Krawczyk", "Regenia","Gregory", "Renata","Aziz", "Sona","Rothfuss "};
+        String[] DESCRIPTION = {"it's awesome", "amazing", "showstopping", "never the same"};
+        String description = DESCRIPTION[random.nextInt(DESCRIPTION.length)];
+        Integer ageRestriction = random.nextInt(18);
+        Integer duration = random.nextInt(100);
+        Location location = Locations.get(random.nextInt(Locations.size()));
+        Date dateTime = createRandomDate(2021, 2030);
+        Map<String, Double> priceTicket = new HashMap<>();
+        priceTicket.put("BASIC", random.nextDouble());
+        priceTicket.put("PREMIUM", random.nextDouble());
+        priceTicket.put("VIP", random.nextDouble());
+        switch(type){
+            case "Concert":
+                Performer opener = performerGenerator("Singer");
+                Performers.add(opener);
+                Performer main = performerGenerator("Singer");
+                Performers.add(main);
+                Integer ptimeOpener = random.nextInt(120);
+                Integer ptimeMain = random.nextInt(120);
+                return new Concert(description, ageRestriction, duration, location, dateTime, priceTicket,
+                        opener, main,ptimeOpener, ptimeMain);
+            case "Movie":
+                String[] MOVIE_GENRE = {"Horror", "Comedy", "Romance", "Romantic Comedy"};
+                String[] MOVIES = {"Redemption", "Bitter Moon", "Control", "Titanic", "Everything", "Mary"};
+                String genre = MOVIE_GENRE[random.nextInt(MOVIE_GENRE.length)];
+                String movie = MOVIES[random.nextInt(MOVIES.length)];
+                String director = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
+                Integer castMembers = random.nextInt(4);
+                Map<Performer, String> cast = new HashMap<>();
+                for(int i = 0; i < castMembers; i++){
+                    Performer actor = performerGenerator("Actor");
+                    Performers.add(actor);
+                    String plays = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
+                    cast.put(actor, plays);
+                }
+                return new Movie(description, ageRestriction, duration, location, dateTime, priceTicket,
+                        genre, movie, director, cast);
+            case "StandUpShow":
+                Set<Comedian> comedians = new HashSet<>();
+                Map<Comedian, Integer> schedule = new HashMap<>();
+                Map<Comedian, String> roles = new HashMap<>();
+                for(int i = 0; i < 3; i++){
+                    Comedian comedian = (Comedian) performerGenerator("Comedian");
+                    Performers.add(comedian);
+                    Integer howLong = comedian.getTimePerSet();
+                    String role = comedian.getPositionInShow();
+                    comedians.add(comedian);
+                    schedule.put(comedian, howLong);
+                    roles.put(comedian, role);
+                }
+                return new StandUpShow(description, ageRestriction, duration, location, dateTime, priceTicket,
+                        comedians, schedule, roles);
+            case "TheatrePlay":
+                String[] PLAY_GENRE = {"Drama", "Comedy", "Romance", "Tragedy"};
+                String[] DRESS_CODE = {"formal", "casual", "office"};
+                String[] PLAYS = {"Redemption", "Bitter Moon", "Control", "Oedip", "Avar", "Everything", "Mary"};
+                String genrePlay = PLAY_GENRE[random.nextInt(PLAY_GENRE.length)];
+                String play = PLAYS[random.nextInt(PLAYS.length)];
+                String directorPlay = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
+                Integer castMembersPlay = random.nextInt(4);
+                Map<Performer, String> castPlay = new HashMap<>();
+                for(int i = 0; i < castMembersPlay; i++){
+                    Performer actor = performerGenerator("Actor");
+                    Performers.add(actor);
+                    String plays = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
+                    castPlay.put(actor, plays);
+                }
+                String dressCode = DRESS_CODE[random.nextInt(DRESS_CODE.length)];
+                return new TheatrePlay(description, ageRestriction, duration, location, dateTime, priceTicket,
+                        genrePlay, play, directorPlay, dressCode, castPlay);
+            default:
+                return null;
+        }
+    }
+    public void seeEventsByCategory(String type){
+        switch(type){
+            case "Concert":
+                System.out.println("Concerts:\n");
+                for(Event e : Events){
+                    if (e instanceof Concert)
+                        e.getPresentation();
+                }
+            case "Movie":
+                System.out.println("Movies:\n");
+                for(Event e : Events){
+                    if (e instanceof Movie)
+                        e.getPresentation();
+                }
+            case "StandUpShow":
+                System.out.println("Stand-up:\n");
+                for(Event e : Events){
+                    if (e instanceof StandUpShow)
+                        e.getPresentation();
+                }
+            case "TheatrePlay":
+                System.out.println("Theatre plays:\n");
+                for(Event e : Events){
+                    if (e instanceof TheatrePlay)
+                        e.getPresentation();
+                }
+                default:
+                System.out.println("no such type");
+        }
+    }
+
 }
 
 

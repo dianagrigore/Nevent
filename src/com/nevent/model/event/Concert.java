@@ -6,7 +6,7 @@ import com.nevent.model.performer.Performer;
 import com.nevent.model.ticket.Ticket;
 
 import java.util.*;
-
+/*Class concert, extends type event and implements getPresentation*/
 public class Concert extends Event {
     Performer opener;
     Performer mainAct;

@@ -7,7 +7,9 @@ import com.nevent.model.location.Location;
 import com.nevent.model.ticket.Ticket;
 
 import java.util.*;
-
+/*
+*Class event, holds the interfaces for book and buy + return and cancel ticket + booking
+* */
 public abstract class Event {
     private String id;
     private String description;

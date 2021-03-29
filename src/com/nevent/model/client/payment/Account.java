@@ -1,8 +1,11 @@
 package com.nevent.model.client.payment;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
+/* Class account, represents the user's credit account and stores the vouchers:
+* User can add and retrieve monetary units from here
+* User can view and use his vouchers */
 public class Account {
     private String clientId;
     private Double leftBalance;
@@ -11,6 +14,7 @@ public class Account {
     public Account(String clientId) {
         this.leftBalance = 0.0;
         this.clientId = clientId;
+        this.vouchers = new HashSet<>();
     }
 
     public String getClientId() {
@@ -36,6 +40,14 @@ public class Account {
         this.vouchers = vouchers;
     }
 
+    public void addToThisAccount(Double amount){
+        this.leftBalance += amount;
+    }
+    public void retrieveFromThisAccount(Double amount){
+        if(amount < this.leftBalance) {
+            this.leftBalance -= amount;
+        }
+    }
     public void seeMyVouchers(){
         Set<Voucher> vouchers = this.getVouchers();
         for (Voucher voucher : vouchers){
@@ -54,9 +66,9 @@ public class Account {
 
     public boolean useTheVoucher(String reason){
         if(reason != null) {
-            for (Voucher voucher : getVouchers()) {
+            for (Voucher voucher : this.vouchers) {
                 if (voucher.getReason().equals(reason)) {
-                    getVouchers().remove(voucher);
+                    vouchers.remove(voucher);
                     return true;
                 }
             }

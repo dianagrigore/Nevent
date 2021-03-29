@@ -8,7 +8,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
+/*Client = user that can buy and book tickets
+* clientId is auto-generated based on the number of clients in the app
+* When a user is created, a null Account is associated to him
+* User can check his balance
+* User can add/retrieve funds from the account
+* User can have his age checked
+* User can display his tickets and vouchers
+* User can buy, book, cancel, return reservations and tickets
+* By design, a user cannot buy a ticket if he doesn't have enough funds, even if he can use vouchers
+* Also, when canceling -> vouchers are not returned
+* Most of the functionalities are present in the ClientUtilitiesService
+* */
 public class Client {
     private String clientId;
     private String name;
@@ -98,6 +109,26 @@ public class Client {
         myAccount.seeMyVouchers();
     }
 
+    public void displayTickets(){
+        if(tickets.isEmpty()) {
+            System.out.println("No tickets bought\n");
+        } else {
+            for (Ticket t : tickets) {
+                System.out.println(t.toString());
+            }
+        }
+    }
+
+    public void displayReservations(){
+        if(reservations.isEmpty()){
+            System.out.println("No reservations\n");
+        } else {
+            for (Reservation r : reservations) {
+                System.out.println(r.toString());
+            }
+        }
+    }
+
     public boolean canIBuyTicket(Event certainEvent){
         Integer requiredMinimumAge = certainEvent.getAgeRestriction();
         Integer myAge = this.getAge();
@@ -112,8 +143,7 @@ public class Client {
     }
 
     public void retrieveMoneyFromAccount(Double amount){
-        Double currentAmount = getPaymentMethod().getLeftBalance();
-        this.getPaymentMethod().setLeftBalance(currentAmount - amount);
+        this.paymentMethod.retrieveFromThisAccount(amount);
     }
 
     public void addANewTicket(Ticket ticket){
@@ -122,11 +152,14 @@ public class Client {
 
     public void reimburseAndDeleteTicket(Ticket ticket){
         this.tickets.remove(ticket); //remove the ticket from the list
-        Double currentBalance = this.getPaymentMethod().getLeftBalance();
         String type = ticket.getType();
         Event event = ticket.getEvent();
         Double ticketValue = event.getPricePerTicketType().get(type);
-        this.getPaymentMethod().setLeftBalance(currentBalance + ticketValue); //add the amount back in account
+        this.paymentMethod.addToThisAccount(ticketValue); //add the amount back in account
+    }
+
+    public void loadMyAccount(Double amount){
+            this.paymentMethod.addToThisAccount(amount);
     }
 
     public void addReservation(Reservation reservation){
