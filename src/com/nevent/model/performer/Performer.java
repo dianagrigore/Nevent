@@ -9,7 +9,7 @@ import java.util.Set;
 public class Performer {
     private String performerId;
     private String name;
-    private static Integer numberOfPerformers;
+    private static Integer numberOfPerformers = 0;
     private String description;
     Set<Event> currentEvents;
 

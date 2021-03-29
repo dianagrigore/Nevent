@@ -54,6 +54,15 @@ public class Movie extends Event {
         this.cast = cast;
     }
 
+    @Override
+    public void getPresentation(){
+        super.getPresentation();
+        System.out.println("This is a movie. Genre: " + this.getGenre() + "\nName: " + this.getName()+ " directed by "
+                + this.getDirector() + "Cast: ");
+        for(Performer actor : this.getCast().keySet()){
+            System.out.println(actor.getName() + " plays " + this.getCast().get(actor) + "\n");
+        }
+    }
 
 
     @Override

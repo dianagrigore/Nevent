@@ -63,6 +63,13 @@ public class Concert extends Event {
         this.mainAct = mainAct;
     }
 
+    @Override
+    public void getPresentation(){
+        super.getPresentation();
+        System.out.println("This is a concert. " + this.getOpener().getName() + " will play at the start for " +
+        this.getPerformanceTimeOpener() + " minutes. \nThen, the main act: " + this.getMainAct() + " will continue" +
+                "the show for " + this.getPerformanceTimeMainAct() + " more minutes.\n");
+    }
 
     @Override
     public String toString() {

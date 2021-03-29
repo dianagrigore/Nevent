@@ -242,6 +242,17 @@ public abstract class Event {
         }
     }
 
+    public void getPresentation(){
+        System.out.println("Event no: " + this.getId() + "\nDescriprion: " + this.getDescription()
+        + "\nAge restriction: " + this.getAgeRestriction() + "\n");
+        this.getLocation().describeLocation();
+        System.out.println("Price per ticket type chart:\n");
+        for(String key : pricePerTicketType.keySet()){
+            System.out.println(key + "costs" + pricePerTicketType.get("key"));
+        }
+
+    }
+
     @Override
     public String toString() {
         return "Event{" +

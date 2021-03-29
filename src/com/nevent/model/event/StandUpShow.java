@@ -46,6 +46,17 @@ public class StandUpShow extends Event {
         this.rolesInShow = rolesInShow;
     }
 
+    @Override
+    public void getPresentation(){
+        super.getPresentation();
+        System.out.println("This is a stand-up comedy show. \n");
+        for(Comedian comedian : this.getComedians()){
+            System.out.println(comedian.getDescription());
+            System.out.println("is a " + this.getRolesInShow().get(comedian) + " and will perform for" +
+                    this.getSchedule().get(comedian));
+            System.out.println("\n");
+        }
+    }
 
     @Override
     public String toString() {

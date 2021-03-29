@@ -15,7 +15,7 @@ public class Client {
     private String surname;
     private Integer age;
     private Account paymentMethod;
-    private static Integer numberOfClients;
+    private static Integer numberOfClients = 0;
     private ArrayList<Ticket> tickets;
     private Set<Reservation> reservations;
 

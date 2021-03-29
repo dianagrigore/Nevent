@@ -10,7 +10,8 @@ import com.nevent.model.performer.Singer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-//TODO: refactor the massive function please
+
+
 public class Service
 {
     private ArrayList<Location> Locations;
@@ -64,7 +65,9 @@ public class Service
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Hi, tell me your first name");
         String name = reading.nextLine();
-        System.out.print("Great! Now your last name");
+
+        System.out.print("Great! Now your last name\n");
+
         String surname = reading.nextLine();
         System.out.println("And wil you please give us your age?");
         Integer age = reading.nextInt();
@@ -72,7 +75,7 @@ public class Service
         Client client = new Client(name, surname, age);
         Clients.add(client);
         System.out.println("Awesome! We created you an account and" +
-                " you have no credit nor tickets so maybe add some :)");
+                " you have no credit nor tickets.\n\n");
         reading.close();
     }
 
@@ -84,58 +87,73 @@ public class Service
         String description = reading.nextLine();
         System.out.println("Of the following, which one describes you best: 1. Actor\n2.Comedian\n3.Singer");
         Integer button = reading.nextInt();
+        String v = reading.nextLine();
         switch(button){
             case 1:
-                System.out.println("Have you won any awards? You can split them by comma");
-                String[] awards1 = reading.nextLine().split(",");
-                ArrayList<String> awardsFinal = new ArrayList<>();
-                Collections.addAll(awardsFinal, awards1);
-                System.out.println("Any past productions we should know you for?");
-                String[] pastProductions = reading.nextLine().split(",");
-                ArrayList<String> ppFinal = new ArrayList<>();
-                Collections.addAll(ppFinal, pastProductions);
-                System.out.println("See you later!");
-                Actor actor = new Actor(name, description, awardsFinal, ppFinal);
-                Performers.add(actor);
+                addActor(reading, name, description);
                 break;
             case 3:
-                System.out.println("So what music genre do you represent?");
-                String musicGenre = reading.nextLine();
-                System.out.println("Are you part of a band? y/n");
-                String isGroupString = reading.nextLine();
-                Boolean isGroup = isGroupString.equals("y");
-                System.out.println("What are your names (separate them by comma)");
-                String[] names = reading.nextLine().split(",");
-                ArrayList<String> nameMembers = new ArrayList<>();
-                Collections.addAll(nameMembers, names);
-                System.out.println("What are your best known songs (separate them by comma)");
-                String[] songNames = reading.nextLine().split(",");
-                ArrayList<String> nameSongs = new ArrayList<>();
-                Collections.addAll(nameSongs, songNames);
-                Singer singer = new Singer(name, description, musicGenre, isGroup, nameMembers, nameSongs);
-                Performers.add(singer);
+                addSinger(reading, name, description);
                 break;
             case 2:
-                System.out.println("So what comedy genre do you represent?");
-                String comedyGenre = reading.nextLine();
-                System.out.println("What position do you have in the show? opener/midler/headliner");
-                String position = reading.nextLine();
-                System.out.println("How many years have you been a comedian for?");
-                Integer years = reading.nextInt();
-                System.out.println("How long is your current set?");
-                Integer setTime = reading.nextInt();
-                System.out.println("Any podcasts we know you from? (separate them by comma)");
-                String[] podcasts = reading.nextLine().split(",");
-                ArrayList<String> podcastNames = new ArrayList<>();
-                Collections.addAll(podcastNames, podcasts);
-                Comedian comedian = new Comedian(name, description, comedyGenre, position, years, setTime, podcastNames);
-                Performers.add(comedian);
+                addComedian(reading, name, description);
                 break;
             default:
                 System.out.println("UhOh! That's not a job (at least according to us). Aborting..Try again");
         }
         reading.close();
     }
+
+    private void addComedian(Scanner reading, String name, String description) {
+        System.out.println("So what comedy genre do you represent?");
+        String comedyGenre = reading.nextLine();
+        System.out.println("What position do you have in the show? opener/midler/headliner");
+        String position = reading.nextLine();
+        System.out.println("How many years have you been a comedian for?");
+        Integer years = reading.nextInt();
+        System.out.println("How long is your current set?");
+        Integer setTime = reading.nextInt();
+        String c = reading.nextLine();
+        System.out.println("Any podcasts we know you from? (separate them by comma)");
+        String[] podcasts = reading.nextLine().split(",");
+        ArrayList<String> podcastNames = new ArrayList<>();
+        Collections.addAll(podcastNames, podcasts);
+        Comedian comedian = new Comedian(name, description, comedyGenre, position, years, setTime, podcastNames);
+        Performers.add(comedian);
+    }
+
+    private void addSinger(Scanner reading, String name, String description) {
+        System.out.println("So what music genre do you represent?");
+        String musicGenre = reading.nextLine();
+        System.out.println("Are you part of a band? y/n");
+        String isGroupString = reading.nextLine();
+        Boolean isGroup = isGroupString.equals("y");
+        System.out.println("What are your names (separate them by comma)");
+        String[] names = reading.nextLine().split(",");
+        ArrayList<String> nameMembers = new ArrayList<>();
+        Collections.addAll(nameMembers, names);
+        System.out.println("What are your best known songs (separate them by comma)");
+        String[] songNames = reading.nextLine().split(",");
+        ArrayList<String> nameSongs = new ArrayList<>();
+        Collections.addAll(nameSongs, songNames);
+        Singer singer = new Singer(name, description, musicGenre, isGroup, nameMembers, nameSongs);
+        Performers.add(singer);
+    }
+
+    private void addActor(Scanner reading, String name, String description) {
+        System.out.println("Have you won any awards? You can split them by comma");
+        String[] awards1 = reading.nextLine().split(",");
+        ArrayList<String> awardsFinal = new ArrayList<>();
+        Collections.addAll(awardsFinal, awards1);
+        System.out.println("Any past productions we should know you for?");
+        String[] pastProductions = reading.nextLine().split(",");
+        ArrayList<String> ppFinal = new ArrayList<>();
+        Collections.addAll(ppFinal, pastProductions);
+        System.out.println("See you later!");
+        Actor actor = new Actor(name, description, awardsFinal, ppFinal);
+        Performers.add(actor);
+    }
+
     public void addAnEvent() throws ParseException {
         Scanner reading = new Scanner(System.in);
         System.out.println("Hi! Could you describe your event in a short sentance");
@@ -172,90 +190,110 @@ public class Service
                 "by id");
         switch(type){
             case 1:
-                listAllSingers();
-                System.out.println("Who is opening your concert?");
-                String idOpener = reading.nextLine();
-                System.out.println("Who is the main act?");
-                String idMainAct = reading.nextLine();
-                System.out.println("How long will the opener perform?");
-                Integer performanceOpener = reading.nextInt();
-                Performer opener = getPeformerById(idOpener);
-                Performer mainAct = getPeformerById(idMainAct);
-                System.out.println("How long will the main act perform?");
-                Integer mainActPerformance = reading.nextInt();
-                Concert concert = new Concert(description, ageRestriction, duration,
-                        location, date1, pricePerTick, opener, mainAct, performanceOpener,
-                        mainActPerformance);
-                Events.add(concert);
+                addConcert(reading, description, ageRestriction, duration, location, date1, pricePerTick);
+                break;
             case 2:
-                listAllActors();
-                System.out.println("What genre does the movie belong to?");
-                String genre = reading.nextLine();
-                System.out.println("What's the movie called?");
-                String name = reading.nextLine();
-                System.out.println("Who is the director?");
-                String director = reading.nextLine();
-                System.out.println("How many main characters are there in the movie?");
-                int noOfCast = reading.nextInt();
-                Map<Performer, String> cast = new HashMap<>();
-                for(int i = 0; i < noOfCast; i++){
-                    System.out.println("Choose the id of the actor");
-                    String idActor = reading.nextLine();
-                    Performer actor = getPeformerById(idActor);
-                    System.out.println("Who is he playing in the movie?");
-                    String nameCharacter = reading.nextLine();
-                    cast.put(actor, nameCharacter);
-                }
-                Movie movie= new Movie(description, ageRestriction, duration, location, date1,
-                        pricePerTick, genre, name, director, cast);
-                Events.add(movie);
+                addMovie(reading, description, ageRestriction, duration, location, date1, pricePerTick);
+                break;
             case 3:
-                listAllComedians();
-                System.out.println("How many comedians are there in the show?");
-                int noComedians = reading.nextInt();
-                Set<Comedian> comedians = new HashSet<>();
-                Map<Comedian, Integer> comedianSchedule = new HashMap<>();
-                Map<Comedian, String> comedianRole = new HashMap<>();
-                for(int i = 0; i < noComedians; i++){
-                    System.out.println("Choose the id of the comedian");
-                    String idComedian = reading.nextLine();
-                    Comedian comedian = (Comedian) getPeformerById(idComedian);
-                    comedians.add(comedian);
-                    comedianSchedule.put(comedian, comedian.getTimePerSet());
-                    comedianRole.put(comedian, comedian.getPositionInShow());
-                }
-                StandUpShow standUpShow = new StandUpShow(description, ageRestriction, duration, location,
-                        date1, pricePerTick, comedians, comedianSchedule, comedianRole);
-                Events.add(standUpShow);
+                addStandUpShow(reading, description, ageRestriction, duration, location, date1, pricePerTick);
+                break;
             case 4:
-                listAllActors();
-                System.out.println("What genre does the play belong to?");
-                String genreTheatre = reading.nextLine();
-                System.out.println("What's the name of the play?");
-                String playName = reading.nextLine();
-                System.out.println("What's the director's name?");
-                String directorName = reading.nextLine();
-                System.out.println("What's the dresscode?");
-                String dressCode = reading.nextLine();
-                System.out.println("How many main characters are there in the play?");
-                int noOfCastTheatre = reading.nextInt();
-                Map<Performer, String> castTheatre = new HashMap<>();
-                for(int i = 0; i < noOfCastTheatre; i++){
-                    System.out.println("Choose the id of the actor");
-                    String idActor = reading.nextLine();
-                    Performer actor = getPeformerById(idActor);
-                    System.out.println("Who is he playing in the play?");
-                    String nameCharacter = reading.nextLine();
-                    castTheatre.put(actor, nameCharacter);
-                }
-                TheatrePlay play = new TheatrePlay(description, ageRestriction, duration, location,
-                        date1, pricePerTick, genreTheatre, playName, directorName, dressCode, castTheatre);
-                Events.add(play);
+                addPlay(reading, description, ageRestriction, duration, location, date1, pricePerTick);
+                break;
             default:
-                System.out.println("Unfortunarely, we don't allow this type of event. Maybe try again?");
+                System.out.println("Unfortunately, we don't allow this type of event. Maybe try again?");
         }
     }
-//TODO: fix horrible code duplication
+
+    private void addPlay(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
+        listAllActors();
+        System.out.println("What genre does the play belong to?");
+        String genreTheatre = reading.nextLine();
+        System.out.println("What's the name of the play?");
+        String playName = reading.nextLine();
+        System.out.println("What's the director's name?");
+        String directorName = reading.nextLine();
+        System.out.println("What's the dresscode?");
+        String dressCode = reading.nextLine();
+        System.out.println("How many main characters are there in the play?");
+        int noOfCastTheatre = reading.nextInt();
+        Map<Performer, String> castTheatre = new HashMap<>();
+        for(int i = 0; i < noOfCastTheatre; i++){
+            System.out.println("Choose the id of the actor");
+            String idActor = reading.nextLine();
+            Performer actor = getPeformerById(idActor);
+            System.out.println("Who is he playing in the play?");
+            String nameCharacter = reading.nextLine();
+            castTheatre.put(actor, nameCharacter);
+        }
+        TheatrePlay play = new TheatrePlay(description, ageRestriction, duration, location,
+                date1, pricePerTick, genreTheatre, playName, directorName, dressCode, castTheatre);
+        Events.add(play);
+    }
+
+    private void addStandUpShow(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
+        listAllComedians();
+        System.out.println("How many comedians are there in the show?");
+        int noComedians = reading.nextInt();
+        Set<Comedian> comedians = new HashSet<>();
+        Map<Comedian, Integer> comedianSchedule = new HashMap<>();
+        Map<Comedian, String> comedianRole = new HashMap<>();
+        for(int i = 0; i < noComedians; i++){
+            System.out.println("Choose the id of the comedian");
+            String idComedian = reading.nextLine();
+            Comedian comedian = (Comedian) getPeformerById(idComedian);
+            comedians.add(comedian);
+            comedianSchedule.put(comedian, comedian.getTimePerSet());
+            comedianRole.put(comedian, comedian.getPositionInShow());
+        }
+        StandUpShow standUpShow = new StandUpShow(description, ageRestriction, duration, location,
+                date1, pricePerTick, comedians, comedianSchedule, comedianRole);
+        Events.add(standUpShow);
+    }
+
+    private void addMovie(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
+        listAllActors();
+        System.out.println("What genre does the movie belong to?");
+        String genre = reading.nextLine();
+        System.out.println("What's the movie called?");
+        String name = reading.nextLine();
+        System.out.println("Who is the director?");
+        String director = reading.nextLine();
+        System.out.println("How many main characters are there in the movie?");
+        int noOfCast = reading.nextInt();
+        Map<Performer, String> cast = new HashMap<>();
+        for(int i = 0; i < noOfCast; i++){
+            System.out.println("Choose the id of the actor");
+            String idActor = reading.nextLine();
+            Performer actor = getPeformerById(idActor);
+            System.out.println("Who is he playing in the movie?");
+            String nameCharacter = reading.nextLine();
+            cast.put(actor, nameCharacter);
+        }
+        Movie movie= new Movie(description, ageRestriction, duration, location, date1,
+                pricePerTick, genre, name, director, cast);
+        Events.add(movie);
+    }
+
+    private void addConcert(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
+        listAllSingers();
+        System.out.println("Who is opening your concert?");
+        String idOpener = reading.nextLine();
+        System.out.println("Who is the main act?");
+        String idMainAct = reading.nextLine();
+        System.out.println("How long will the opener perform?");
+        Integer performanceOpener = reading.nextInt();
+        Performer opener = getPeformerById(idOpener);
+        Performer mainAct = getPeformerById(idMainAct);
+        System.out.println("How long will the main act perform?");
+        Integer mainActPerformance = reading.nextInt();
+        Concert concert = new Concert(description, ageRestriction, duration,
+                location, date1, pricePerTick, opener, mainAct, performanceOpener,
+                mainActPerformance);
+        Events.add(concert);
+    }
+
     public void listAllSingers(){
         for (Performer perf : Performers){
             if(perf instanceof Singer){
@@ -275,12 +313,18 @@ public class Service
     }
 
     public void listAllLocations(){
+        if(Locations.isEmpty()){
+            System.out.println("No locations to choose from, we're sorry for that");
+        }
         for(Location location : Locations){
             location.describeLocation();
         }
     }
 
     public void listAllClients(){
+        for(Client client : Clients){
+            System.out.println(client.toString());
+        }
     }
 
     public void listAllActors(){
@@ -297,6 +341,12 @@ public class Service
             }
         }
 }
+
+    public void showAllEvents(){
+        for(Event event : Events){
+            event.getPresentation();
+        }
+    }
 }
 
 

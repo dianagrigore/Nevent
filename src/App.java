@@ -1,10 +1,12 @@
 
 import com.nevent.model.ticket.Ticket;
 
+import java.text.ParseException;
+
 public class App {
-    public static void main(String[] args){
+    public static void main(String[] args) throws ParseException {
         Service mainService = new Service();
-        mainService.addANewLocation();
-        mainService.listAllLocations();
+        mainService.addAnEvent();
+        mainService.showAllEvents();
     }
 }
