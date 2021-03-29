@@ -14,7 +14,7 @@ public class Performer {
     Set<Event> currentEvents;
 
     public Performer(String name, String description) {
-        this.performerId = (++numberOfPerformers).toString();
+        this.performerId = "PERFORM" + (++numberOfPerformers).toString();
         this.name = name;
         this.description = description;
         this.currentEvents = new HashSet<>();

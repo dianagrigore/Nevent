@@ -22,7 +22,7 @@ public class Client {
     public Client(String name,
                   String surname,
                   Integer age) {
-        this.clientId = (++numberOfClients).toString();
+        this.clientId = "CLIENT" + (++numberOfClients).toString();
         this.name = name;
         this.surname = surname;
         this.age = age;

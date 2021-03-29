@@ -1,8 +1,5 @@
 import com.nevent.model.client.Client;
-import com.nevent.model.event.Concert;
-import com.nevent.model.event.Event;
-import com.nevent.model.event.Movie;
-import com.nevent.model.event.TheatrePlay;
+import com.nevent.model.event.*;
 import com.nevent.model.location.Location;
 import com.nevent.model.location.Seating;
 import com.nevent.model.performer.Actor;
@@ -16,35 +13,50 @@ import java.util.*;
 //TODO: refactor the massive function please
 public class Service
 {
-    ArrayList<Location> Locations;
-    ArrayList<Performer> Performers;
-    ArrayList<Event> Events;
-    ArrayList<Client> Clients;
+    private ArrayList<Location> Locations;
+    private ArrayList<Performer> Performers;
+    private ArrayList<Event> Events;
+    private ArrayList<Client> Clients;
+
+    public Service() {
+        Locations = new ArrayList<Location>();
+        Performers = new ArrayList<Performer>();
+        Events = new ArrayList<Event>();
+        Clients = new ArrayList<Client>();
+    }
 
     public void addANewLocation(){
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
 
         System.out.println("Please tell me the number of BASIC tickets");
         Integer numberBasic = reading.nextInt();
+
         System.out.println("Thanks, now the number of PREMIUM tickets");
         Integer numberPremium = reading.nextInt();
+
         System.out.println("Thanks, now the number of VIP tickets");
         Integer numberVIP = reading.nextInt();
+
         Integer noOfSeats = numberBasic + numberPremium + numberVIP;
+
         Map<String, Integer> seats = new HashMap<>();
         seats.put("BASIC", numberBasic);
         seats.put("PREMIUM", numberPremium);
         seats.put("VIP", numberVIP);
         Seating seating = new Seating(noOfSeats,seats);
+        String s = reading.nextLine();
         System.out.println("Please tell me the name of your location");
         String locationName = reading.nextLine();
+
         System.out.println("Now the address");
         String address = reading.nextLine();
+
         System.out.println("Now the city of your location, please");
         String city = reading.nextLine();
+
         Location location = new Location(locationName, address, city, seating);
         Locations.add(location);
-        System.out.println("Congrats, you have added a new location");
+        System.out.println("Congrats, you have added a new location\n\n");
         reading.close();
     }
 
@@ -133,9 +145,7 @@ public class Service
         System.out.println("How long will your event last for?");
         Integer duration = reading.nextInt();
         System.out.println("Please pick one of the following locations by introducing the id");
-        for(Location location : Locations){
-            System.out.println("id: " + location.getId() + ". " + location.getAddress() + " " + location.getAddress());
-        }
+        listAllLocations();
         String locationId = reading.nextLine();
         Location location = null;
         for(Location loc : Locations){
@@ -203,14 +213,20 @@ public class Service
                 listAllComedians();
                 System.out.println("How many comedians are there in the show?");
                 int noComedians = reading.nextInt();
-                Set<Performer> comedians = new HashSet<>();
-                Map<Performer, Integer> comedianSchedule = new HashMap<>();
-                Map<Performer, String> comedianRole = new HashMap<>();
+                Set<Comedian> comedians = new HashSet<>();
+                Map<Comedian, Integer> comedianSchedule = new HashMap<>();
+                Map<Comedian, String> comedianRole = new HashMap<>();
                 for(int i = 0; i < noComedians; i++){
                     System.out.println("Choose the id of the comedian");
                     String idComedian = reading.nextLine();
-                    //Performer comedian = new Comedian(); //TODO fix downcasting issue;
+                    Comedian comedian = (Comedian) getPeformerById(idComedian);
+                    comedians.add(comedian);
+                    comedianSchedule.put(comedian, comedian.getTimePerSet());
+                    comedianRole.put(comedian, comedian.getPositionInShow());
                 }
+                StandUpShow standUpShow = new StandUpShow(description, ageRestriction, duration, location,
+                        date1, pricePerTick, comedians, comedianSchedule, comedianRole);
+                Events.add(standUpShow);
             case 4:
                 listAllActors();
                 System.out.println("What genre does the play belong to?");
@@ -256,6 +272,15 @@ public class Service
             }
         }
         return performer;
+    }
+
+    public void listAllLocations(){
+        for(Location location : Locations){
+            location.describeLocation();
+        }
+    }
+
+    public void listAllClients(){
     }
 
     public void listAllActors(){

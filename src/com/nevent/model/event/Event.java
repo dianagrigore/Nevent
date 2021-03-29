@@ -14,7 +14,7 @@ public abstract class Event {
     private Integer ageRestriction;
     private Integer duration;
     private Location location;
-    private static Integer numberOfEvents;
+    private static Integer numberOfEvents = 0;
     private List<Ticket> soldTickets;
     private ArrayList<Reservation> reservations;
     private Date dateTime;
@@ -26,7 +26,7 @@ public abstract class Event {
                  Location location,
                  Date dateTime,
                  Map<String, Double> pricePerTicketType) {
-        this.id = (++numberOfEvents).toString();
+        this.id = "EV" + (++numberOfEvents).toString();
         this.description = description;
         this.ageRestriction = ageRestriction;
         this.duration = duration;
@@ -162,7 +162,7 @@ public abstract class Event {
 
         if(client.getPaymentMethod().getLeftBalance() + voucher_value >= price){
             client.getPaymentMethod().useTheVoucher(reason);
-            Ticket ticket = new Ticket(Integer.toString(soldTickets.size() + 1),this, client, type);
+            Ticket ticket = new Ticket("Ticket" + Integer.toString(soldTickets.size() + 1),this, client, type);
             this.soldTickets.add(ticket);
             client.retrieveMoneyFromAccount(price);
             client.addANewTicket(ticket);
@@ -218,7 +218,7 @@ public abstract class Event {
     }
 
     public void bookATicket(Client client, String type){
-        Ticket ticket = new Ticket(Integer.toString(reservations.size() + 1),this, client, type);
+        Ticket ticket = new Ticket("RES" + Integer.toString(reservations.size() + 1),this, client, type);
         HashSet<Ticket> reservationTickets = new HashSet<>();
         reservationTickets.add(ticket);
         Date date = new Date(); // This object contains the current date value

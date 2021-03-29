@@ -2,6 +2,7 @@ package com.nevent.model.event;
 
 
 import com.nevent.model.location.Location;
+import com.nevent.model.performer.Comedian;
 import com.nevent.model.performer.Performer;
 
 ;
@@ -9,11 +10,11 @@ import com.nevent.model.performer.Performer;
 import java.util.*;
 
 public class StandUpShow extends Event {
-    Set<Performer> comedians;
-    Map<Performer, Integer> schedule;
-    Map<Performer, String> rolesInShow;
+    Set<Comedian> comedians;
+    Map<Comedian, Integer> schedule;
+    Map<Comedian, String> rolesInShow;
 
-    public StandUpShow(String description, Integer ageRestriction, Integer duration, Location location, Date dateTime, Map<String, Double> pricePerTicketType, Set<Performer> comedians, Map<Performer, Integer> schedule, Map<Performer, String> rolesInShow) {
+    public StandUpShow(String description, Integer ageRestriction, Integer duration, Location location, Date dateTime, Map<String, Double> pricePerTicketType, Set<Comedian> comedians, Map<Comedian, Integer> schedule, Map<Comedian, String> rolesInShow) {
         super(description, ageRestriction, duration, location, dateTime, pricePerTicketType);
         this.comedians = comedians;
         this.schedule = schedule;
@@ -21,27 +22,27 @@ public class StandUpShow extends Event {
     }
 
 
-    public Set<Performer> getComedians() {
+    public Set<Comedian> getComedians() {
         return comedians;
     }
 
-    public void setComedians(Set<Performer> comedians) {
+    public void setComedians(Set<Comedian> comedians) {
         this.comedians = comedians;
     }
 
-    public Map<Performer, Integer> getSchedule() {
+    public Map<Comedian, Integer> getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(Map<Performer, Integer> schedule) {
+    public void setSchedule(Map<Comedian, Integer> schedule) {
         this.schedule = schedule;
     }
 
-    public Map<Performer, String> getRolesInShow() {
+    public Map<Comedian, String> getRolesInShow() {
         return rolesInShow;
     }
 
-    public void setRolesInShow(Map<Performer, String> rolesInShow) {
+    public void setRolesInShow(Map<Comedian, String> rolesInShow) {
         this.rolesInShow = rolesInShow;
     }
 

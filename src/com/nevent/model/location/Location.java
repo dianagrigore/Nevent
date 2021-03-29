@@ -8,14 +8,19 @@ public class Location {
     private String address;
     private String city;
     private Seating seating;
-    private static Integer numberOfLocations;
+    private static Integer numberOfLocations = 0;
 
     public Location(String nameOfVenue, String address, String city, Seating seating) {
-        this.id = (++numberOfLocations).toString();
+        this.id = "LOC" + (++numberOfLocations).toString();
         this.nameOfVenue = nameOfVenue;
         this.address = address;
         this.city = city;
         this.seating = seating;
+    }
+    public void describeLocation(){
+        System.out.println("Location with id: " + this.getId() + "\nVenue name: " +
+                this.getNameOfVenue() + "\nAddress: " + this.getAddress() +
+                "\nCity: " + this.getCity());
     }
 
     public String getId() {
