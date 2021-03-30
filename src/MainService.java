@@ -1,4 +1,7 @@
 import com.nevent.model.client.Client;
+import com.nevent.model.comparators.EventDurationSorter;
+import com.nevent.model.comparators.LocationCitySorter;
+import com.nevent.model.comparators.PerformerNameSorter;
 import com.nevent.model.event.*;
 import com.nevent.model.location.Location;
 import com.nevent.model.location.Seating;
@@ -15,17 +18,17 @@ import java.util.*;
 
 public class MainService
 {
-    private final ArrayList<Location> Locations;
-    private final ArrayList<Performer> Performers;
-    private final ArrayList<Event> Events;
-    private final ArrayList<Client> Clients;
+    private final List<Location> Locations;
+    private final List<Performer> Performers;
+    private final List<Event> Events;
+    private final Set<Client> Clients;
     private final Random random;
 
     public MainService() {
         Locations = new ArrayList<>();
         Performers = new ArrayList<>();
         Events = new ArrayList<>();
-        Clients = new ArrayList<>();
+        Clients = new HashSet<>();
         random = new Random();
     }
     public void addLocationToArray(Location location){
@@ -346,7 +349,15 @@ public class MainService
             }
         }
 }
-
+    public void listAllPerformers(){
+        if(!Performers.isEmpty()) {
+            for (Performer performer : Performers) {
+                performer.getPortrait();
+            }
+        } else {
+            System.out.println("Performers array is empty!");
+        }
+    }
 
     public Client clientGenerator(){
         String[] VECTOR_NAME = {"Jacque", "Rutigliano", "Gracia", "Hohl", "Jonas","Bermudes", "Linda","Unruh",
@@ -554,7 +565,7 @@ public class MainService
         return new SimpleDateFormat("dd/MM/yyyy").parse(data);
     }
 
-    public void showAllEvents(){
+    public void listAllEvents(){
         for(Event event : Events){
             event.getPresentation();
         }
@@ -615,6 +626,43 @@ public class MainService
     }
     public void displayEvent(Event event){
         event.getPresentation();
+    }
+    public void findEventByCity(){
+        Scanner reading = new Scanner(System.in);
+        System.out.println("Insert the city you want to querry events from, please.");
+        String city = reading.nextLine();
+        int flag = 0;
+        for(Location location : Locations){
+            if (location.getCity().equals(city)) {
+                flag = 1;
+                break;
+            }
+        }
+        if(flag == 1) {
+            int found = 0;
+            for (Event e : Events) {
+                if (e.getLocation().getCity().equals(city)) {
+                    e.getPresentation();
+                    found = 1;
+                }
+            }
+            if (found == 0) {
+                System.out.println("Sorry, no available events atm.");
+            }
+        }
+        else {
+            System.out.println("Sorry, you entered an invalid locations. Check the location list we provide and try again");
+        }
+    }
+
+    public void eventDurationSort(){
+        Events.sort(new EventDurationSorter());
+    }
+    public void locationCitySort(){
+        Locations.sort(new LocationCitySorter());
+    }
+    public void performerNameSort(){
+        Performers.sort(new PerformerNameSorter());
     }
 }
 

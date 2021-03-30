@@ -76,6 +76,6 @@ public class Ticket {
 
     @Override
     public int hashCode() {
-        return Objects.hash(ticketId, event, client, type);
+        return Objects.hash(ticketId, type);
     }
 }

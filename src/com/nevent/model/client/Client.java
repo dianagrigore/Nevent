@@ -197,6 +197,6 @@ public class Client {
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientId, name, surname, age, paymentMethod, tickets, reservations);
+        return Objects.hash(clientId, name, surname, age);
     }
 }

@@ -11,15 +11,15 @@ public class ClientUtilitiesService {
     }
 
     public void buyATicket(Event e, Client c){
-        service.showAllEvents();
+        service.listAllEvents();
         e.buyATicketInterface(c);
     }
     public void bookATicket(Event e, Client c){
-        service.showAllEvents();
+        service.listAllEvents();
         e.bookATicketInterface(c);
     }
     public void returnATicket(Event e, Client c){
-        service.showAllEvents();
+        service.listAllEvents();
         e.returnATicket(c);
     }
     public void cancelBooking(Event e, Client c){
@@ -51,5 +51,8 @@ public class ClientUtilitiesService {
         } else {
             System.out.println("You don't have enough funds in your account!");
         }
+    }
+    public void transformBookingToTicket(Event e, Client c){
+        //e.transformBookingToTicket(c);
     }
 }

@@ -251,9 +251,21 @@ public abstract class Event {
         }
     }
 
+    /*public void transformBookingToTicket(Client c){
+        List<Reservation> reservations = c.getReservations();
+        int flag = 0;
+        for(Reservation r : reservations){
+            if(r.getTickets().get(0).getEvent().equals(this)){
+                {
+                }
+            }
+        }
+
+    }*/
+
     public void getPresentation(){
         System.out.println("Event no: " + this.getId() + "\nDescriprion: " + this.getDescription()
-        + "\nAge restriction: " + this.getAgeRestriction() + "\n");
+        + "\nAge restriction: " + this.ageRestriction + "\nDuration: "+ this.duration);
         this.getLocation().describeLocation();
         System.out.println("Price per ticket type chart:\n");
         for(String key : pricePerTicketType.keySet()){
@@ -287,6 +299,6 @@ public abstract class Event {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, ageRestriction, duration, location, soldTickets, reservations, dateTime, pricePerTicketType);
+        return Objects.hash(id, description, ageRestriction, duration, location, dateTime, pricePerTicketType);
     }
 }
