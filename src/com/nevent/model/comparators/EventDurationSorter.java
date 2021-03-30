@@ -1,6 +1,5 @@
 package com.nevent.model.comparators;
 
-import com.nevent.model.client.Client;
 import com.nevent.model.event.Event;
 
 import java.util.Comparator;

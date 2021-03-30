@@ -32,8 +32,8 @@ public abstract class Event {
         this.ageRestriction = ageRestriction;
         this.duration = duration;
         this.location = location;
-        this.soldTickets = new ArrayList<Ticket>();
-        this.reservations = new ArrayList<Reservation>();
+        this.soldTickets = new ArrayList<>();
+        this.reservations = new ArrayList<>();
         this.dateTime = dateTime;
         this.pricePerTicketType = pricePerTicketType;
     }
@@ -107,34 +107,41 @@ public abstract class Event {
         this.reservations = reservations;
     }
 
+    public boolean canYouStillBuyATicket(){
+        Integer seats = this.getLocation().getSeating().getNumberOfSeats();
+        return this.reservations.size() + this.soldTickets.size() < seats;
+    }
     public void buyATicketInterface(Client client){
         int i = 1;
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
         if(client.canIBuyTicket(this)) {
-            ChooseTicketType(i);
-            String type = reading.nextLine();  // Read user input
-            switch (type) {
-                case "BASIC":
-                    buyATicket(client, "BASIC");
-                    break;
-                case "PREMIUM":
-                    buyATicket(client, "PREMIUM");
-                    break;
-                case "VIP":
-                    buyATicket(client, "VIP");
-                    break;
-                default:
-                    System.out.println("Invalid type, please try again");
+            if(canYouStillBuyATicket()) {
+                ChooseTicketType();
+                String type = reading.nextLine();  // Read user input
+                switch (type) {
+                    case "BASIC":
+                        buyATicket(client, "BASIC");
+                        break;
+                    case "PREMIUM":
+                        buyATicket(client, "PREMIUM");
+                        break;
+                    case "VIP":
+                        buyATicket(client, "VIP");
+                        break;
+                    default:
+                        System.out.println("Invalid type, please try again");
+                }
+                }else{
+                System.out.println("Sorry. No more seats left");
             }
         }
     }
 
-    private void ChooseTicketType(int i) {
+    private void ChooseTicketType() {
         System.out.println("Choose the type of ticket, by introducing the name: ");
         for (String tip : this.pricePerTicketType.keySet()) {
             Double price = this.pricePerTicketType.get(tip);
-            System.out.println(i + " .type: " + tip + " at price " + price);
-            i++;
+            System.out.println(tip + " at price " + price);
         }
     }
 
@@ -163,7 +170,7 @@ public abstract class Event {
 
         if(client.getPaymentMethod().getLeftBalance() + voucher_value >= price){
             client.getPaymentMethod().useTheVoucher(reason);
-            Ticket ticket = new Ticket("Ticket" + Integer.toString(soldTickets.size() + 1),this, client, type);
+            Ticket ticket = new Ticket("Ticket" + (soldTickets.size() + 1),this, client, type);
             this.soldTickets.add(ticket);
             client.retrieveMoneyFromAccount(price);
             client.addANewTicket(ticket);
@@ -195,20 +202,24 @@ public abstract class Event {
         int i = 1;
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
         if(client.canIBuyTicket(this)) { //age check
-            ChooseTicketType(i);
-            String type = reading.nextLine();  // Read user input
-            switch (type) {
-                case "BASIC":
-                    bookATicket(client, "BASIC");
-                    break;
-                case "PREMIUM":
-                    bookATicket(client, "PREMIUM");
-                    break;
-                case "VIP":
-                    bookATicket(client, "VIP");
-                    break;
-                default:
-                    System.out.println("Invalid type, please try again");
+            if(canYouStillBuyATicket()) {
+                ChooseTicketType();
+                String type = reading.nextLine();  // Read user input
+                switch (type) {
+                    case "BASIC":
+                        bookATicket(client, "BASIC");
+                        break;
+                    case "PREMIUM":
+                        bookATicket(client, "PREMIUM");
+                        break;
+                    case "VIP":
+                        bookATicket(client, "VIP");
+                        break;
+                    default:
+                        System.out.println("Invalid type, please try again");
+                }
+            } else {
+                System.out.println("Sorry! No tickets left");
             }
         }
 
@@ -300,7 +311,7 @@ public abstract class Event {
         }
 
     public void getPresentation(){
-        System.out.println("Event no: " + this.getId() + "\nDescriprion: " + this.getDescription()
+        System.out.println("Event no: " + this.getId() + "\nDescription: " + this.getDescription()
         + "\nAge restriction: " + this.ageRestriction + "\nDuration: "+ this.duration);
         this.getLocation().describeLocation();
         System.out.println("Price per ticket type chart:\n");

@@ -137,7 +137,7 @@ public class Client {
         Integer requiredMinimumAge = certainEvent.getAgeRestriction();
         Integer myAge = this.getAge();
         if (myAge > requiredMinimumAge){
-            System.out.println("You can buy a ticket for " + certainEvent.getId());
+            System.out.println("You can buy/book a ticket for " + certainEvent.getId());
             return true;
         }
         else {

@@ -4,7 +4,7 @@ import com.nevent.model.event.Event;
 import java.util.Scanner;
 
 public class ClientUtilitiesService {
-    MainService service;
+   private final MainService service;
 
     public ClientUtilitiesService() {
         this.service = new MainService();

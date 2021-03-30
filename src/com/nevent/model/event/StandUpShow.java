@@ -3,7 +3,6 @@ package com.nevent.model.event;
 
 import com.nevent.model.location.Location;
 import com.nevent.model.performer.Comedian;
-import com.nevent.model.performer.Performer;
 
 ;
 

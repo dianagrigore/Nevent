@@ -1,9 +1,7 @@
 package com.nevent.model.event;
 
-import com.nevent.model.client.Reservation;
 import com.nevent.model.location.Location;
 import com.nevent.model.performer.Performer;
-import com.nevent.model.ticket.Ticket;
 
 import java.util.*;
 /*Class concert, extends type event and implements getPresentation*/

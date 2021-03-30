@@ -1,10 +1,7 @@
 package com.nevent.model.performer;
 
-import com.nevent.model.event.Event;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 public class Performer {
     private String performerId;

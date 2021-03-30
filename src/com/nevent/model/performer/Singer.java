@@ -1,10 +1,8 @@
 package com.nevent.model.performer;
 
-import com.nevent.model.event.Event;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Singer extends Performer{
     private String musicGenre;

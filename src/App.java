@@ -56,22 +56,23 @@ public class App {
         clientService.seeMyTickets(client);
 
         //Buy a ticket functionality tests
-       // clientService.buyATicket(movie, client);
-        //clientService.seeMyTickets(client);
-        //clientService.returnATicket(movie, client);
-        //clientService.seeMyTickets(client);
+        clientService.buyATicket(movie, client);
+        clientService.seeMyTickets(client);
+        clientService.returnATicket(movie, client);
+        clientService.seeMyTickets(client);
 
         //Booking tickets functionality tests
         clientService.bookATicket(movie, client);
         clientService.seeMyReservations(client);
-        clientService.seeMyTickets(client);
-        clientService.transformBookingToTicket(movie, client);
-        clientService.seeMyReservations(client);
-        clientService.seeMyTickets(client);
+        //clientService.seeMyTickets(client);
+        //clientService.transformBookingToTicket(movie, client);
+        //clientService.seeMyReservations(client);
+        //clientService.seeMyTickets(client);
+        //clientService.bookATicket(movie, client);
+        //clientService.seeMyReservations(client);
         //clientService.cancelBooking(movie, client);
         //clientService.giftAVoucher(client, client2);
         //clientService.seeMyReservations(client);
-        //Sorting methods test
 
         //Sort performers
         /*System.out.println("Before sorting the performers");

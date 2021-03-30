@@ -427,7 +427,7 @@ public class MainService
                 String[] PODCASTS = {"Dannish and O'Neill", "This is Important to Me", "The Comedy Snobs",
                 "Comedy Fight Club", "Radio Nonsense"};
                 String comedyGenre = COMEDY_GENRE[random.nextInt(COMEDY_GENRE.length)];
-                String positionInShow = COMEDY_GENRE[random.nextInt(POSITIONS.length)];
+                String positionInShow = POSITIONS[random.nextInt(POSITIONS.length)];
                 Integer tenure = random.nextInt(20);
                 Integer timePerSet = random.nextInt(60);
                 int noPodcasts = random.nextInt(3);
