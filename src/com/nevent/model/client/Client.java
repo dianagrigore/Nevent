@@ -1,13 +1,12 @@
 package com.nevent.model.client;
 
 import com.nevent.model.client.payment.Account;
+import com.nevent.model.client.payment.Voucher;
 import com.nevent.model.event.Event;
 import com.nevent.model.ticket.Ticket;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+
 /*Client = user that can buy and book tickets
 * clientId is auto-generated based on the number of clients in the app
 * When a user is created, a null Account is associated to him
@@ -28,7 +27,7 @@ public class Client {
     private Account paymentMethod;
     private static Integer numberOfClients = 0;
     private ArrayList<Ticket> tickets;
-    private Set<Reservation> reservations;
+    private List<Reservation> reservations;
 
     public Client(String name,
                   String surname,
@@ -38,8 +37,8 @@ public class Client {
         this.surname = surname;
         this.age = age;
         this.paymentMethod = new Account(clientId);
-        this.tickets = new ArrayList<Ticket>();
-        this.reservations = new HashSet<Reservation>();
+        this.tickets = new ArrayList<>();
+        this.reservations = new ArrayList<>();
     }
 
     public static Integer getNumberOfClients() {
@@ -94,11 +93,11 @@ public class Client {
         this.tickets = tickets;
     }
 
-    public Set<Reservation> getReservations() {
+    public List<Reservation> getReservations() {
         return reservations;
     }
 
-    public void setReservations(Set<Reservation> reservations) {
+    public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }
 
@@ -117,6 +116,11 @@ public class Client {
                 System.out.println(t.toString());
             }
         }
+    }
+
+    public void addVoucher(Double amount, String reason){
+        Voucher voucher = new Voucher(reason, amount);
+        this.paymentMethod.addAVoucer(voucher);
     }
 
     public void displayReservations(){

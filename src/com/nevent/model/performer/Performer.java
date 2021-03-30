@@ -11,13 +11,11 @@ public class Performer {
     private String name;
     private static Integer numberOfPerformers = 0;
     private String description;
-    Set<Event> currentEvents;
 
     public Performer(String name, String description) {
         this.performerId = "PERFORM" + (++numberOfPerformers).toString();
         this.name = name;
         this.description = description;
-        this.currentEvents = new HashSet<>();
     }
 
     public String getPerformerId() {
@@ -44,14 +42,6 @@ public class Performer {
         this.description = description;
     }
 
-    public Set<Event> getCurrentEvents() {
-        return currentEvents;
-    }
-
-    public void setCurrentEvents(Set<Event> currentEvents) {
-        this.currentEvents = currentEvents;
-    }
-
     public void getPortrait(){
         System.out.println("id: " + this.getPerformerId() + "\n" + "name: " + this.getName()
                 + "\n" + this.getDescription());
@@ -63,7 +53,6 @@ public class Performer {
                 "performerId='" + performerId + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", currentEvents=" + currentEvents +
                 '}';
     }
 
@@ -72,11 +61,11 @@ public class Performer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Performer performer = (Performer) o;
-        return Objects.equals(performerId, performer.performerId) && Objects.equals(name, performer.name) && Objects.equals(description, performer.description) && Objects.equals(currentEvents, performer.currentEvents);
+        return Objects.equals(performerId, performer.performerId) && Objects.equals(name, performer.name) && Objects.equals(description, performer.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(performerId, name, description, currentEvents);
+        return Objects.hash(performerId, name, description);
     }
 }

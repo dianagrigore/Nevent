@@ -50,10 +50,18 @@ public class Account {
     }
     public void seeMyVouchers(){
         Set<Voucher> vouchers = this.getVouchers();
-        for (Voucher voucher : vouchers){
-            System.out.println("Voucher pentru " + voucher.getReason() + " in valoare de "
-                    + voucher.getValue().toString());
+        if(vouchers.isEmpty()){
+            System.out.println("Voucher set is empty :(");
+        } else {
+            for (Voucher voucher : vouchers) {
+                System.out.println("Voucher pentru " + voucher.getReason() + " in valoare de "
+                        + voucher.getValue().toString());
+            }
         }
+    }
+
+    public void addAVoucer(Voucher v){
+        this.vouchers.add(v);
     }
 
     public Double getTheValueOfThisVoucher(String reason){

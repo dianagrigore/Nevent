@@ -117,11 +117,7 @@ public abstract class Event {
         int i = 1;
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
         if(client.canIBuyTicket(this)) {
-            System.out.println("Choose the type of ticket, by introducing the name: ");
-            for (String tip : this.pricePerTicketType.keySet()) {
-                Double price = this.pricePerTicketType.get(tip);
-                System.out.println(i + " .type: " + tip + " at price " + price);
-            }
+            ChooseTicketType(i);
             String type = reading.nextLine();  // Read user input
             switch (type) {
                 case "BASIC":
@@ -134,10 +130,18 @@ public abstract class Event {
                     buyATicket(client, "VIP");
                     break;
                 default:
-                    System.out.println("Tipul introdus nu este unul valid, reincercati");
+                    System.out.println("Invalid type, please try again");
             }
         }
-        reading.close();
+    }
+
+    private void ChooseTicketType(int i) {
+        System.out.println("Choose the type of ticket, by introducing the name: ");
+        for (String tip : this.pricePerTicketType.keySet()) {
+            Double price = this.pricePerTicketType.get(tip);
+            System.out.println(i + " .type: " + tip + " at price " + price);
+            i++;
+        }
     }
 
     public void buyATicket(Client client, String type){
@@ -154,6 +158,7 @@ public abstract class Event {
                 break;
             case "n":
                 System.out.println("That's alright");
+                break;
             default:
                 System.out.println("Not a valid option");
         }
@@ -172,7 +177,6 @@ public abstract class Event {
         else {
             System.out.println("Not enough funds");
         }
-        reading.close();
     }
 
     public void returnATicket(Client client){
@@ -186,6 +190,7 @@ public abstract class Event {
         if(ticket != null) {
             soldTickets.remove(ticket);
             client.reimburseAndDeleteTicket(ticket);
+            System.out.println(ticket + " was removed from your collection.");
         }
         else {
             System.out.println("You don't own a ticket for this event");
@@ -196,11 +201,7 @@ public abstract class Event {
         int i = 1;
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
         if(client.canIBuyTicket(this)) { //age check
-            System.out.println("Choose the type of ticket, by introducing the name: ");
-            for (String tip : this.pricePerTicketType.keySet()) {
-                Double price = this.pricePerTicketType.get(tip);
-                System.out.println(i + " .type: " + tip + " at price " + price);
-            }
+            ChooseTicketType(i);
             String type = reading.nextLine();  // Read user input
             switch (type) {
                 case "BASIC":
@@ -213,20 +214,25 @@ public abstract class Event {
                     bookATicket(client, "VIP");
                     break;
                 default:
-                    System.out.println("Tipul introdus nu este unul valid, reincercati");
+                    System.out.println("Invalid type, please try again");
             }
         }
-        reading.close();
+
     }
 
     public void bookATicket(Client client, String type){
-        Ticket ticket = new Ticket("RES" + Integer.toString(reservations.size() + 1),this, client, type);
-        HashSet<Ticket> reservationTickets = new HashSet<>();
+        Integer number = 0;
+        if(!reservations.isEmpty()){
+            number = reservations.size();
+        }
+        Ticket ticket = new Ticket("RES" + number + 1,this, client, type);
+        List<Ticket> reservationTickets = new ArrayList<>();
         reservationTickets.add(ticket);
         Date date = new Date(); // This object contains the current date value
         Reservation reservation = new Reservation(client, date, reservationTickets);
         this.reservations.add(reservation);
         client.addReservation(reservation);
+        System.out.println("Congratulations! You have booked a ticket!");
     }
 
     public void cancelAReservation(Client client){
@@ -238,6 +244,7 @@ public abstract class Event {
         if(reservation != null) {
             reservations.remove(reservation);
             client.cancelReservation(reservation);
+            System.out.println("You have canceled your reservation!");
         }
         else {
             System.out.println("You don't have a reservation for this event");
@@ -250,9 +257,9 @@ public abstract class Event {
         this.getLocation().describeLocation();
         System.out.println("Price per ticket type chart:\n");
         for(String key : pricePerTicketType.keySet()){
-            System.out.println(key + "costs" + pricePerTicketType.get("key"));
+            System.out.println(key + " costs " + pricePerTicketType.get(key));
         }
-
+        System.out.println("\n");
     }
 
     @Override

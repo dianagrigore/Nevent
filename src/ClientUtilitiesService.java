@@ -1,6 +1,8 @@
 import com.nevent.model.client.Client;
 import com.nevent.model.event.Event;
 
+import java.util.Scanner;
+
 public class ClientUtilitiesService {
     MainService service;
 
@@ -27,16 +29,27 @@ public class ClientUtilitiesService {
     public void checkClientBalance(Client c){
         c.checkMyBalance();
     }
-
     public void addFunds(Client c, Double amount){
         c.loadMyAccount(amount);
     }
-
     public void seeMyTickets(Client c){
         c.displayTickets();
     }
-
     public void seeMyReservations(Client c){
         c.displayReservations();
+    }
+    public void giftAVoucher(Client sender, Client receiver) {
+        Scanner reading = new Scanner(System.in);
+        System.out.println("What amount do you want to gift this user? ");
+        Double amount = reading.nextDouble();
+        if (amount <= sender.getPaymentMethod().getLeftBalance()) {
+            reading.nextLine();
+            System.out.println("What is the reason for your gift? (use one word)");
+            String reason = reading.nextLine();
+            receiver.addVoucher(amount, reason);
+            System.out.println("You have gifted " + receiver.getName() + " " + amount);
+        } else {
+            System.out.println("You don't have enough funds in your account!");
+        }
     }
 }

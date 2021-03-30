@@ -45,7 +45,6 @@ public class Actor extends Performer{
         return "Actor{" +
                 "awards=" + awards +
                 ", pastProductions=" + pastProductions +
-                ", currentEvents=" + currentEvents +
                 "} " + super.toString();
     }
 

@@ -1,5 +1,4 @@
 import com.nevent.model.client.Client;
-import com.nevent.model.client.payment.Account;
 import com.nevent.model.event.*;
 import com.nevent.model.location.Location;
 import com.nevent.model.location.Seating;
@@ -9,7 +8,6 @@ import com.nevent.model.performer.Performer;
 import com.nevent.model.performer.Singer;
 
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Random;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,21 +15,27 @@ import java.util.*;
 
 public class MainService
 {
-    private ArrayList<Location> Locations;
-    private ArrayList<Performer> Performers;
-    private ArrayList<Event> Events;
-    private ArrayList<Client> Clients;
+    private final ArrayList<Location> Locations;
+    private final ArrayList<Performer> Performers;
+    private final ArrayList<Event> Events;
+    private final ArrayList<Client> Clients;
     private final Random random;
 
     public MainService() {
-        Locations = new ArrayList<Location>();
-        Performers = new ArrayList<Performer>();
-        Events = new ArrayList<Event>();
-        Clients = new ArrayList<Client>();
+        Locations = new ArrayList<>();
+        Performers = new ArrayList<>();
+        Events = new ArrayList<>();
+        Clients = new ArrayList<>();
         random = new Random();
     }
+    public void addLocationToArray(Location location){
+        Locations.add(location);
+    }
+    public void addClientToArray(Client client){Clients.add(client);}
+    public void addEventToArray(Event event){Events.add(event);}
+    public void addPerformerToArray(Performer performer){Performers.add(performer);}
 
-    public void addANewLocation(){
+    public void addANewLocationCLI(){
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
 
         System.out.println("Please tell me the number of BASIC tickets");
@@ -63,10 +67,9 @@ public class MainService
         Location location = new Location(locationName, address, city, seating);
         Locations.add(location);
         System.out.println("Congrats, you have added a new location\n\n");
-        reading.close();
-    }
 
-    public void addANewClient(){
+    }
+    public void addANewClientCLI(){
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Hi, tell me your first name");
         String name = reading.nextLine();
@@ -81,10 +84,8 @@ public class MainService
         Clients.add(client);
         System.out.println("Awesome! We created you an account and" +
                 " you have no credit nor tickets.\n\n");
-        reading.close();
     }
-
-    public void addANewPerformer(){
+    public void addANewPerformerCLI(){
         Scanner reading = new Scanner(System.in);
         System.out.println("Hi, can you tell me your name? ");
         String name = reading.nextLine();
@@ -95,71 +96,20 @@ public class MainService
         String v = reading.nextLine();
         switch(button){
             case 1:
-                addActor(reading, name, description);
+                addActorCLI(reading, name, description);
                 break;
             case 3:
-                addSinger(reading, name, description);
+                addSingerCLI(reading, name, description);
                 break;
             case 2:
-                addComedian(reading, name, description);
+                addComedianCLI(reading, name, description);
                 break;
             default:
                 System.out.println("UhOh! That's not a job (at least according to us). Aborting..Try again");
         }
-        reading.close();
-    }
 
-    private void addComedian(Scanner reading, String name, String description) {
-        System.out.println("So what comedy genre do you represent?");
-        String comedyGenre = reading.nextLine();
-        System.out.println("What position do you have in the show? opener/midler/headliner");
-        String position = reading.nextLine();
-        System.out.println("How many years have you been a comedian for?");
-        Integer years = reading.nextInt();
-        System.out.println("How long is your current set?");
-        Integer setTime = reading.nextInt();
-        String c = reading.nextLine();
-        System.out.println("Any podcasts we know you from? (separate them by comma)");
-        String[] podcasts = reading.nextLine().split(",");
-        ArrayList<String> podcastNames = new ArrayList<>();
-        Collections.addAll(podcastNames, podcasts);
-        Comedian comedian = new Comedian(name, description, comedyGenre, position, years, setTime, podcastNames);
-        Performers.add(comedian);
     }
-
-    private void addSinger(Scanner reading, String name, String description) {
-        System.out.println("So what music genre do you represent?");
-        String musicGenre = reading.nextLine();
-        System.out.println("Are you part of a band? y/n");
-        String isGroupString = reading.nextLine();
-        Boolean isGroup = isGroupString.equals("y");
-        System.out.println("What are your names (separate them by comma)");
-        String[] names = reading.nextLine().split(",");
-        ArrayList<String> nameMembers = new ArrayList<>();
-        Collections.addAll(nameMembers, names);
-        System.out.println("What are your best known songs (separate them by comma)");
-        String[] songNames = reading.nextLine().split(",");
-        ArrayList<String> nameSongs = new ArrayList<>();
-        Collections.addAll(nameSongs, songNames);
-        Singer singer = new Singer(name, description, musicGenre, isGroup, nameMembers, nameSongs);
-        Performers.add(singer);
-    }
-
-    private void addActor(Scanner reading, String name, String description) {
-        System.out.println("Have you won any awards? You can split them by comma");
-        String[] awards1 = reading.nextLine().split(",");
-        ArrayList<String> awardsFinal = new ArrayList<>();
-        Collections.addAll(awardsFinal, awards1);
-        System.out.println("Any past productions we should know you for?");
-        String[] pastProductions = reading.nextLine().split(",");
-        ArrayList<String> ppFinal = new ArrayList<>();
-        Collections.addAll(ppFinal, pastProductions);
-        System.out.println("See you later!");
-        Actor actor = new Actor(name, description, awardsFinal, ppFinal);
-        Performers.add(actor);
-    }
-
-    public void addAnEvent() throws ParseException {
+    public void addAnEventCLI() throws ParseException {
         Scanner reading = new Scanner(System.in);
         System.out.println("Hi! Could you describe your event in a short sentance");
         String description = reading.nextLine();
@@ -175,6 +125,7 @@ public class MainService
             if(loc.getId().equals(locationId))
                 location = loc;
         }
+        String s = reading.nextLine();
         System.out.println("When will the event take place? (date as dd/mm/yyyy)");
         String data = reading.nextLine();
         Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(data);
@@ -195,23 +146,73 @@ public class MainService
                 "by id");
         switch(type){
             case 1:
-                addConcert(reading, description, ageRestriction, duration, location, date1, pricePerTick);
+                addConcertCLI(reading, description, ageRestriction, duration, location, date1, pricePerTick);
                 break;
             case 2:
-                addMovie(reading, description, ageRestriction, duration, location, date1, pricePerTick);
+                addMovieCLI(reading, description, ageRestriction, duration, location, date1, pricePerTick);
                 break;
             case 3:
-                addStandUpShow(reading, description, ageRestriction, duration, location, date1, pricePerTick);
+                addStandUpShowCLI(reading, description, ageRestriction, duration, location, date1, pricePerTick);
                 break;
             case 4:
-                addPlay(reading, description, ageRestriction, duration, location, date1, pricePerTick);
+                addPlayCLI(reading, description, ageRestriction, duration, location, date1, pricePerTick);
                 break;
             default:
                 System.out.println("Unfortunately, we don't allow this type of event. Maybe try again?");
         }
     }
 
-    private void addPlay(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
+    private void addComedianCLI(Scanner reading, String name, String description) {
+        System.out.println("So what comedy genre do you represent?");
+        String comedyGenre = reading.nextLine();
+        System.out.println("What position do you have in the show? opener/midler/headliner");
+        String position = reading.nextLine();
+        System.out.println("How many years have you been a comedian for?");
+        Integer years = reading.nextInt();
+        System.out.println("How long is your current set?");
+        Integer setTime = reading.nextInt();
+        String c = reading.nextLine();
+        System.out.println("Any podcasts we know you from? (separate them by comma)");
+        String[] podcasts = reading.nextLine().split(",");
+        ArrayList<String> podcastNames = new ArrayList<>();
+        Collections.addAll(podcastNames, podcasts);
+        Comedian comedian = new Comedian(name, description, comedyGenre, position, years, setTime, podcastNames);
+        Performers.add(comedian);
+    }
+    private void addSingerCLI(Scanner reading, String name, String description) {
+        System.out.println("So what music genre do you represent?");
+        String musicGenre = reading.nextLine();
+        System.out.println("Are you part of a band? y/n");
+        String isGroupString = reading.nextLine();
+        Boolean isGroup = isGroupString.equals("y");
+        System.out.println("What are your names (separate them by comma)");
+        String[] names = reading.nextLine().split(",");
+        ArrayList<String> nameMembers = new ArrayList<>();
+        Collections.addAll(nameMembers, names);
+        System.out.println("What are your best known songs (separate them by comma)");
+        String[] songNames = reading.nextLine().split(",");
+        ArrayList<String> nameSongs = new ArrayList<>();
+        Collections.addAll(nameSongs, songNames);
+        Singer singer = new Singer(name, description, musicGenre, isGroup, nameMembers, nameSongs);
+        Performers.add(singer);
+    }
+    private void addActorCLI(Scanner reading, String name, String description) {
+        System.out.println("Have you won any awards? You can split them by comma");
+        String[] awards1 = reading.nextLine().split(",");
+        ArrayList<String> awardsFinal = new ArrayList<>();
+        Collections.addAll(awardsFinal, awards1);
+        System.out.println("Any past productions we should know you for?");
+        String[] pastProductions = reading.nextLine().split(",");
+        ArrayList<String> ppFinal = new ArrayList<>();
+        Collections.addAll(ppFinal, pastProductions);
+        System.out.println("See you later!");
+        Actor actor = new Actor(name, description, awardsFinal, ppFinal);
+        Performers.add(actor);
+    }
+
+
+
+    private void addPlayCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
         listAllActors();
         System.out.println("What genre does the play belong to?");
         String genreTheatre = reading.nextLine();
@@ -236,8 +237,7 @@ public class MainService
                 date1, pricePerTick, genreTheatre, playName, directorName, dressCode, castTheatre);
         Events.add(play);
     }
-
-    private void addStandUpShow(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
+    private void addStandUpShowCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
         listAllComedians();
         System.out.println("How many comedians are there in the show?");
         int noComedians = reading.nextInt();
@@ -256,11 +256,11 @@ public class MainService
                 date1, pricePerTick, comedians, comedianSchedule, comedianRole);
         Events.add(standUpShow);
     }
-
-    private void addMovie(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
+    private void addMovieCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
         listAllActors();
         System.out.println("What genre does the movie belong to?");
         String genre = reading.nextLine();
+        reading.nextLine();
         System.out.println("What's the movie called?");
         String name = reading.nextLine();
         System.out.println("Who is the director?");
@@ -271,6 +271,7 @@ public class MainService
         for(int i = 0; i < noOfCast; i++){
             System.out.println("Choose the id of the actor");
             String idActor = reading.nextLine();
+            reading.nextLine();
             Performer actor = getPeformerById(idActor);
             System.out.println("Who is he playing in the movie?");
             String nameCharacter = reading.nextLine();
@@ -280,11 +281,11 @@ public class MainService
                 pricePerTick, genre, name, director, cast);
         Events.add(movie);
     }
-
-    private void addConcert(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
+    private void addConcertCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
         listAllSingers();
         System.out.println("Who is opening your concert?");
         String idOpener = reading.nextLine();
+        reading.nextLine();
         System.out.println("Who is the main act?");
         String idMainAct = reading.nextLine();
         System.out.println("How long will the opener perform?");
@@ -299,13 +300,7 @@ public class MainService
         Events.add(concert);
     }
 
-    public void listAllSingers(){
-        for (Performer perf : Performers){
-            if(perf instanceof Singer){
-                perf.getPortrait();
-            }
-        }
-    }
+
     public Performer getPeformerById(String id){
         Performer performer = null;
         for(Performer perform : Performers){
@@ -317,6 +312,13 @@ public class MainService
         return performer;
     }
 
+    public void listAllSingers(){
+        for (Performer perf : Performers){
+            if(perf instanceof Singer){
+                perf.getPortrait();
+            }
+        }
+    }
     public void listAllLocations(){
         if(Locations.isEmpty()){
             System.out.println("No locations to choose from, we're sorry for that");
@@ -325,13 +327,11 @@ public class MainService
             location.describeLocation();
         }
     }
-
     public void listAllClients(){
         for(Client client : Clients){
             System.out.println(client.toString());
         }
     }
-
     public void listAllActors(){
         for(Performer perf : Performers){
             if(perf instanceof Actor){
@@ -347,14 +347,6 @@ public class MainService
         }
 }
 
-    public void showAllEvents(){
-        for(Event event : Events){
-            event.getPresentation();
-        }
-    }
-    public void displayEvent(Event event){
-        event.toString();
-    }
 
     public Client clientGenerator(){
         String[] VECTOR_NAME = {"Jacque", "Rutigliano", "Gracia", "Hohl", "Jonas","Bermudes", "Linda","Unruh",
@@ -368,7 +360,6 @@ public class MainService
         Integer age = random.nextInt(99);
         return new Client(name, surname, age);
     }
-
     private Seating seatingGenerator(){
         Integer basic = random.nextInt(200);
         Integer premium = random.nextInt(200);
@@ -392,7 +383,6 @@ public class MainService
         Seating seating = seatingGenerator();
         return new Location(nameOfVenue, address, city, seating);
     }
-
     public Performer performerGenerator(String type){
         String[] AWARDS = {"Oscar", "Emmy", "Golden Globe", "Golden bear", "Venice Festival Winner"};
         String[] VECTOR_NAME = {"Jacque", "Rutigliano", "Gracia", "Hohl", "Jonas","Bermudes", "Linda","Unruh",
@@ -462,17 +452,6 @@ public class MainService
         }
 
     }
-    public static int createRandomIntBetween(int start, int end) {
-        return start + (int) Math.round(Math.random() * (end - start));
-    }
-
-    public static Date createRandomDate(int startYear, int endYear) throws ParseException {
-        int day = createRandomIntBetween(1, 28);
-        int month = createRandomIntBetween(1, 12);
-        int year = createRandomIntBetween(startYear, endYear);
-        String data = day + "/" + month + "/" + year;
-        return new SimpleDateFormat("dd/MM/yyyy").parse(data);
-    }
     public Event randomEvent(String type) throws ParseException {
         String[] VECTOR_NAME = {"Jacque", "Rutigliano", "Gracia", "Hohl", "Jonas","Bermudes", "Linda","Unruh",
                 "Lavoni","Gathers", "Lashell","Bolton", "Sadie","Nowlen",
@@ -484,12 +463,23 @@ public class MainService
         String description = DESCRIPTION[random.nextInt(DESCRIPTION.length)];
         Integer ageRestriction = random.nextInt(18);
         Integer duration = random.nextInt(100);
-        Location location = Locations.get(random.nextInt(Locations.size()));
+        Location location;
+        if(Locations.isEmpty()){
+            location = locationGenerator();
+            Locations.add(location);
+        } else {
+            location = Locations.get(random.nextInt(Locations.size()));
+        }
         Date dateTime = createRandomDate(2021, 2030);
         Map<String, Double> priceTicket = new HashMap<>();
-        priceTicket.put("BASIC", random.nextDouble());
-        priceTicket.put("PREMIUM", random.nextDouble());
-        priceTicket.put("VIP", random.nextDouble());
+        Double start = 200.0;
+        Double end = 490.0;
+        Double priceBasic = start + (random.nextDouble() * (end - start));
+        Double pricePremium = start + 300.0 +  (random.nextDouble() * (end - start));
+        Double priceVIP = start + 900.0 + + (random.nextDouble() * (end - start));
+        priceTicket.put("BASIC", Math.round(priceBasic*100.0)/100.0);
+        priceTicket.put("PREMIUM", Math.round(pricePremium*100.0)/100.0);
+        priceTicket.put("VIP", Math.round(priceVIP*100.0)/100.0);
         switch(type){
             case "Concert":
                 Performer opener = performerGenerator("Singer");
@@ -553,37 +543,79 @@ public class MainService
                 return null;
         }
     }
+    public static int createRandomIntBetween(int start, int end) {
+        return start + (int) Math.round(Math.random() * (end - start));
+    }
+    public static Date createRandomDate(int startYear, int endYear) throws ParseException {
+        int day = createRandomIntBetween(1, 28);
+        int month = createRandomIntBetween(1, 12);
+        int year = createRandomIntBetween(startYear, endYear);
+        String data = day + "/" + month + "/" + year;
+        return new SimpleDateFormat("dd/MM/yyyy").parse(data);
+    }
+
+    public void showAllEvents(){
+        for(Event event : Events){
+            event.getPresentation();
+        }
+    }
     public void seeEventsByCategory(String type){
         switch(type){
             case "Concert":
-                System.out.println("Concerts:\n");
+                int i = 0;
                 for(Event e : Events){
-                    if (e instanceof Concert)
+                    if (e instanceof Concert) {
+                        if(i == 0){
+                            System.out.println("Concerts:\n");
+                            i++;
+                        }
                         e.getPresentation();
+                    }
                 }
+                break;
             case "Movie":
-                System.out.println("Movies:\n");
+                int j = 0;
                 for(Event e : Events){
-                    if (e instanceof Movie)
+                    if (e instanceof Movie) {
+                        if(j == 0){
+                            System.out.println("Movies:\n");
+                            j++;
+                        }
                         e.getPresentation();
+                    }
                 }
+                break;
             case "StandUpShow":
-                System.out.println("Stand-up:\n");
+                int k = 0;
                 for(Event e : Events){
-                    if (e instanceof StandUpShow)
+                    if (e instanceof StandUpShow) {
+                        if(k == 0){
+                            System.out.println("Stand-up shows:\n");
+                            k++;
+                        }
                         e.getPresentation();
+                    }
                 }
+                break;
             case "TheatrePlay":
-                System.out.println("Theatre plays:\n");
+                int l = 0;
                 for(Event e : Events){
-                    if (e instanceof TheatrePlay)
+                    if (e instanceof TheatrePlay) {
+                        if(l == 0){
+                            System.out.println("Theatre plays:\n");
+                            l++;
+                        }
                         e.getPresentation();
+                    }
                 }
+                break;
                 default:
                 System.out.println("no such type");
         }
     }
-
+    public void displayEvent(Event event){
+        event.getPresentation();
+    }
 }
 
 

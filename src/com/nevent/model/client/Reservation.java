@@ -4,6 +4,7 @@ import com.nevent.model.client.Client;
 import com.nevent.model.ticket.Ticket;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 /*Reservation = Booking of a ticket for an event, without buying it
@@ -13,9 +14,9 @@ import java.util.Set;
 public class Reservation {
     private Client client;
     private Date dateOfReservation;
-    private Set<Ticket> tickets;
+    private List<Ticket> tickets;
 
-    public Reservation(Client client, Date dateOfReservation, Set<Ticket> tickets) {
+    public Reservation(Client client, Date dateOfReservation, List<Ticket> tickets) {
         this.client = client;
         this.dateOfReservation = dateOfReservation;
         this.tickets = tickets;
@@ -37,11 +38,11 @@ public class Reservation {
         this.dateOfReservation = dateOfReservation;
     }
 
-    public Set<Ticket> getTickets() {
+    public List<Ticket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(Set<Ticket> tickets) {
+    public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
 

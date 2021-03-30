@@ -65,7 +65,7 @@ public class TheatrePlay extends Event {
     public void getPresentation(){
         super.getPresentation();
         System.out.println("This is a theatre play. Genre: " + this.getGenre() + "\nName: " + this.getName()+ " directed by "
-                + this.getDirectorName() + "\n Attention: You need to obey the following dressCode " + this.getDressCode() + "\n");
+                + this.getDirectorName() + "\nAttention: You need to obey the following dress code: " + this.getDressCode() + "\n");
         System.out.println("Cast: \n");
         for(Performer actor : this.getCast().keySet()){
             System.out.println(actor.getName() + " plays " + this.getCast().get(actor) + "\n");
