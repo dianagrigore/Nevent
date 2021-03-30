@@ -8,7 +8,7 @@ E-ticketing platform
 * com.nevent.model.client
     * **Client**
     * **Reservation**
-
+    * **UnderageCriteria**
 * com.amazon.model.comparators
     * **EventDurationSorter**
     * **LocationCitySorter**
@@ -32,6 +32,7 @@ E-ticketing platform
 * **App**
 * **ClientUtilitiesService**
 * **MainService**
+* **Filterable**
 
 Exposed functionalities (only the public methods available through services, there are additional methods “called in the back” whose functionalities do not require additional attention)
 
