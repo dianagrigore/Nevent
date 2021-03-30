@@ -20,11 +20,11 @@ import java.util.*;
 
 public class MainService
 {
-    private final List<Location> Locations;
-    private final List<Performer> Performers;
-    private final List<Event> Events;
+    private List<Location> Locations;
+    private List<Performer> Performers;
+    private List<Event> Events;
     private Set<Client> Clients;
-    private final Random random;
+    private Random random;
 
     public MainService() {
         Locations = new ArrayList<>();

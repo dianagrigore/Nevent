@@ -90,7 +90,9 @@ public class App {
         mainService.eventDurationSort();
         System.out.println("After sorting the events");
         mainService.listAllEvents();*/
+
         int AGE_RESTRICTION = 50;
+            System.out.println("Clients under the age of " + AGE_RESTRICTION);
         mainService.filterAllUnderage(AGE_RESTRICTION);
     }
 }
