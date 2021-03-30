@@ -78,11 +78,12 @@ Exposed functionalities (only the public methods available through services, the
         * locationGenerator()
         * performerGenerator(String type) → type is a string = name of the class
         * randomEvent(String type)
+        * **createRandomDate**(int start, int end) -> creates a random date between 2 years
     * **sorting methods** - they sort the contents of the collections
         * eventDurationSort()
         * locationCitySort()
         * performerNameSort()
     * **find events by criteria**
         * **seeEventsByCategory**(String type) → lists all the events of a certain type
-
+     
 
