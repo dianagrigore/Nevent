@@ -62,10 +62,15 @@ public class App {
         //clientService.seeMyTickets(client);
 
         //Booking tickets functionality tests
-        //clientService.bookATicket(movie, client);
+        clientService.bookATicket(movie, client);
+        clientService.seeMyReservations(client);
+        clientService.seeMyTickets(client);
+        clientService.transformBookingToTicket(movie, client);
+        clientService.seeMyReservations(client);
+        clientService.seeMyTickets(client);
         //clientService.cancelBooking(movie, client);
         //clientService.giftAVoucher(client, client2);
-
+        //clientService.seeMyReservations(client);
         //Sorting methods test
 
         //Sort performers

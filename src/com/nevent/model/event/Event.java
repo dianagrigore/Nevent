@@ -2,7 +2,6 @@ package com.nevent.model.event;
 
 import com.nevent.model.client.Client;
 import com.nevent.model.client.Reservation;
-import com.nevent.model.client.payment.Voucher;
 import com.nevent.model.location.Location;
 import com.nevent.model.ticket.Ticket;
 
@@ -83,11 +82,6 @@ public abstract class Event {
     public String getId() {
         return id;
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
 
     public Location getLocation() {
         return location;
@@ -229,7 +223,7 @@ public abstract class Event {
         List<Ticket> reservationTickets = new ArrayList<>();
         reservationTickets.add(ticket);
         Date date = new Date(); // This object contains the current date value
-        Reservation reservation = new Reservation(client, date, reservationTickets);
+        Reservation reservation = new Reservation(date, reservationTickets);
         this.reservations.add(reservation);
         client.addReservation(reservation);
         System.out.println("Congratulations! You have booked a ticket!");
@@ -237,9 +231,11 @@ public abstract class Event {
 
     public void cancelAReservation(Client client){
         Reservation reservation = null;
-        for(Reservation reservation1 : reservations){
-            if(reservation1.getClient().equals(client))
+
+        for(Reservation reservation1 : client.getReservations()){
+            if(reservation1.getTickets().get(0).getEvent().equals(this)){
                 reservation = reservation1;
+            }
         }
         if(reservation != null) {
             reservations.remove(reservation);
@@ -251,17 +247,57 @@ public abstract class Event {
         }
     }
 
-    /*public void transformBookingToTicket(Client c){
-        List<Reservation> reservations = c.getReservations();
+    public void transformBookingToTicket(Client c){
         int flag = 0;
-        for(Reservation r : reservations){
-            if(r.getTickets().get(0).getEvent().equals(this)){
+        Reservation reservation = null;
+        for(Reservation r : c.getReservations()){
+            if(r.getTickets().get(r.getTickets().size() - 1).getEvent() == this){
                 {
+                    reservation = r;
+                    flag = 1;
+                    break;
                 }
             }
         }
+        if(flag == 0){
+            System.out.println("You don't have a reservation for this event!");
+        }
+        else {
+                Ticket ticket = reservation.getTickets().get(0);
+                Double price = this.pricePerTicketType.get(ticket.getType());
+                System.out.println("Would you like to use any vouchers? y/n");
+                Scanner reading = new Scanner(System.in);  // Create a Scanner object
+                String answer = reading.nextLine();
+                String reason = null;
+                switch(answer){
+                    case "y":
+                        c.getPaymentMethod().seeMyVouchers();
+                        System.out.println("Please enter the reason of your voucher");
+                        reason = reading.nextLine();
+                        break;
+                    case "n":
+                        System.out.println("That's alright");
+                        break;
+                    default:
+                        System.out.println("Not a valid option");
+                }
+                Double voucher_value = 0.0;
+                if(reason != null){
+                    voucher_value = c.getPaymentMethod().getTheValueOfThisVoucher(reason);
+                }
 
-    }*/
+                if(c.getPaymentMethod().getLeftBalance() + voucher_value >= price){
+                    c.getPaymentMethod().useTheVoucher(reason);
+                    this.soldTickets.add(ticket);
+                    c.retrieveMoneyFromAccount(price);
+                    c.addANewTicket(ticket);
+                    c.getReservations().remove(reservation);
+                }
+                else {
+                    System.out.println("Not enough funds");
+                }
+            }
+        }
 
     public void getPresentation(){
         System.out.println("Event no: " + this.getId() + "\nDescriprion: " + this.getDescription()

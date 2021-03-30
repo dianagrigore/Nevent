@@ -53,6 +53,6 @@ public class ClientUtilitiesService {
         }
     }
     public void transformBookingToTicket(Event e, Client c){
-        //e.transformBookingToTicket(c);
+        e.transformBookingToTicket(c);
     }
 }
