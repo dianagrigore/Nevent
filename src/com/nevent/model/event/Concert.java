@@ -6,10 +6,10 @@ import com.nevent.model.performer.Performer;
 import java.util.*;
 /*Class concert, extends type event and implements getPresentation*/
 public class Concert extends Event {
-    Performer opener;
-    Performer mainAct;
-    Integer performanceTimeOpener;
-    Integer performanceTimeMainAct;
+    private Performer opener;
+    private Performer mainAct;
+    private Integer performanceTimeOpener;
+    private Integer performanceTimeMainAct;
 
     public Concert(
                    String description,

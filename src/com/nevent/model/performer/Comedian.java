@@ -9,7 +9,7 @@ public class Comedian extends Performer{
     private String positionInShow;
     private Integer tenure;
     private Integer timePerSet;
-    List<String> podcasts;
+    private List<String> podcasts;
 
     public Comedian( String name, String description, String genreOfComedy, String positionInShow, Integer tenure, Integer timePerSet, List<String> podcasts) {
         super(name, description);

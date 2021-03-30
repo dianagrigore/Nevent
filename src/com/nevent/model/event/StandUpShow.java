@@ -9,9 +9,9 @@ import com.nevent.model.performer.Comedian;
 import java.util.*;
 
 public class StandUpShow extends Event {
-    Set<Comedian> comedians;
-    Map<Comedian, Integer> schedule;
-    Map<Comedian, String> rolesInShow;
+    private Set<Comedian> comedians;
+    private Map<Comedian, Integer> schedule;
+    private Map<Comedian, String> rolesInShow;
 
     public StandUpShow(String description, Integer ageRestriction, Integer duration, Location location, Date dateTime, Map<String, Double> pricePerTicketType, Set<Comedian> comedians, Map<Comedian, Integer> schedule, Map<Comedian, String> rolesInShow) {
         super(description, ageRestriction, duration, location, dateTime, pricePerTicketType);
