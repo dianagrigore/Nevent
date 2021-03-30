@@ -41,7 +41,12 @@ public class ClientUtilitiesService {
     public void giftAVoucher(Client sender, Client receiver) {
         Scanner reading = new Scanner(System.in);
         System.out.println("What amount do you want to gift this user? ");
+        while (!reading.hasNextDouble()) {
+            System.out.print("You must enter a valid number! Try again: ");
+            reading.next();
+        }// end edit
         Double amount = reading.nextDouble();
+
         if (amount <= sender.getPaymentMethod().getLeftBalance()) {
             reading.nextLine();
             System.out.println("What is the reason for your gift? (use one word)");

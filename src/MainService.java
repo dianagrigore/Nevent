@@ -1,4 +1,6 @@
+import com.nevent.model.Filterable;
 import com.nevent.model.client.Client;
+import com.nevent.model.client.payment.CriteriaUnderage;
 import com.nevent.model.comparators.EventDurationSorter;
 import com.nevent.model.comparators.LocationCitySorter;
 import com.nevent.model.comparators.PerformerNameSorter;
@@ -21,7 +23,7 @@ public class MainService
     private final List<Location> Locations;
     private final List<Performer> Performers;
     private final List<Event> Events;
-    private final Set<Client> Clients;
+    private Set<Client> Clients;
     private final Random random;
 
     public MainService() {
@@ -673,6 +675,19 @@ public class MainService
     }
     public void performerNameSort(){
         Performers.sort(new PerformerNameSorter());
+    }
+
+    public Set<Client> filterAllUnderage(int age_restriction){
+        Filterable<Client, Integer> underage = new CriteriaUnderage();
+        Set<Client> underageClient =  underage.filter(Clients, age_restriction);
+        for(Client client : underageClient){
+            System.out.println(client.getName() + " " +  client.getSurname() + " - " + client.getAge());
+        }
+        if(underageClient.isEmpty())
+        {
+            System.out.println("There are no underage clients.");
+        }
+        return underageClient;
     }
 }
 
