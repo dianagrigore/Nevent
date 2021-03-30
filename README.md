@@ -56,7 +56,11 @@ Exposed functionalities (only the public methods available through services, the
     * **seeMyTickets**(Client c) → shows the client’s current tickets
     * **seeMyReservations**(Client c) → shows the current reservations that a client has made
     * **giftAVoucher(Client sender, Client receiver)** → sender can give a voucher of amount to receiver (amount is also drafted from sender’s account)
+    * **transformBookingToTicket(Event e, Client c)** (in progress -> allows a user to transform one of his reservations into tickets)
 * through the main service, grouped by “business utility“
+    * **find events by criteria**
+        * **seeEventsByCategory**(String type) → lists all the events of a certain type
+        *  **seeEventByLocation()** -> user is prompted to enter a location, and then, if available, events are listed   
     * **add objects to collections** (lists) as it was a design choice not to let the randomly generated objects to be auto-added
         * addLocationToArray(Location l)
         * addClientToArray(Client c)
@@ -83,7 +87,6 @@ Exposed functionalities (only the public methods available through services, the
         * eventDurationSort()
         * locationCitySort()
         * performerNameSort()
-    * **find events by criteria**
-        * **seeEventsByCategory**(String type) → lists all the events of a certain type
+
      
 
