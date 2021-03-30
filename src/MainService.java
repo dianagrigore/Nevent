@@ -120,14 +120,17 @@ public class MainService
         Integer ageRestriction = reading.nextInt();
         System.out.println("How long will your event last for?");
         Integer duration = reading.nextInt();
-        System.out.println("Please pick one of the following locations by introducing the id");
+        System.out.println("Please pick one of the following locations by introducing the id (otherwise, it will be randomly generated)");
         listAllLocations();
         String locationId = reading.nextLine();
-        Location location = null;
+        Location  location = null;
         for(Location loc : Locations){
             if(loc.getId().equals(locationId))
                 location = loc;
         }
+        Locations.add(location);
+        if(location == null)
+            location = locationGenerator();
         String s = reading.nextLine();
         System.out.println("When will the event take place? (date as dd/mm/yyyy)");
         String data = reading.nextLine();

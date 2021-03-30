@@ -36,9 +36,8 @@ public class App {
         mainService.addEventToArray(theatrePlay); //must be added because random generation does not do this
 
         //Location and events functionalities
-        //mainService.listAllLocations();
-        //mainService.addAnEventCLI();
-        //mainService.seeEventsByCategory("Movie");
+        mainService.listAllLocations();
+        mainService.seeEventsByCategory("Movie");
 
         //add 2 clients
         Client client = mainService.clientGenerator();
@@ -64,30 +63,30 @@ public class App {
         //Booking tickets functionality tests
         clientService.bookATicket(movie, client);
         clientService.seeMyReservations(client);
-        //clientService.seeMyTickets(client);
-        //clientService.transformBookingToTicket(movie, client);
-        //clientService.seeMyReservations(client);
-        //clientService.seeMyTickets(client);
-        //clientService.bookATicket(movie, client);
-        //clientService.seeMyReservations(client);
-        //clientService.cancelBooking(movie, client);
-        //clientService.giftAVoucher(client, client2);
-        //clientService.seeMyReservations(client);
+        clientService.seeMyTickets(client);
+        clientService.transformBookingToTicket(movie, client);
+        clientService.seeMyReservations(client);
+        clientService.seeMyTickets(client);
+        clientService.bookATicket(movie, client);
+        clientService.seeMyReservations(client);
+        clientService.cancelBooking(movie, client);
+        clientService.giftAVoucher(client, client2);
+        clientService.seeMyReservations(client);
 
         //Sort performers
-        /*System.out.println("Before sorting the performers");
+        System.out.println("Before sorting the performers");
         mainService.listAllPerformers();
         mainService.performerNameSort();
         System.out.println("After sorting");
-        mainService.listAllPerformers();*/
+        mainService.listAllPerformers();
 
         //Sort events + findEventByCity and category
 
-        /*System.out.println("Before sorting the events");
+        System.out.println("Before sorting the events");
         mainService.listAllEvents();
         mainService.findEventByCity();
         mainService.eventDurationSort();
         System.out.println("After sorting the events");
-        mainService.listAllEvents();*/
+        mainService.listAllEvents();
     }
 }
