@@ -80,13 +80,15 @@ public class App {
         System.out.println("After sorting");
         mainService.listAllPerformers();
 
-        //Sort events + findEventByCity and category
-
+        //Sort events + findEventByCity and category -> nu stiu daca cerinta cerea sa avem colectii mereu sortate, asa
+        //ca pe langa acestea, am adaugat sortari la adaugarea de elemente astfel incat colectiile sunt mereu sortate
+        //si functionalitatea testelor de mai jos dispare
+    /*
         System.out.println("Before sorting the events");
         mainService.listAllEvents();
         mainService.findEventByCity();
         mainService.eventDurationSort();
         System.out.println("After sorting the events");
-        mainService.listAllEvents();
+        mainService.listAllEvents();*/
     }
 }

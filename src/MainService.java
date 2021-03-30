@@ -35,8 +35,8 @@ public class MainService
         Locations.add(location);
     }
     public void addClientToArray(Client client){Clients.add(client);}
-    public void addEventToArray(Event event){Events.add(event);}
-    public void addPerformerToArray(Performer performer){Performers.add(performer);}
+    public void addEventToArray(Event event){Events.add(event); eventDurationSort();}
+    public void addPerformerToArray(Performer performer){Performers.add(performer); performerNameSort();}
 
     public void addANewLocationCLI(){
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
@@ -166,6 +166,7 @@ public class MainService
             default:
                 System.out.println("Unfortunately, we don't allow this type of event. Maybe try again?");
         }
+        eventDurationSort();
     }
 
     private void addComedianCLI(Scanner reading, String name, String description) {
@@ -319,6 +320,7 @@ public class MainService
     }
 
     public void listAllSingers(){
+        performerNameSort();
         for (Performer perf : Performers){
             if(perf instanceof Singer){
                 perf.getPortrait();
@@ -326,6 +328,7 @@ public class MainService
         }
     }
     public void listAllLocations(){
+        locationCitySort();
         if(Locations.isEmpty()){
             System.out.println("No locations to choose from, we're sorry for that");
         }
@@ -339,6 +342,7 @@ public class MainService
         }
     }
     public void listAllActors(){
+        performerNameSort();
         for(Performer perf : Performers){
             if(perf instanceof Actor){
                 perf.getPortrait();
@@ -346,6 +350,7 @@ public class MainService
         }
     }
     public void listAllComedians(){
+        performerNameSort();
         for(Performer perf : Performers){
             if(perf instanceof Comedian){
                 perf.getPortrait();
@@ -353,6 +358,7 @@ public class MainService
         }
 }
     public void listAllPerformers(){
+        performerNameSort();
         if(!Performers.isEmpty()) {
             for (Performer performer : Performers) {
                 performer.getPortrait();
@@ -569,6 +575,7 @@ public class MainService
     }
 
     public void listAllEvents(){
+        eventDurationSort();
         for(Event event : Events){
             event.getPresentation();
         }
