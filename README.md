@@ -9,7 +9,7 @@ E-ticketing platform
     * **Client**
     * **Reservation**
     * **UnderageCriteria**
-* com.amazon.model.comparators
+* com.nevent.model.comparators
     * **EventDurationSorter**
     * **LocationCitySorter**
     * **PerformerNameSorter**
