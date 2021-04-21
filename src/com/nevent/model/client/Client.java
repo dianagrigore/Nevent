@@ -1,7 +1,6 @@
 package com.nevent.model.client;
 
 import com.nevent.model.client.payment.Account;
-import com.nevent.model.client.payment.Voucher;
 import com.nevent.model.event.Event;
 import com.nevent.model.ticket.Ticket;
 
@@ -101,78 +100,6 @@ public class Client {
         this.reservations = reservations;
     }
 
-    public void checkMyBalance(){
-        Account myAccount = this.getPaymentMethod();
-        Double moneyLeft = myAccount.getLeftBalance();
-        System.out.println("You have " + moneyLeft.toString() + " lei left in your account");
-        myAccount.seeMyVouchers();
-    }
-
-    public void displayTickets(){
-        if(tickets.isEmpty()) {
-            System.out.println("No tickets bought\n");
-        } else {
-            for (Ticket t : tickets) {
-                System.out.println(t.toString());
-            }
-        }
-    }
-
-    public void addVoucher(Double amount, String reason){
-        Voucher voucher = new Voucher(reason, amount);
-        this.paymentMethod.addAVoucer(voucher);
-    }
-
-    public void displayReservations(){
-        if(reservations.isEmpty()){
-            System.out.println("No reservations\n");
-        } else {
-            for (Reservation r : reservations) {
-                System.out.println(r.toString());
-            }
-        }
-    }
-
-    public boolean canIBuyTicket(Event certainEvent){
-        Integer requiredMinimumAge = certainEvent.getAgeRestriction();
-        Integer myAge = this.getAge();
-        if (myAge > requiredMinimumAge){
-            System.out.println("You can buy/book a ticket for " + certainEvent.getId());
-            return true;
-        }
-        else {
-            System.out.println("You don't have the right age to buy a ticket for this event.");
-            return false;
-        }
-    }
-
-    public void retrieveMoneyFromAccount(Double amount){
-        this.paymentMethod.retrieveFromThisAccount(amount);
-    }
-
-    public void addANewTicket(Ticket ticket){
-        this.tickets.add(ticket);
-    }
-
-    public void reimburseAndDeleteTicket(Ticket ticket){
-        this.tickets.remove(ticket); //remove the ticket from the list
-        String type = ticket.getType();
-        Event event = ticket.getEvent();
-        Double ticketValue = event.getPricePerTicketType().get(type);
-        this.paymentMethod.addToThisAccount(ticketValue); //add the amount back in account
-    }
-
-    public void loadMyAccount(Double amount){
-            this.paymentMethod.addToThisAccount(amount);
-    }
-
-    public void addReservation(Reservation reservation){
-        this.reservations.add(reservation);
-    }
-
-    public void cancelReservation(Reservation reservation){
-        this.reservations.remove(reservation);
-    }
 
     @Override
     public String toString() {

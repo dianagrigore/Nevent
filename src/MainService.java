@@ -27,18 +27,21 @@ public class MainService
     private Random random;
 
     public MainService() {
-        Locations = new ArrayList<>();
-        Performers = new ArrayList<>();
-        Events = new ArrayList<>();
-        Clients = new HashSet<>();
+        locations = new ArrayList<>();
+        performers = new ArrayList<>();
+        events = new ArrayList<>();
+        clients = new HashSet<>();
         random = new Random();
     }
     public void addLocationToArray(Location location){
-        Locations.add(location);
+        locations.add(location);
     }
-    public void addClientToArray(Client client){Clients.add(client);}
-    public void addEventToArray(Event event){Events.add(event); eventDurationSort();}
-    public void addPerformerToArray(Performer performer){Performers.add(performer); performerNameSort();}
+    public void addClientToArray(Client client){
+        clients.add(client);}
+    public void addEventToArray(Event event){
+        events.add(event); eventDurationSort();}
+    public void addPerformerToArray(Performer performer){
+        performers.add(performer); performerNameSort();}
 
     public void addANewLocationCLI(){
         Scanner reading = new Scanner(System.in);  // Create a Scanner object
@@ -70,7 +73,7 @@ public class MainService
         String city = reading.nextLine();
 
         Location location = new Location(locationName, address, city, seating);
-        Locations.add(location);
+        locations.add(location);
         System.out.println("Congrats, you have added a new location\n\n");
 
     }
@@ -86,7 +89,7 @@ public class MainService
         Integer age = reading.nextInt();
         System.out.println("That's great!");
         Client client = new Client(name, surname, age);
-        Clients.add(client);
+        clients.add(client);
         System.out.println("Awesome! We created you an account and" +
                 " you have no credit nor tickets.\n\n");
     }
@@ -126,11 +129,11 @@ public class MainService
         listAllLocations();
         String locationId = reading.nextLine();
         Location  location = null;
-        for(Location loc : Locations){
+        for(Location loc : locations){
             if(loc.getId().equals(locationId))
                 location = loc;
         }
-        Locations.add(location);
+        locations.add(location);
         if(location == null)
             location = locationGenerator();
         String s = reading.nextLine();
@@ -186,7 +189,7 @@ public class MainService
         ArrayList<String> podcastNames = new ArrayList<>();
         Collections.addAll(podcastNames, podcasts);
         Comedian comedian = new Comedian(name, description, comedyGenre, position, years, setTime, podcastNames);
-        Performers.add(comedian);
+        performers.add(comedian);
     }
     private void addSingerCLI(Scanner reading, String name, String description) {
         System.out.println("So what music genre do you represent?");
@@ -203,7 +206,7 @@ public class MainService
         ArrayList<String> nameSongs = new ArrayList<>();
         Collections.addAll(nameSongs, songNames);
         Singer singer = new Singer(name, description, musicGenre, isGroup, nameMembers, nameSongs);
-        Performers.add(singer);
+        performers.add(singer);
     }
     private void addActorCLI(Scanner reading, String name, String description) {
         System.out.println("Have you won any awards? You can split them by comma");
@@ -216,7 +219,7 @@ public class MainService
         Collections.addAll(ppFinal, pastProductions);
         System.out.println("See you later!");
         Actor actor = new Actor(name, description, awardsFinal, ppFinal);
-        Performers.add(actor);
+        performers.add(actor);
     }
 
 
@@ -244,7 +247,7 @@ public class MainService
         }
         TheatrePlay play = new TheatrePlay(description, ageRestriction, duration, location,
                 date1, pricePerTick, genreTheatre, playName, directorName, dressCode, castTheatre);
-        Events.add(play);
+        events.add(play);
     }
     private void addStandUpShowCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
         listAllComedians();
@@ -263,7 +266,7 @@ public class MainService
         }
         StandUpShow standUpShow = new StandUpShow(description, ageRestriction, duration, location,
                 date1, pricePerTick, comedians, comedianSchedule, comedianRole);
-        Events.add(standUpShow);
+        events.add(standUpShow);
     }
     private void addMovieCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
         listAllActors();
@@ -288,7 +291,7 @@ public class MainService
         }
         Movie movie= new Movie(description, ageRestriction, duration, location, date1,
                 pricePerTick, genre, name, director, cast);
-        Events.add(movie);
+        events.add(movie);
     }
     private void addConcertCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
         listAllSingers();
@@ -306,13 +309,13 @@ public class MainService
         Concert concert = new Concert(description, ageRestriction, duration,
                 location, date1, pricePerTick, opener, mainAct, performanceOpener,
                 mainActPerformance);
-        Events.add(concert);
+        events.add(concert);
     }
 
 
     public Performer getPeformerById(String id){
         Performer performer = null;
-        for(Performer perform : Performers){
+        for(Performer perform : performers){
             if(perform.getPerformerId().equals(id)) {
                 performer = perform;
                 break;
@@ -323,7 +326,7 @@ public class MainService
 
     public void listAllSingers(){
         performerNameSort();
-        for (Performer perf : Performers){
+        for (Performer perf : performers){
             if(perf instanceof Singer){
                 perf.getPortrait();
             }
@@ -331,21 +334,21 @@ public class MainService
     }
     public void listAllLocations(){
         locationCitySort();
-        if(Locations.isEmpty()){
+        if(locations.isEmpty()){
             System.out.println("No locations to choose from, we're sorry for that");
         }
-        for(Location location : Locations){
+        for(Location location : locations){
             location.describeLocation();
         }
     }
     public void listAllClients(){
-        for(Client client : Clients){
+        for(Client client : clients){
             System.out.println(client.toString());
         }
     }
     public void listAllActors(){
         performerNameSort();
-        for(Performer perf : Performers){
+        for(Performer perf : performers){
             if(perf instanceof Actor){
                 perf.getPortrait();
             }
@@ -353,7 +356,7 @@ public class MainService
     }
     public void listAllComedians(){
         performerNameSort();
-        for(Performer perf : Performers){
+        for(Performer perf : performers){
             if(perf instanceof Comedian){
                 perf.getPortrait();
             }
@@ -361,8 +364,8 @@ public class MainService
 }
     public void listAllPerformers(){
         performerNameSort();
-        if(!Performers.isEmpty()) {
-            for (Performer performer : Performers) {
+        if(!performers.isEmpty()) {
+            for (Performer performer : performers) {
                 performer.getPortrait();
             }
         } else {
@@ -486,11 +489,11 @@ public class MainService
         Integer ageRestriction = random.nextInt(18);
         Integer duration = random.nextInt(100);
         Location location;
-        if(Locations.isEmpty()){
+        if(locations.isEmpty()){
             location = locationGenerator();
-            Locations.add(location);
+            locations.add(location);
         } else {
-            location = Locations.get(random.nextInt(Locations.size()));
+            location = locations.get(random.nextInt(locations.size()));
         }
         Date dateTime = createRandomDate(2021, 2030);
         Map<String, Double> priceTicket = new HashMap<>();
@@ -505,9 +508,9 @@ public class MainService
         switch(type){
             case "Concert":
                 Performer opener = performerGenerator("Singer");
-                Performers.add(opener);
+                performers.add(opener);
                 Performer main = performerGenerator("Singer");
-                Performers.add(main);
+                performers.add(main);
                 Integer ptimeOpener = random.nextInt(120);
                 Integer ptimeMain = random.nextInt(120);
                 return new Concert(description, ageRestriction, duration, location, dateTime, priceTicket,
@@ -522,7 +525,7 @@ public class MainService
                 Map<Performer, String> cast = new HashMap<>();
                 for(int i = 0; i < castMembers; i++){
                     Performer actor = performerGenerator("Actor");
-                    Performers.add(actor);
+                    performers.add(actor);
                     String plays = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
                     cast.put(actor, plays);
                 }
@@ -534,7 +537,7 @@ public class MainService
                 Map<Comedian, String> roles = new HashMap<>();
                 for(int i = 0; i < 3; i++){
                     Comedian comedian = (Comedian) performerGenerator("Comedian");
-                    Performers.add(comedian);
+                    performers.add(comedian);
                     Integer howLong = comedian.getTimePerSet();
                     String role = comedian.getPositionInShow();
                     comedians.add(comedian);
@@ -554,7 +557,7 @@ public class MainService
                 Map<Performer, String> castPlay = new HashMap<>();
                 for(int i = 0; i < castMembersPlay; i++){
                     Performer actor = performerGenerator("Actor");
-                    Performers.add(actor);
+                    performers.add(actor);
                     String plays = VECTOR_NAME[random.nextInt(VECTOR_NAME.length)];
                     castPlay.put(actor, plays);
                 }
@@ -578,7 +581,7 @@ public class MainService
 
     public void listAllEvents(){
         eventDurationSort();
-        for(Event event : Events){
+        for(Event event : events){
             event.getPresentation();
         }
     }
@@ -586,7 +589,7 @@ public class MainService
         switch(type){
             case "Concert":
                 int i = 0;
-                for(Event e : Events){
+                for(Event e : events){
                     if (e instanceof Concert) {
                         if(i == 0){
                             System.out.println("Concerts:\n");
@@ -598,7 +601,7 @@ public class MainService
                 break;
             case "Movie":
                 int j = 0;
-                for(Event e : Events){
+                for(Event e : events){
                     if (e instanceof Movie) {
                         if(j == 0){
                             System.out.println("Movies:\n");
@@ -610,7 +613,7 @@ public class MainService
                 break;
             case "StandUpShow":
                 int k = 0;
-                for(Event e : Events){
+                for(Event e : events){
                     if (e instanceof StandUpShow) {
                         if(k == 0){
                             System.out.println("Stand-up shows:\n");
@@ -622,7 +625,7 @@ public class MainService
                 break;
             case "TheatrePlay":
                 int l = 0;
-                for(Event e : Events){
+                for(Event e : events){
                     if (e instanceof TheatrePlay) {
                         if(l == 0){
                             System.out.println("Theatre plays:\n");
@@ -644,7 +647,7 @@ public class MainService
         System.out.println("Insert the city you want to querry events from, please.");
         String city = reading.nextLine();
         int flag = 0;
-        for(Location location : Locations){
+        for(Location location : locations){
             if (location.getCity().equals(city)) {
                 flag = 1;
                 break;
@@ -652,7 +655,7 @@ public class MainService
         }
         if(flag == 1) {
             int found = 0;
-            for (Event e : Events) {
+            for (Event e : events) {
                 if (e.getLocation().getCity().equals(city)) {
                     e.getPresentation();
                     found = 1;
@@ -668,18 +671,18 @@ public class MainService
     }
 
     public void eventDurationSort(){
-        Events.sort(new EventDurationSorter());
+        events.sort(new EventDurationSorter());
     }
     public void locationCitySort(){
-        Locations.sort(new LocationCitySorter());
+        locations.sort(new LocationCitySorter());
     }
     public void performerNameSort(){
-        Performers.sort(new PerformerNameSorter());
+        performers.sort(new PerformerNameSorter());
     }
 
     public Set<Client> filterAllUnderage(int age_restriction){
         Filterable<Client, Integer> underage = new CriteriaUnderage();
-        Set<Client> underageClient =  underage.filter(Clients, age_restriction);
+        Set<Client> underageClient =  underage.filter(clients, age_restriction);
         for(Client client : underageClient){
             System.out.println(client.getName() + " " +  client.getSurname() + " - " + client.getAge());
         }

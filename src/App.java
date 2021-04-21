@@ -14,6 +14,7 @@ public class App {
         //Instantiate services
         MainService mainService = new MainService();
         ClientUtilitiesService clientService = new ClientUtilitiesService();
+        EventManagementService eventManagementService = new EventManagementService();
 
         //Add performers
         Actor actor = (Actor) mainService.performerGenerator("Actor");
@@ -55,21 +56,21 @@ public class App {
         clientService.seeMyTickets(client);
 
         //Buy a ticket functionality tests
-        clientService.buyATicket(movie, client);
+        eventManagementService.buyATicket(movie, client);
         clientService.seeMyTickets(client);
-        clientService.returnATicket(movie, client);
+        eventManagementService.returnATicket(movie, client);
         clientService.seeMyTickets(client);
 
         //Booking tickets functionality tests
-        clientService.bookATicket(movie, client);
+        eventManagementService.bookATicket(movie, client);
         clientService.seeMyReservations(client);
         clientService.seeMyTickets(client);
-        clientService.transformBookingToTicket(movie, client);
+        eventManagementService.transformBookingToTicket(movie, client);
         clientService.seeMyReservations(client);
         clientService.seeMyTickets(client);
-        clientService.bookATicket(movie, client);
+        eventManagementService.bookATicket(movie, client);
         clientService.seeMyReservations(client);
-        clientService.cancelBooking(movie, client);
+        eventManagementService.cancelAReservation(movie, client);
         clientService.giftAVoucher(client, client2);
         clientService.seeMyReservations(client);
 
