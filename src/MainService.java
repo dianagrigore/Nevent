@@ -457,7 +457,7 @@ public class MainService
                 String musicGenre = MUSIC_GENRES[random.nextInt(MUSIC_GENRES.length)];
                 Boolean isGroup = random.nextBoolean();
                 List<String> memberNames = new ArrayList<>();
-                if(isGroup){
+                if(!isGroup){
                     memberNames.add(VECTOR_NAME[random.nextInt(VECTOR_NAME.length)]);
                 } else {
                     int maxMembers = random.nextInt(4);
@@ -691,6 +691,10 @@ public class MainService
             System.out.println("There are no underage clients.");
         }
         return underageClient;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
     }
 }
 

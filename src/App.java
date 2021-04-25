@@ -6,22 +6,33 @@ import com.nevent.model.location.Location;
 import com.nevent.model.performer.Actor;
 import com.nevent.model.performer.Comedian;
 import com.nevent.model.performer.Singer;
+import io.ReadingDataService;
+import io.WritingDataService;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 public class App {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException, IOException {
         //Instantiate services
         MainService mainService = new MainService();
         ClientUtilitiesService clientService = new ClientUtilitiesService();
         EventManagementService eventManagementService = new EventManagementService();
+        AuditService auditService = new AuditService();
+        WritingDataService writingDataService = WritingDataService.getInstance();
+        ReadingDataService readingDataService = ReadingDataService.getInstance();
 
         //Add performers
         Actor actor = (Actor) mainService.performerGenerator("Actor");
+        auditService.log("generated an actor");
         Comedian comedian = (Comedian) mainService.performerGenerator("Comedian");
+        auditService.log("generated a comedian");
         Actor actor1 = (Actor) mainService.performerGenerator("Actor");
+        auditService.log("generated an actor");
         Actor actor2 = (Actor) mainService.performerGenerator("Actor");
+        auditService.log("generated an actor");
         Actor actor3 = (Actor) mainService.performerGenerator("Actor");
+        auditService.log("generated an actor");
         mainService.addPerformerToArray(actor1);
         mainService.addPerformerToArray(actor2);
         mainService.addPerformerToArray(actor3);
@@ -95,5 +106,7 @@ public class App {
         int AGE_RESTRICTION = 50;
             System.out.println("Clients under the age of " + AGE_RESTRICTION);
         mainService.filterAllUnderage(AGE_RESTRICTION);
+        auditService.close();
+        writingDataService.writeLocationCSV(mainService.getLocations());
     }
 }
