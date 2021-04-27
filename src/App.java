@@ -1,16 +1,12 @@
 import com.nevent.model.client.Client;
-import com.nevent.model.event.Concert;
 import com.nevent.model.event.Movie;
 import com.nevent.model.event.TheatrePlay;
-import com.nevent.model.location.Location;
 import com.nevent.model.performer.Actor;
 import com.nevent.model.performer.Comedian;
-import com.nevent.model.performer.Singer;
-import io.ReadingDataService;
-import io.WritingDataService;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) throws ParseException, IOException {
@@ -107,6 +103,9 @@ public class App {
             System.out.println("Clients under the age of " + AGE_RESTRICTION);
         mainService.filterAllUnderage(AGE_RESTRICTION);
         auditService.close();
+        List<Client> clientList = readingDataService.readClientCSV();
+        writingDataService.writeClientCSV(clientList);
         writingDataService.writeLocationCSV(mainService.getLocations());
+
     }
 }

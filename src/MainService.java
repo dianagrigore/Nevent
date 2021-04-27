@@ -5,6 +5,8 @@ import com.nevent.model.comparators.EventDurationSorter;
 import com.nevent.model.comparators.LocationCitySorter;
 import com.nevent.model.comparators.PerformerNameSorter;
 import com.nevent.model.event.*;
+import com.nevent.model.exceptions.LocationNotFound;
+import com.nevent.model.exceptions.PerformerNotFound;
 import com.nevent.model.location.Location;
 import com.nevent.model.location.Seating;
 import com.nevent.model.performer.Actor;
@@ -695,6 +697,28 @@ public class MainService
 
     public List<Location> getLocations() {
         return locations;
+    }
+    public List<Client> getClients() {
+        List<Client> clientList = new ArrayList<Client>();
+        clientList.addAll(clients);
+        return clientList;}
+
+    public Location getLocationById(String id) throws LocationNotFound {
+        for (Location loc : locations){
+            if(loc.getId().equals(id)){
+                return loc;
+            }
+        }
+        throw new LocationNotFound();
+    }
+
+    public Performer getPerformerById(String id) throws PerformerNotFound{
+        for (Performer perf : performers){
+            if(perf.getPerformerId().equals(id)){
+                return perf;
+            }
+        }
+        throw new PerformerNotFound();
     }
 }
 
