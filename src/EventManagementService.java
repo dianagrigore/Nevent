@@ -15,7 +15,7 @@ public class EventManagementService {
 
     public EventManagementService() {
         this.clientUtilitiesService = new ClientUtilitiesService();
-        this.mainService = new MainService();
+        this.mainService = MainService.getInstance();
     }
 
     public void buyATicket(Event e, Client c){

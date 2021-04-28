@@ -22,7 +22,7 @@ import java.util.*;
 
 public class ReadingDataService {
     private static ReadingDataService instance = null;
-    private MainService mainService;
+    private static MainService mainService = MainService.getInstance();
     public static ReadingDataService getInstance()
     {
         if(instance == null){
@@ -106,7 +106,7 @@ public class ReadingDataService {
             while((row = csvReader.readLine()) != null){
                 String[] data = row.split(",");
                 List<String> podcasts = new ArrayList<String>();
-                String[] data2 = data[6].split("|");
+                String[] data2 = data[6].split(";");
                 Collections.addAll(podcasts, data2);
                 Comedian comedian = new Comedian(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]), Integer.parseInt(data[5]), podcasts);
                 comedians.add(comedian);
@@ -126,10 +126,10 @@ public class ReadingDataService {
             while((row = csvReader.readLine()) != null){
                 String[] data = row.split(",");
                 List<String> members = new ArrayList<String>();
-                String[] data2 = data[4].split("|");
+                String[] data2 = data[4].split(";");
                 Collections.addAll(members, data2);
                 List<String> knownSongs = new ArrayList<String>();
-                String[] data3 = data[5].split("|");
+                String[] data3 = data[5].split(";");
                 Collections.addAll(knownSongs, data3);
                 Singer singer = new Singer(data[0], data[1], data[2], Boolean.parseBoolean(data[3]), members, knownSongs);
                 singers.add(singer);
@@ -188,11 +188,11 @@ public class ReadingDataService {
                 prices.put("PREMIUM", price_premium);
                 prices.put("VIP", price_vip);
                 List<String> actorIDs = new ArrayList<String>();
-                String[] data3 = data[11].split("|");
+                String[] data3 = data[11].split(";");
                 Collections.addAll(actorIDs, data3);
                 List<String> characters = new ArrayList<String>();
-                String[] data4 = data[12].split("|");
-                Collections.addAll(characters, data3);
+                String[] data4 = data[12].split(";");
+                Collections.addAll(characters, data4);
                 HashMap<Performer, String> cast = new HashMap<>();
                 for (int i = 0; i < actorIDs.size(); i++){
                     Performer p = mainService.getPerformerById(actorIDs.get(i));
@@ -225,16 +225,17 @@ public class ReadingDataService {
                 prices.put("PREMIUM", price_premium);
                 prices.put("VIP", price_vip);
 
+                //TODO: bug comedianId = comedianName
                 List<String> comedianIDs = new ArrayList<String>();
-                String[] data3 = data[8].split("|");
+                String[] data3 = data[8].split(";");
                 Collections.addAll(comedianIDs, data3);
 
                 List<String> timePerComedian = new ArrayList<String>();
-                String[] data4 = data[9].split("|");
+                String[] data4 = data[9].split(";");
                 Collections.addAll(timePerComedian, data4);
 
                 List<String> positionInShow = new ArrayList<String>();
-                String[] data5 = data[10].split("|");
+                String[] data5 = data[10].split(";");
                 Collections.addAll(positionInShow, data5);
 
                 Set<Comedian> performers = new HashSet<>();
@@ -275,10 +276,10 @@ public class ReadingDataService {
                 prices.put("PREMIUM", price_premium);
                 prices.put("VIP", price_vip);
                 List<String> performerIDs = new ArrayList<String>();
-                String[] data3 = data[12].split("|");
+                String[] data3 = data[12].split(";");
                 Collections.addAll(performerIDs, data3);
                 List<String> roles = new ArrayList<String>();
-                String[] data4 = data[13].split("|");
+                String[] data4 = data[13].split(";");
                 Collections.addAll(roles, data4);
                 HashMap<Performer, String> cast = new HashMap<>();
                 for(int i = 0; i < performerIDs.size(); i++){

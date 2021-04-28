@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class ClientUtilitiesService {
    private final MainService service;
     public ClientUtilitiesService() {
-        this.service = new MainService();
+        this.service = MainService.getInstance();
     }
 
 

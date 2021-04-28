@@ -28,7 +28,14 @@ public class MainService
     private Set<Client> Clients;
     private Random random;
 
-    public MainService() {
+    private static MainService instance = null;
+    public static MainService getInstance(){
+        if(instance == null){
+            instance = new MainService();
+        }
+        return instance;
+    }
+    private MainService() {
         locations = new ArrayList<>();
         performers = new ArrayList<>();
         events = new ArrayList<>();
@@ -718,7 +725,44 @@ public class MainService
                 return perf;
             }
         }
+        System.out.println(id);
         throw new PerformerNotFound();
+    }
+
+    public void showMenu(){
+        System.out.println("------Add using the CLI-------");
+        System.out.println("1. Add a new location using the CLI");
+        System.out.println("2. Add a new client using the CLI");
+        System.out.println("3. Add a new performer using the CLI");
+        System.out.println("4. Add a new event using the CLI");
+        System.out.println("------Add using randim generators-------");
+        System.out.println("5. Generate a random location");
+        System.out.println("6. Generate a random client");
+        System.out.println("7. Generate a random performer");
+        System.out.println("8. Generate a random event");
+        System.out.println("------Sorting functionalities-------");
+        System.out.println("9. Sort the events by duration");
+        System.out.println("10. Sort the locations by city");
+        System.out.println("11. Sort the performers by name");
+        System.out.println("-------List all the contents of the collections-------");
+        System.out.println("12. List all the locations");
+        System.out.println("13. List all the clients");
+        System.out.println("14. List all the events");
+        System.out.println("15. List all the performers");
+        System.out.println("------Find events by criteria-------");
+        System.out.println("16. See events by category");
+        System.out.println("17. See events by location");
+        System.out.println("-------Client service functionalities---------");
+        System.out.println("18. Buy a ticket");
+        System.out.println("19. Return a ticket");
+        System.out.println("20. Book a ticket");
+        System.out.println("21. Cancel a booking");
+        System.out.println("22. Check your account balance and vouchers");
+        System.out.println("23. Add funds to your account");
+        System.out.println("24. See your tickets");
+        System.out.println("25. See your reservations");
+        System.out.println("26. Gift a voucher");
+        System.out.println("27. Transform a booking to a ticket");
     }
 }
 
