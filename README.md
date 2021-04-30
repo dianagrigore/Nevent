@@ -38,12 +38,12 @@ The class structure is, as follows:
     * **LocationNotFound**
     * **PerformerNotFound**
 * **App**
-* **AuditService**
+* **AuditService** -> service to audit every action, logs available in resources/output/audit_logs.csv
 * **ClientUtilitiesService**
 * **EventManagementService**
 * **MainService**
-* **ReadingDataService**
-* **WritingDataService**
+* **ReadingDataService** -> CSV read for all types of resources
+* **WritingDataService** -> CSV write for all types of resources
 
 Exposed functionalities (only the public methods available through services, there are additional methods “called in the back” whose functionalities do not require additional attention). These are the options available in the command line menu.
 
