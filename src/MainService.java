@@ -1,10 +1,12 @@
-import com.nevent.model.Filterable;
+import com.nevent.model.commons.Filterable;
 import com.nevent.model.client.Client;
 import com.nevent.model.client.payment.CriteriaUnderage;
 import com.nevent.model.comparators.EventDurationSorter;
 import com.nevent.model.comparators.LocationCitySorter;
 import com.nevent.model.comparators.PerformerNameSorter;
 import com.nevent.model.event.*;
+import com.nevent.model.exceptions.ClientNotFound;
+import com.nevent.model.exceptions.EventNotFound;
 import com.nevent.model.exceptions.LocationNotFound;
 import com.nevent.model.exceptions.PerformerNotFound;
 import com.nevent.model.location.Location;
@@ -199,6 +201,7 @@ public class MainService
         Collections.addAll(podcastNames, podcasts);
         Comedian comedian = new Comedian(name, description, comedyGenre, position, years, setTime, podcastNames);
         performers.add(comedian);
+        performerNameSort();
     }
     private void addSingerCLI(Scanner reading, String name, String description) {
         System.out.println("So what music genre do you represent?");
@@ -216,6 +219,7 @@ public class MainService
         Collections.addAll(nameSongs, songNames);
         Singer singer = new Singer(name, description, musicGenre, isGroup, nameMembers, nameSongs);
         performers.add(singer);
+        performerNameSort();
     }
     private void addActorCLI(Scanner reading, String name, String description) {
         System.out.println("Have you won any awards? You can split them by comma");
@@ -229,6 +233,7 @@ public class MainService
         System.out.println("See you later!");
         Actor actor = new Actor(name, description, awardsFinal, ppFinal);
         performers.add(actor);
+        performerNameSort();
     }
 
 
@@ -709,7 +714,12 @@ public class MainService
         List<Client> clientList = new ArrayList<Client>();
         clientList.addAll(clients);
         return clientList;}
-
+    public List<Event> getEvents(){
+        return events;
+    }
+    public List<Performer> getPerformers(){
+        return performers;
+    }
     public Location getLocationById(String id) throws LocationNotFound {
         for (Location loc : locations){
             if(loc.getId().equals(id)){
@@ -726,6 +736,34 @@ public class MainService
             }
         }
         System.out.println(id);
+        throw new PerformerNotFound();
+    }
+
+    public Client getClientById(String id) throws ClientNotFound{
+        for (Client c : clients){
+            if(c.getClientId().equals(id))
+                return c;
+        }
+        System.out.println(id);
+        throw new ClientNotFound();
+    }
+
+    public Event getEventById(String id) throws EventNotFound{
+        for (Event e : events){
+            if(e.getId().equals(id))
+                return e;
+        }
+        System.out.println(id);
+        throw new EventNotFound();
+    }
+
+    public Comedian getComedianByName(String name) throws PerformerNotFound{
+        for (Performer perf : performers){
+            if(perf instanceof Comedian && perf.getName().equals(name)){
+                return (Comedian) perf;
+            }
+        }
+        System.out.println(name);
         throw new PerformerNotFound();
     }
 
@@ -763,7 +801,10 @@ public class MainService
         System.out.println("25. See your reservations");
         System.out.println("26. Gift a voucher");
         System.out.println("27. Transform a booking to a ticket");
+        System.out.println("28. Filter all underage clients.");
+        System.out.println("29. Display a certain event.");
     }
+
 }
 
 

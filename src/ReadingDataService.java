@@ -85,7 +85,8 @@ public class ReadingDataService {
                 if (numberOfAwards != 0) {
                     awards.add(award);
                 }
-                String movie = data[4];
+                Integer numberOfMovies = Integer.parseInt(data[4]);
+                String movie = data[5];
                 List<String> productions = new ArrayList<String>();
                 productions.add(movie);
                 Actor actor = new Actor(data[0], data[1], awards, productions);
@@ -226,9 +227,9 @@ public class ReadingDataService {
                 prices.put("VIP", price_vip);
 
                 //TODO: bug comedianId = comedianName
-                List<String> comedianIDs = new ArrayList<String>();
+                List<String> comedianNames = new ArrayList<String>();
                 String[] data3 = data[8].split(";");
-                Collections.addAll(comedianIDs, data3);
+                Collections.addAll(comedianNames, data3);
 
                 List<String> timePerComedian = new ArrayList<String>();
                 String[] data4 = data[9].split(";");
@@ -242,13 +243,12 @@ public class ReadingDataService {
                 Map<Comedian, Integer> schedule = new HashMap<>();
                 Map<Comedian, String> positions = new HashMap<>();
 
-                for(int i = 0; i < comedianIDs.size(); i++){
-                    Comedian p = (Comedian) mainService.getPerformerById(comedianIDs.get(i));
+                for(int i = 0; i < comedianNames.size(); i++){
+                    Comedian p = mainService.getComedianByName(comedianNames.get(i));
                     performers.add(p);
                     schedule.put(p, Integer.parseInt(timePerComedian.get(i)));
                     positions.put(p, positionInShow.get(i));
                 }
-                //TODO:make sure the people in the list are comedians
 
                 standUpShows.add(new StandUpShow(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), mainService.getLocationById(data[3]),
                         df.parse(data[4]), prices, performers, schedule, positions));

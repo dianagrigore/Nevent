@@ -19,7 +19,6 @@ public class EventManagementService {
     }
 
     public void buyATicket(Event e, Client c){
-        mainService.listAllEvents();
         buyATicketInterface(e, c);
     }
     public void bookATicket(Event e, Client c){

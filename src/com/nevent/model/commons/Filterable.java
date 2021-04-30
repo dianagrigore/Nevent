@@ -1,4 +1,4 @@
-package com.nevent.model;
+package com.nevent.model.commons;
 
 import java.util.Set;
 

@@ -1,6 +1,6 @@
 package com.nevent.model.client.payment;
 
-import com.nevent.model.Filterable;
+import com.nevent.model.commons.Filterable;
 import com.nevent.model.client.Client;
 
 import java.util.HashSet;

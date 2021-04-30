@@ -122,8 +122,13 @@ public class WritingDataService{
             FileWriter writer = new FileWriter("./resource/output/singer.csv");
             writer.write("");
             for (Singer singer:singers){
-                writer.write(singer.getName() + ',' + singer.getDescription() + ',' + singer.getMusicGenre() + ','
-                + singer.getGroup() + ',' + singer.getMemberNames() + ',' + singer.getBestKnownSongs());
+                writer.write(singer.getName() + ',' + singer.getDescription() + ',' + singer.getMusicGenre() + ',' + singer.getGroup() + ',' );
+                for (String singer2 : singer.getMemberNames()){
+                    writer.write(singer2 + '|');
+                }
+                writer.write(',');
+                for(String song : singer.getBestKnownSongs())
+                    writer.write(song + '|');
                 writer.write('\n');
             }
             writer.close();
@@ -144,7 +149,7 @@ public class WritingDataService{
             writer.write("");
             for (Concert concert:concerts){
                 writer.write(concert.getDescription() + ',' + concert.getAgeRestriction() + ',' + concert.getDuration()
-                + concert.getLocation().getId() + concert.getDateTime() + ',');
+                + ',' + concert.getLocation().getId() + ',' + concert.getDateTime() + ',');
                 for(Double d: concert.getPricePerTicketType().values()){
                     writer.write(d.toString() + ',');
                 }
@@ -170,7 +175,7 @@ public class WritingDataService{
             writer.write("");
             for (Movie movie : movies){
                 writer.write(movie.getDescription() + ',' + movie.getAgeRestriction() + ',' + movie.getDuration()
-                        + movie.getLocation().getId() + movie.getDateTime() + ',');
+                        + ',' + movie.getLocation().getId() + ',' + movie.getDateTime() + ',');
                 for(Double d: movie.getPricePerTicketType().values()){
                     writer.write(d.toString() + ',');
                 }
@@ -203,7 +208,7 @@ public class WritingDataService{
             writer.write("");
             for (StandUpShow standUpShow:standUpShows){
                 writer.write(standUpShow.getDescription() + ',' + standUpShow.getAgeRestriction() + ',' + standUpShow.getDuration()
-                        + standUpShow.getLocation().getId() + standUpShow.getDateTime() + ',');
+                        + ',' + standUpShow.getLocation().getId() + ','+  standUpShow.getDateTime() + ',');
                 for(Double d: standUpShow.getPricePerTicketType().values()){
                     writer.write(d.toString() + ',');
                 }
@@ -212,7 +217,7 @@ public class WritingDataService{
                 }
                 writer.write(',');
                 for(Integer h : standUpShow.getSchedule().values()){
-                    writer.write(h + '|');
+                    writer.write(h.toString() + '|');
                 }
                 writer.write(',');
                 for(String role : standUpShow.getRolesInShow().values()){
@@ -239,7 +244,7 @@ public class WritingDataService{
             writer.write("");
             for (TheatrePlay theatrePlay:theatrePlays){
                 writer.write(theatrePlay.getDescription() + ',' + theatrePlay.getAgeRestriction() + ',' + theatrePlay.getDuration()
-                        + theatrePlay.getLocation().getId() + theatrePlay.getDateTime() + ',');
+                        + ',' + theatrePlay.getLocation().getId() + ',' +  theatrePlay.getDateTime() + ',');
                 for(Double d: theatrePlay.getPricePerTicketType().values()){
                     writer.write(d.toString() + ',');
                 }
