@@ -1,6 +1,7 @@
 # Nevent
-E-ticketing platform
-1) Object types - divided in categories
+E-ticketing command line service that allows event and client efficient management.
+
+The class structure is, as follows:
 
 * com.nevent.model.client.payment
     * **Account**
@@ -9,6 +10,8 @@ E-ticketing platform
     * **Client**
     * **Reservation**
     * **UnderageCriteria**
+* com.nevent.model.commons
+    * **Filterable**
 * com.nevent.model.comparators
     * **EventDurationSorter**
     * **LocationCitySorter**
@@ -29,54 +32,56 @@ E-ticketing platform
     * **Singer** extends Performer
 * com.nevent.model.ticket
     * **Ticket**
+* com.nevent.model.exceptions
+    * **ClientNotFound**
+    * **EventNotFound**
+    * **LocationNotFound**
+    * **PerformerNotFound**
 * **App**
+* **AuditService**
 * **ClientUtilitiesService**
+* **EventManagementService**
 * **MainService**
-* **Filterable**
+* **ReadingDataService**
+* **WritingDataService**
 
-Exposed functionalities (only the public methods available through services, there are additional methods “called in the back” whose functionalities do not require additional attention)
+Exposed functionalities (only the public methods available through services, there are additional methods “called in the back” whose functionalities do not require additional attention). These are the options available in the command line menu.
 
-* through client service
-    * **buyATicket**(Event e, Client c) → allows client c to buy a ticket at event e
-    * **returnATicket**(Event e, Client c) → allows client c to return a ticket and get refunded
-    * **bookATicket**(Event e, Client c) → allows a client to make a ticket reservation
-    * **cancelBook**(Event e, Client c)→ client can cancel a booking
-    * **checkClientBalance**(Client c)→ allows a client to see his vouchers and current balance
-    * **addFunds**(Client c) → allows a client to add to his personal account
-    * **seeMyTickets**(Client c) → shows the client’s current tickets
-    * **seeMyReservations**(Client c) → shows the current reservations that a client has made
-    * **giftAVoucher(Client sender, Client receiver)** → sender can give a voucher of amount to receiver (amount is also drafted from sender’s account)
-    * **transformBookingToTicket(Event e, Client c)** (in progress -> allows a user to transform one of his reservations into tickets)
-* through the main service, grouped by “business utility“
-    * **find events by criteria**
-        * **seeEventsByCategory**(String type) → lists all the events of a certain type
-        *  **seeEventByLocation()** -> user is prompted to enter a location, and then, if available, events are listed   
-    * **add objects to collections** (lists) as it was a design choice not to let the randomly generated objects to be auto-added
-        * addLocationToArray(Location l)
-        * addClientToArray(Client c)
-        * addEventToArray(Event e)
-        * addPerformerToArray(Performer p)
-    * add **new objects using custom trees** based on user’s input in the CLI
-        * addANewLocationCLI()
-        * addANewClientCLI()
-        * addANewPerformerCLI()
-        * addAnEventCLI()
-    * some methods to **list the contents of the collections**
-        *  listAllLocations()
-        * listAllClients()
-        * listAllPerformers()
-            * also listAllActors, listAllComedians, listAllSingers
-        * listAllEvents()
-    * methods to **randomly generate objects**
-        * clientGenerator()
-        * locationGenerator()
-        * performerGenerator(String type) → type is a string = name of the class
-        * randomEvent(String type)
-        * **createRandomDate**(int start, int end) -> creates a random date between 2 years
-    * **sorting methods** - they sort the contents of the collections
-        * eventDurationSort()
-        * locationCitySort()
-        * performerNameSort()
+       ------Add using the CLI-------
+       1. Add a new location using the CLI
+       2. Add a new client using the CLI
+       3. Add a new performer using the CLI
+       4. Add a new event using the CLI
+       ------Add using randim generators-------
+       5. Generate a random location
+       6. Generate a random client
+       7. Generate a random performer
+       8. Generate a random event
+       ------Sorting functionalities-------
+       9. Sort the events by duration
+       10. Sort the locations by city
+       11. Sort the performers by name
+       -------List all the contents of the collections-------
+       12. List all the locations
+       13. List all the clients
+       14. List all the events
+       15. List all the performers
+       ------Find events by criteria-------
+       16. See events by category
+       17. See events by location
+       -------Client service functionalities---------
+       18. Buy a ticket
+       19. Return a ticket
+       20. Book a ticket
+       21. Cancel a booking;
+       22. Check your account balance and vouchers
+       23. Add funds to your account
+       24. See your tickets
+       25. See your reservations
+       26. Gift a voucher
+       27. Transform a booking to a ticket
+       28. Filter all underage clients.
+       29. Display a certain event.
 
      
 
