@@ -222,22 +222,31 @@ public class App {
                     mainService.displayEvent(ev);
             }
         }
-        auditService.close();
         writingDataService.writeClientCSV(mainService.getClients());
+        auditService.log("Wrote clients output");
         writingDataService.writeLocationCSV(mainService.getLocations());
+        auditService.log("Wrote locations output");
         writingDataService.writeActorCSV(mainService.getPerformers().stream().filter(item -> item instanceof Actor)
                 .map(item -> (Actor) item).collect(Collectors.toList()));
+        auditService.log("Wrote actors output");
         writingDataService.writeComedianCSV(mainService.getPerformers().stream().filter(item -> item instanceof Comedian)
                 .map(item -> (Comedian) item).collect(Collectors.toList()));
+        auditService.log("Wrote comedians output");
         writingDataService.writeSingerCSV(mainService.getPerformers().stream().filter(item -> item instanceof Singer)
                 .map(item -> (Singer) item).collect(Collectors.toList()));
+        auditService.log("Wrote singers output");
         writingDataService.writeConcertCSV(mainService.getEvents().stream().filter(item -> item instanceof Concert)
                 .map(item -> (Concert) item).collect(Collectors.toList()));
+        auditService.log("Wrote concerts output");
         writingDataService.writeMovieCSV(mainService.getEvents().stream().filter(item -> item instanceof Movie)
                 .map(item -> (Movie) item).collect(Collectors.toList()));
+        auditService.log("Wrote movies output");
         writingDataService.writeTheatrePlayCSV(mainService.getEvents().stream().filter(item -> item instanceof TheatrePlay)
                 .map(item -> (TheatrePlay) item).collect(Collectors.toList()));
+        auditService.log("Wrote theatre plays output");
         writingDataService.writeStandUpShowCSV(mainService.getEvents().stream().filter(item -> item instanceof StandUpShow)
                 .map(item -> (StandUpShow) item).collect(Collectors.toList()));
+        auditService.log("Wrote stand-up shows output");
+        auditService.close();
     }
 }
