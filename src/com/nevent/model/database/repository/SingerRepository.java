@@ -11,9 +11,9 @@ import java.util.List;
 public class SingerRepository {
     public Singer findById(String id){
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String find_singers = "SELECT * from singers where performerId = " + id;
-            String find_member_names = "SELECT * from member_names where singerId = " + id;
-            String find_best_known_songs = "SELECT * from best_known_songs where singerId = " + id;
+            String find_singers = "SELECT * from singers where performerId = '" + id+ "'";
+            String find_member_names = "SELECT * from member_names where singerId = '" + id+ "'";
+            String find_best_known_songs = "SELECT * from best_known_songs where singerId = '" + id+ "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
@@ -28,6 +28,7 @@ public class SingerRepository {
             while(resultSet2.next()) {
                 best_known_songs.add(resultSet2.getString(2));
             }
+            resultSet.next();
             Singer singer = mapToSinger(resultSet, member_names, best_known_songs);
             resultSet.close();
             resultSet1.close();

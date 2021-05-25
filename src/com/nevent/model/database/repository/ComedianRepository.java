@@ -13,8 +13,8 @@ import java.util.Map;
 public class ComedianRepository {
     public Comedian findById(String id){
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String find_comedians = "SELECT * from comedians where performerId = " + id;
-            String find_podcasts = "SELECT * from podcasts where comedianId = " + id;
+            String find_comedians = "SELECT * from comedians where performerId = '" + id + "'";
+            String find_podcasts = "SELECT * from podcasts where comedianId = '" + id + "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(find_comedians);
@@ -23,7 +23,10 @@ public class ComedianRepository {
             while(resultSet1.next()) {
                 podcasts.add(resultSet1.getString(2));
             }
-            Comedian comedian = mapToComedian(resultSet, podcasts);
+            Comedian comedian = null;
+            if(resultSet.next()) {
+                comedian = mapToComedian(resultSet, podcasts);
+            }
             resultSet.close();
             resultSet1.close();
             return comedian;

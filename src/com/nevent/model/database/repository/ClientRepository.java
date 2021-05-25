@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 //TODO: add account support
 public class ClientRepository {
-    public Client findById(int id){
+    public Client findById(String id){
    try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-       String find = "SELECT * from clients where id = " + id;
-       String find1 = "SELECT * from accounts where id = " + id;
+       String find = "SELECT * from clients where clientId = '" + id + "'";
+       String find1 = "SELECT * from accounts where clientId = '" + id + "'";
        Statement statement = connection.createStatement();
        Statement statement1 = connection.createStatement();
        ResultSet resultSet = statement.executeQuery(find);
        ResultSet resultSet1 = statement1.executeQuery(find1);
-       Client client = mapToClient(resultSet, resultSet1);
+       Client client = null;
+       if (resultSet.next() && resultSet1.next()) {
+       client = mapToClient(resultSet, resultSet1);}
        resultSet.close();
        resultSet1.close();
        return client;
@@ -77,7 +79,7 @@ public class ClientRepository {
     //update
     public void update(int id, String name, String surname, Integer age) {
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String update_query = "UPDATE clients SET name = ?, surname = ?, age = ? where id = " + id;
+            String update_query = "UPDATE clients SET name = ?, surname = ?, age = ? where id = '" + id + "'";
             PreparedStatement preparedStatement = connection.prepareStatement(update_query);
             preparedStatement.setString(2, name);
             preparedStatement.setString(3, surname);
@@ -89,10 +91,10 @@ public class ClientRepository {
         }
     }
     //delete
-    public void deleteById(int id){
+    public void deleteById(String id){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String delete_query = "DELETE FROM clients where id = " + id;
-            String delete_account = "DELETE FROM accounts where id = " + id;
+            String delete_query = "DELETE FROM clients where clientId = '" + id + "'";
+            String delete_account = "DELETE FROM accounts where clientId = '" + id + "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             statement.executeUpdate(delete_query);

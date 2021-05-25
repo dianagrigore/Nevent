@@ -16,11 +16,11 @@ import java.util.Map;
 public class ConcertRepository {
     public Concert findById(String id) {
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String find_concert_entry = "SELECT * from concerts where id = " + id;
-            String find_event_entry = "SELECT * from events where id = " + id;
-            String find_concert_performers = "SELECT * from concert_performers where concertId = " + id;
-            String find_pricing_chart = "SELECT * from pricing_chart where id = " + id;
-            String find_event_location = "SELECT * from event_locations where id = " + id;
+            String find_concert_entry = "SELECT * from concerts where id = '" + id + "'";
+            String find_event_entry = "SELECT * from events where id = '" + id+ "'";
+            String find_concert_performers = "SELECT * from concert_performers where concertId = '" + id+ "'";
+            String find_pricing_chart = "SELECT * from pricing_chart where id = '" + id+ "'";
+            String find_event_location = "SELECT * from event_locations where id = '" + id+ "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
@@ -34,12 +34,16 @@ public class ConcertRepository {
                 prices.put(pricing_chart.getString(2), pricing_chart.getDouble(3));
             }
             SingerRepository singerRepository = new SingerRepository();
+            concert_performers.next();
             Singer opener = singerRepository.findById(concert_performers.getString(3));
             concert_performers.next();
             Singer mainAct = singerRepository.findById(concert_performers.getString(3));
-            //todo: location
+
             LocationRepository locationRepository = new LocationRepository();
+            event_location.next();
             Location location = locationRepository.findById(event_location.getString(2));
+            event_entries.next();
+            concert_entries.next();
             Concert concert = new Concert(event_entries.getString(1), event_entries.getString(2),
                     event_entries.getInt(3), event_entries.getInt(4), location, event_entries.getDate(5),
                     prices, opener, mainAct, concert_entries.getInt(2), concert_entries.getInt(3));

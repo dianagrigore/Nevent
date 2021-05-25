@@ -14,11 +14,11 @@ import java.util.Map;
 public class MovieRepository {
     public Movie findById(String id){
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String find_movie_entry = "SELECT * from movies where id = " + id;
-            String find_event_entry = "SELECT * from events where id = " + id;
-            String find_movie_cast = "SELECT * from movie_cast where movie_id = " + id;
-            String find_pricing_chart = "SELECT * from pricing_chart where id = " + id;
-            String find_event_location = "SELECT * from event_locations where id = " + id;
+            String find_movie_entry = "SELECT * from movies where id = '" + id+ "'";
+            String find_event_entry = "SELECT * from events where id = '" + id+ "'";
+            String find_movie_cast = "SELECT * from movie_cast where movie_id = '" + id+ "'";
+            String find_pricing_chart = "SELECT * from pricing_chart where id = '" + id+ "'";
+            String find_event_location = "SELECT * from event_locations where id = '" + id+ "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
@@ -40,7 +40,10 @@ public class MovieRepository {
             }
             //todo: location
             LocationRepository locationRepository = new LocationRepository();
+            event_location.next();
             Location location = locationRepository.findById(event_location.getString(2));
+            event_entries.next();
+            movie_entries.next();
             Movie movie = new Movie(event_entries.getString(1), event_entries.getString(2), event_entries.getInt(3),
                     event_entries.getInt(4), location, event_entries.getDate(5), prices, movie_entries.getString(2),
                     movie_entries.getString(3), movie_entries.getString(4), cast);

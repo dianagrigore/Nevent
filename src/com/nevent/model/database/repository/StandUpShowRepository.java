@@ -14,11 +14,11 @@ import java.util.*;
 public class StandUpShowRepository {
     public StandUpShow findById(String id){
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String find_standup_entry = "SELECT * from stand_up_shows where id = " + id;
-            String find_event_entry = "SELECT * from events where id = " + id;
-            String find_standup_cast = "SELECT * from standup_comedians where showId = " + id;
-            String find_pricing_chart = "SELECT * from pricing_chart where id = " + id;
-            String find_event_location = "SELECT * from event_locations where id = " + id;
+            String find_standup_entry = "SELECT * from stand_up_shows where id = '" + id + "'";
+            String find_event_entry = "SELECT * from events where id = '" + id+ "'";
+            String find_standup_cast = "SELECT * from standup_comedians where showId = '" + id+ "'";
+            String find_pricing_chart = "SELECT * from pricing_chart where id = '" + id+ "'";
+            String find_event_location = "SELECT * from event_locations where id = '" + id+ "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
@@ -69,7 +69,10 @@ public class StandUpShowRepository {
             roles.put(c3, r3);
 
             LocationRepository locationRepository = new LocationRepository();
+            event_location.next();
             Location location = locationRepository.findById(event_location.getString(2));
+            event_entries.next();
+            standup_entries.next();
             StandUpShow standUpShow = new StandUpShow(event_entries.getString(1), event_entries.getString(2), event_entries.getInt(3),
                     event_entries.getInt(4), location, event_entries.getDate(5), prices, comedianSet, schedule, roles);
             standup_entries.close();
@@ -139,13 +142,13 @@ public class StandUpShowRepository {
             ResultSet resultSet = statement.executeQuery(find_standup_shows);
             while(resultSet.next())
             {
-                String find_event_locations = "SELECT * from event_locations where id = " + resultSet.getString(1);
+                String find_event_locations = "SELECT * from event_locations where id = '" + resultSet.getString(1)+ "'";
                 Statement location_statement = connection.createStatement();
                 ResultSet location_res = location_statement.executeQuery(find_event_locations);
                 LocationRepository locationRepository = new LocationRepository();
                 Location location = locationRepository.findById(location_res.getString(2));
 
-                String find_pricing_charts = "SELECT * from pricing_chart where id = " + resultSet.getString(1);
+                String find_pricing_charts = "SELECT * from pricing_chart where id = '" + resultSet.getString(1)+ "'";
                 Statement chart = connection.createStatement();
                 ResultSet pricing_res = chart.executeQuery(find_pricing_charts);
                 Map<String, Double> prices = new HashMap<>();
@@ -153,7 +156,7 @@ public class StandUpShowRepository {
                     prices.put(pricing_res.getString(2), pricing_res.getDouble(3));
                 }
 
-                String find_standup_comedians = "SELECT * from standup_comedians where showId = " + resultSet.getString(1);
+                String find_standup_comedians = "SELECT * from standup_comedians where showId = '" + resultSet.getString(1) + "'";
                 Statement s_statement = connection.createStatement();
                 ResultSet s_res = s_statement.executeQuery(find_standup_comedians);
                 Set<Comedian> comedians = new HashSet<>();
@@ -166,10 +169,11 @@ public class StandUpShowRepository {
                     schedule.put(comedian, s_res.getInt(3));
                     roles.put(comedian, s_res.getString(4));
                 }
-
-                String find_events = "SELECT * from events where id = " + resultSet.getString(1);
+                resultSet.next();
+                String find_events = "SELECT * from events where id = '" + resultSet.getString(1) + "'";
                 Statement event_statement = connection.createStatement();
                 ResultSet event_res = event_statement.executeQuery(find_events);
+                event_res.next();
                 StandUpShow standUpShow = new StandUpShow(resultSet.getString(1), event_res.getString(2), event_res.getInt(3),
                         event_res.getInt(4), location, event_res.getDate(5), prices, comedians,
                         schedule, roles);
@@ -183,11 +187,11 @@ public class StandUpShowRepository {
 
     public void deleteById(String id){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String delete_standup_entry = "DELETE from stand_up_shows where id = " + id;
-            String delete_event_entry = "DELETE from events where id = " + id;
-            String delete_standup_comedians = "DELETE from standup_comedians where showId = " + id;
-            String delete_pricing_chart = "DELETE from pricing_chart where id_event = " + id;
-            String delete_event_location = "DELETE from event_locations where id = " + id;
+            String delete_standup_entry = "DELETE from stand_up_shows where id = '" + id + "'";
+            String delete_event_entry = "DELETE from events where id = '" + id + "'";
+            String delete_standup_comedians = "DELETE from standup_comedians where showId = '" + id + "'";
+            String delete_pricing_chart = "DELETE from pricing_chart where id_event = '" + id + "'";
+            String delete_event_location = "DELETE from event_locations where id = '" + id + "'";
             Statement delete_movie_statement = connection.createStatement();
             delete_movie_statement.executeUpdate(delete_standup_entry);
             delete_movie_statement.executeUpdate(delete_event_entry);

@@ -14,8 +14,8 @@ import java.util.Map;
 public class LocationRepository {
     public Location findById(String id){
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String find = "SELECT * from locations where id = " + id;
-            String find1 = "SELECT * from seating where locationId = " + id;
+            String find = "SELECT * from locations where id = '" + id + "'";
+            String find1 = "SELECT * from seating where locationId = '" + id+ "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(find);
@@ -28,7 +28,10 @@ public class LocationRepository {
                 count += resultSet1.getInt(3);
             }
             Seating s = new Seating(count, ticketsOfType);
-            Location location = mapToLocation(resultSet, s);
+            Location location = null;
+            if(resultSet.next()) {
+                location = mapToLocation(resultSet, s);
+            }
             resultSet.close();
             resultSet1.close();
             return location;

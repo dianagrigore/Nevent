@@ -15,11 +15,11 @@ import java.util.Map;
 public class TheatrePlayRepository {
     public TheatrePlay findById(String id){
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String find_theatre_entry = "SELECT * from theatre_plays where id = " + id;
-            String find_event_entry = "SELECT * from events where id = " + id;
-            String find_theatre_cast = "SELECT * from theatre_cast where theatre_id = " + id;
-            String find_pricing_chart = "SELECT * from pricing_chart where id = " + id;
-            String find_event_location = "SELECT * from event_locations where id = " + id;
+            String find_theatre_entry = "SELECT * from theatre_plays where id = '" + id + "'";
+            String find_event_entry = "SELECT * from events where id = '" + id + "'";
+            String find_theatre_cast = "SELECT * from theatre_cast where theatre_id = '" + id+ "'";
+            String find_pricing_chart = "SELECT * from pricing_chart where id = '" + id+ "'";
+            String find_event_location = "SELECT * from event_locations where id = '" + id+ "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
@@ -39,9 +39,11 @@ public class TheatrePlayRepository {
                 String role = theatre_cast.getString(3);
                 cast.put(performer, role);
             }
-
+            event_location.next();
             LocationRepository locationRepository = new LocationRepository();
             Location location = locationRepository.findById(event_location.getString(2));
+            event_entries.next();
+            theatre_entries.next();
             TheatrePlay theatrePlay = new TheatrePlay(event_entries.getString(1), event_entries.getString(2), event_entries.getInt(3),
                     event_entries.getInt(4), location, event_entries.getDate(5), prices, theatre_entries.getString(2),
                     theatre_entries.getString(3), theatre_entries.getString(4), theatre_entries.getString(5), cast);

@@ -99,8 +99,12 @@ public class App {
         //String clientId = scanner.next();
         //Client user = mainService.getClientById(clientId);
 
-        Actor actor = actorRepository.findById("PERFORM1");
-        System.out.println(actor);
+        //List<Actor> actors = actorRepository.findAll();
+        //for(Actor actor : actors){
+        //    System.out.println(actor.getPerformerId());
+        //}
+        Client client = clientRepository.findById("CLIENT1");
+        System.out.println(client);
 
        /* int action = 1;
         while(action != 0){

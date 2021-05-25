@@ -22,6 +22,7 @@ public class ActorRepository {
             ResultSet resultSet = statement.executeQuery(find_actors);
             ResultSet resultSet1 = statement1.executeQuery(find_awards);
             ResultSet resultSet2 = statement2.executeQuery(find_past_productions);
+
             List<String> awards = new ArrayList<>();
             while(resultSet1.next()) {
                 awards.add(resultSet1.getString(2));
@@ -30,7 +31,9 @@ public class ActorRepository {
             while(resultSet2.next()) {
                 past_productions.add(resultSet2.getString(2));
             }
-            Actor actor = mapToActor(resultSet, awards, past_productions);
+            Actor actor = null;
+            if (resultSet.next()) {
+            actor = mapToActor(resultSet, awards, past_productions);}
             resultSet.close();
             resultSet1.close();
             resultSet2.close();
