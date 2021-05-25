@@ -4,6 +4,7 @@ import com.nevent.model.client.payment.CriteriaUnderage;
 import com.nevent.model.comparators.EventDurationSorter;
 import com.nevent.model.comparators.LocationCitySorter;
 import com.nevent.model.comparators.PerformerNameSorter;
+import com.nevent.model.database.repository.*;
 import com.nevent.model.event.*;
 import com.nevent.model.exceptions.ClientNotFound;
 import com.nevent.model.exceptions.EventNotFound;
@@ -85,6 +86,8 @@ public class MainService
 
         Location location = new Location(locationName, address, city, seating);
         locations.add(location);
+        LocationRepository locationRepository = new LocationRepository();
+        locationRepository.save(location);
         System.out.println("Congrats, you have added a new location\n\n");
 
     }
@@ -101,6 +104,8 @@ public class MainService
         System.out.println("That's great!");
         Client client = new Client(name, surname, age);
         clients.add(client);
+        ClientRepository clientRepository = new ClientRepository();
+        clientRepository.save(client);
         System.out.println("Awesome! We created you an account and" +
                 " you have no credit nor tickets.\n\n");
     }
@@ -201,6 +206,8 @@ public class MainService
         Collections.addAll(podcastNames, podcasts);
         Comedian comedian = new Comedian(name, description, comedyGenre, position, years, setTime, podcastNames);
         performers.add(comedian);
+        ComedianRepository comedianRepository = new ComedianRepository();
+        comedianRepository.save(comedian);
         performerNameSort();
     }
     private void addSingerCLI(Scanner reading, String name, String description) {
@@ -219,6 +226,8 @@ public class MainService
         Collections.addAll(nameSongs, songNames);
         Singer singer = new Singer(name, description, musicGenre, isGroup, nameMembers, nameSongs);
         performers.add(singer);
+        SingerRepository singerRepository = new SingerRepository();
+        singerRepository.save(singer);
         performerNameSort();
     }
     private void addActorCLI(Scanner reading, String name, String description) {
@@ -233,6 +242,8 @@ public class MainService
         System.out.println("See you later!");
         Actor actor = new Actor(name, description, awardsFinal, ppFinal);
         performers.add(actor);
+        ActorRepository actorRepository = new ActorRepository();
+        actorRepository.save(actor);
         performerNameSort();
     }
 
@@ -261,6 +272,8 @@ public class MainService
         }
         TheatrePlay play = new TheatrePlay(description, ageRestriction, duration, location,
                 date1, pricePerTick, genreTheatre, playName, directorName, dressCode, castTheatre);
+        TheatrePlayRepository theatrePlayRepository = new TheatrePlayRepository();
+        theatrePlayRepository.save(play);
         events.add(play);
     }
     private void addStandUpShowCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
@@ -280,6 +293,8 @@ public class MainService
         }
         StandUpShow standUpShow = new StandUpShow(description, ageRestriction, duration, location,
                 date1, pricePerTick, comedians, comedianSchedule, comedianRole);
+        StandUpShowRepository standUpShowRepository = new StandUpShowRepository();
+        standUpShowRepository.save(standUpShow);
         events.add(standUpShow);
     }
     private void addMovieCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
@@ -305,6 +320,8 @@ public class MainService
         }
         Movie movie= new Movie(description, ageRestriction, duration, location, date1,
                 pricePerTick, genre, name, director, cast);
+        MovieRepository movieRepository = new MovieRepository();
+        movieRepository.save(movie);
         events.add(movie);
     }
     private void addConcertCLI(Scanner reading, String description, Integer ageRestriction, Integer duration, Location location, Date date1, HashMap<String, Double> pricePerTick) {
@@ -323,6 +340,8 @@ public class MainService
         Concert concert = new Concert(description, ageRestriction, duration,
                 location, date1, pricePerTick, opener, mainAct, performanceOpener,
                 mainActPerformance);
+        ConcertRepository concertRepository = new ConcertRepository();
+        concertRepository.save(concert);
         events.add(concert);
     }
 

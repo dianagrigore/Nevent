@@ -226,7 +226,6 @@ public class ReadingDataService {
                 prices.put("PREMIUM", price_premium);
                 prices.put("VIP", price_vip);
 
-                //TODO: bug comedianId = comedianName
                 List<String> comedianNames = new ArrayList<String>();
                 String[] data3 = data[8].split(";");
                 Collections.addAll(comedianNames, data3);

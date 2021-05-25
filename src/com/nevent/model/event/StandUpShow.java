@@ -20,6 +20,14 @@ public class StandUpShow extends Event {
         this.rolesInShow = rolesInShow;
     }
 
+    public StandUpShow(String id, String description, Integer ageRestriction, Integer duration, Location location, Date dateTime, Map<String, Double> pricePerTicketType, Set<Comedian> comedians, Map<Comedian, Integer> schedule, Map<Comedian, String> rolesInShow) {
+        super(id, description, ageRestriction, duration, location, dateTime, pricePerTicketType);
+        this.comedians = comedians;
+        this.schedule = schedule;
+        this.rolesInShow = rolesInShow;
+    }
+
+
 
     public Set<Comedian> getComedians() {
         return comedians;

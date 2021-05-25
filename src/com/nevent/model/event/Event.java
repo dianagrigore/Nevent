@@ -37,7 +37,24 @@ public abstract class Event {
         this.dateTime = dateTime;
         this.pricePerTicketType = pricePerTicketType;
     }
-
+    public Event(
+                String id,
+                String description,
+                Integer ageRestriction,
+                Integer duration,
+                Location location,
+                Date dateTime,
+                Map<String, Double> pricePerTicketType) {
+        this.id = id;
+        this.description = description;
+        this.ageRestriction = ageRestriction;
+        this.duration = duration;
+        this.location = location;
+        this.soldTickets = new ArrayList<>();
+        this.reservations = new ArrayList<>();
+        this.dateTime = dateTime;
+        this.pricePerTicketType = pricePerTicketType;
+    }
 
     public String getDescription() {
         return description;

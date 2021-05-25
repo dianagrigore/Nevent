@@ -40,6 +40,20 @@ public class Client {
         this.reservations = new ArrayList<>();
     }
 
+    public Client(String id,
+                  String name,
+                  String surname,
+                  Integer age,
+                  Account account) {
+        this.clientId = id;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.paymentMethod = account;
+        this.tickets = new ArrayList<>();
+        this.reservations = new ArrayList<>();
+    }
+
     public static Integer getNumberOfClients() {
         return numberOfClients;
     }

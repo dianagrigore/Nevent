@@ -20,6 +20,15 @@ public class Comedian extends Performer{
         this.podcasts = podcasts;
     }
 
+    public Comedian(String id, String name, String description, String genreOfComedy, String positionInShow, Integer tenure, Integer timePerSet, List<String> podcasts) {
+        super(id, name, description);
+        this.genreOfComedy = genreOfComedy;
+        this.positionInShow = positionInShow;
+        this.tenure = tenure;
+        this.timePerSet = timePerSet;
+        this.podcasts = podcasts;
+    }
+
     public String getGenreOfComedy() {
         return genreOfComedy;
     }

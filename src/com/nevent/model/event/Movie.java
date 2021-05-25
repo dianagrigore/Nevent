@@ -18,7 +18,13 @@ public class Movie extends Event {
         this.director = director;
         this.cast = cast;
     }
-
+    public Movie(String id, String description, Integer ageRestriction, Integer duration, Location location, Date dateTime, Map<String, Double> pricePerTicketType, String genre, String name, String director, Map<Performer, String> cast) {
+        super(id, description, ageRestriction, duration, location, dateTime, pricePerTicketType);
+        this.genre = genre;
+        this.name = name;
+        this.director = director;
+        this.cast = cast;
+    }
 
     public String getGenre() {
         return genre;

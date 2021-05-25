@@ -14,6 +14,11 @@ public class Performer {
         this.name = name;
         this.description = description;
     }
+    public Performer(String id, String name, String description) {
+        this.performerId = id;
+        this.name = name;
+        this.description = description;
+    }
 
     public String getPerformerId() {
         return performerId;

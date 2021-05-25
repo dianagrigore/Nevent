@@ -1,4 +1,6 @@
 import com.nevent.model.client.Client;
+import com.nevent.model.database.config.SetupData;
+import com.nevent.model.database.repository.*;
 import com.nevent.model.event.*;
 import com.nevent.model.exceptions.ClientNotFound;
 import com.nevent.model.exceptions.EventNotFound;
@@ -17,6 +19,9 @@ import java.util.stream.Collectors;
 public class App {
     public static void main(String[] args) throws ParseException, IOException, ClientNotFound, EventNotFound {
         //Instantiate services
+        SetupData setupData = new SetupData();
+        setupData.setup();
+
         MainService mainService = MainService.getInstance();
         ClientUtilitiesService clientService = new ClientUtilitiesService();
         EventManagementService eventManagementService = new EventManagementService();
@@ -25,48 +30,79 @@ public class App {
         ReadingDataService readingDataService = ReadingDataService.getInstance();
         Scanner scanner = new Scanner(System.in);
 
+        ClientRepository clientRepository = new ClientRepository();
+        ComedianRepository comedianRepository = new ComedianRepository();
+        ActorRepository actorRepository = new ActorRepository();
+        SingerRepository singerRepository = new SingerRepository();
+        LocationRepository locationRepository = new LocationRepository();
+        MovieRepository movieRepository = new MovieRepository();
+        StandUpShowRepository standUpShowRepository = new StandUpShowRepository();
+        TheatrePlayRepository theatrePlayRepository = new TheatrePlayRepository();
+        ConcertRepository concertRepository = new ConcertRepository();
+/*
         List<Location> locations = readingDataService.readLocationCSV();
-        for(Location location : locations)
+        for(Location location : locations) {
             mainService.addLocationToArray(location);
+            locationRepository.save(location);
+        }
         auditService.log("added locations from CSV");
         List<Actor> actors = readingDataService.readActorCSV();
-        for(Actor actor : actors)
+        for(Actor actor : actors) {
             mainService.addPerformerToArray(actor);
+            actorRepository.save(actor);
+        }
         auditService.log("added actors from CSV");
         List<Client> clients = readingDataService.readClientCSV();
-        for(Client client:clients)
+        for(Client client:clients) {
             mainService.addClientToArray(client);
+            clientRepository.save(client);
+        }
         auditService.log("added clients from CSV");
         List<Comedian> comedians = readingDataService.readComedianCSV();
-        for(Comedian comedian:comedians)
+        for(Comedian comedian:comedians) {
             mainService.addPerformerToArray(comedian);
+            comedianRepository.save(comedian);
+        }
         auditService.log("added comedians from CSV");
         List<Singer> singers = readingDataService.readSingerCSV();
-        for(Singer singer:singers)
+        for(Singer singer:singers) {
             mainService.addPerformerToArray(singer);
+            singerRepository.save(singer);
+        }
         auditService.log("added singers from CSV");
         List<Concert> concerts = readingDataService.readConcertCSV();
-        for(Concert concert : concerts)
+        for(Concert concert : concerts) {
             mainService.addEventToArray(concert);
+            concertRepository.save(concert);
+        }
         auditService.log("added concerts from CSV");
         List<Movie> movies = readingDataService.readMovieCSV();
-        for(Movie movie:movies)
+        for(Movie movie:movies) {
             mainService.addEventToArray(movie);
+            movieRepository.save(movie);
+        }
         auditService.log("added movies from CSV");
         List<StandUpShow> standUpShows = readingDataService.readStandUpShowCSV();
-        for(StandUpShow standUpShow : standUpShows)
+        for(StandUpShow standUpShow : standUpShows) {
             mainService.addEventToArray(standUpShow);
+            standUpShowRepository.save(standUpShow);
+        }
         auditService.log("added stand-up from CSV");
         List<TheatrePlay> theatrePlays = readingDataService.readTheatrePlayCSV();
-        for(TheatrePlay theatrePlay : theatrePlays)
+        for(TheatrePlay theatrePlay : theatrePlays) {
             mainService.addEventToArray(theatrePlay);
+            theatrePlayRepository.save(theatrePlay);
+        }
         auditService.log("added theatre plays from CSV");
+*/
+        //System.out.println("What is your client id?\n");
+        //String clientId = scanner.next();
+        //Client user = mainService.getClientById(clientId);
 
-        System.out.println("What is your client id?\n");
-        String clientId = scanner.next();
-        Client user = mainService.getClientById(clientId);
+        Actor actor = actorRepository.findById("PERFORM1");
+        System.out.println(actor);
 
-        int action = 1;
+       /* int action = 1;
         while(action != 0){
             mainService.showMenu();
             action = scanner.nextInt();
@@ -90,17 +126,25 @@ public class App {
                 case 5:
                     Location loc = mainService.locationGenerator();
                     mainService.addLocationToArray(loc);
+                    locationRepository.save(loc);
                     auditService.log("generated a new location");
                     break;
                 case 6:
                     Client c = mainService.clientGenerator();
                     mainService.addClientToArray(c);
+                    clientRepository.save(c);
                     auditService.log("generated a new client");
                     break;
                 case 7:
                     System.out.println("What kind of performer?\n");
                     String type = scanner.next();
                     Performer p = mainService.performerGenerator(type);
+                    if (p instanceof Actor)
+                        actorRepository.save((Actor) p);
+                    if(p instanceof Comedian)
+                        comedianRepository.save((Comedian) p);
+                    if(p instanceof Singer)
+                        singerRepository.save((Singer) p);
                     mainService.addPerformerToArray(p);
                     auditService.log("generated a new performer");
                     break;
@@ -108,6 +152,14 @@ public class App {
                     System.out.println("What kind of event?\n");
                     String type2 = scanner.next();
                     Event e = mainService.randomEvent(type2);
+                    if (e instanceof Concert)
+                        concertRepository.save((Concert) e);
+                    if(e instanceof Movie)
+                        movieRepository.save((Movie) e);
+                    if(e instanceof StandUpShow)
+                        standUpShowRepository.save((StandUpShow) e);
+                    if(e instanceof TheatrePlay)
+                        theatrePlayRepository.save((TheatrePlay) e);
                     mainService.addEventToArray(e);
                     auditService.log("generated a new event");
                     break;
@@ -247,6 +299,7 @@ public class App {
         writingDataService.writeStandUpShowCSV(mainService.getEvents().stream().filter(item -> item instanceof StandUpShow)
                 .map(item -> (StandUpShow) item).collect(Collectors.toList()));
         auditService.log("Wrote stand-up shows output");
-        auditService.close();
+        auditService.close();*/
+
     }
 }

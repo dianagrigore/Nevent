@@ -23,7 +23,20 @@ public class Singer extends Performer{
         this.memberNames = memberNames;
         this.bestKnownSongs = bestKnownSongs;
     }
-
+    public Singer(
+            String id,
+            String name,
+            String description,
+            String musicGenre,
+            Boolean isGroup,
+            List<String> memberNames,
+            List<String> bestKnownSongs) {
+        super(id, name, description);
+        this.musicGenre = musicGenre;
+        this.isGroup = isGroup;
+        this.memberNames = memberNames;
+        this.bestKnownSongs = bestKnownSongs;
+    }
 
     public String getMusicGenre() {
         return musicGenre;

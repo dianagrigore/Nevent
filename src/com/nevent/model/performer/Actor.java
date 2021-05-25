@@ -15,6 +15,13 @@ public class Actor extends Performer{
         this.pastProductions = pastProductions;
     }
 
+    public Actor(String id, String name, String description,
+                 List<String> awards, List<String> pastProductions) {
+        super(id, name, description);
+        this.awards = awards;
+        this.pastProductions = pastProductions;
+    }
+
     public List<String> getAwards() {
         return awards;
     }

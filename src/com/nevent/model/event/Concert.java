@@ -29,6 +29,25 @@ public class Concert extends Event {
         this.performanceTimeMainAct = performanceTimeMainAct;
     }
 
+    public Concert(
+            String id,
+            String description,
+            Integer ageRestriction,
+            Integer duration,
+            Location location,
+            Date dateTime,
+            Map<String, Double> pricePerTicketType,
+            Performer opener,
+            Performer mainAct,
+            Integer performanceTimeOpener,
+            Integer performanceTimeMainAct) {
+        super(id, description, ageRestriction, duration, location, dateTime, pricePerTicketType);
+        this.opener = opener;
+        this.mainAct = mainAct;
+        this.performanceTimeOpener = performanceTimeOpener;
+        this.performanceTimeMainAct = performanceTimeMainAct;
+    }
+
     public Integer getPerformanceTimeOpener() {
         return performanceTimeOpener;
     }

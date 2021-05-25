@@ -16,6 +16,11 @@ public class Account {
         this.clientId = clientId;
         this.vouchers = new HashSet<>();
     }
+    public  Account(String clientId, Double leftBalance) {
+        this.leftBalance = leftBalance;
+        this.clientId = clientId;
+        this.vouchers = new HashSet<>();
+    }
 
     public String getClientId() {
         return clientId;

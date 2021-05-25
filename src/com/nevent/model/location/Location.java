@@ -18,6 +18,13 @@ public class Location {
         this.city = city;
         this.seating = seating;
     }
+    public Location(String id, String nameOfVenue, String address, String city, Seating seating) {
+        this.id = id;
+        this.nameOfVenue = nameOfVenue;
+        this.address = address;
+        this.city = city;
+        this.seating = seating;
+    }
     public void describeLocation(){
         System.out.println("Location with id: " + this.getId() + "\nVenue name: " +
                 this.getNameOfVenue() + "\nAddress: " + this.getAddress() +

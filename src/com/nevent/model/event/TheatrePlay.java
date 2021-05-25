@@ -20,6 +20,14 @@ public class TheatrePlay extends Event {
         this.dressCode = dressCode;
         this.cast = cast;
     }
+    public TheatrePlay(String id, String description, Integer ageRestriction, Integer duration, Location location, Date dateTime, Map<String, Double> pricePerTicketType, String genre, String name, String directorName, String dressCode, Map<Performer, String> cast) {
+        super(id, description, ageRestriction, duration, location, dateTime, pricePerTicketType);
+        this.genre = genre;
+        this.name = name;
+        this.directorName = directorName;
+        this.dressCode = dressCode;
+        this.cast = cast;
+    }
 
     public String getGenre() {
         return genre;
