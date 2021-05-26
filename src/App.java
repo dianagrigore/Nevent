@@ -11,6 +11,7 @@ import com.nevent.model.performer.Performer;
 import com.nevent.model.performer.Singer;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
@@ -39,7 +40,7 @@ public class App {
         StandUpShowRepository standUpShowRepository = new StandUpShowRepository();
         TheatrePlayRepository theatrePlayRepository = new TheatrePlayRepository();
         ConcertRepository concertRepository = new ConcertRepository();
-/*
+
         List<Location> locations = readingDataService.readLocationCSV();
         for(Location location : locations) {
             mainService.addLocationToArray(location);
@@ -94,19 +95,13 @@ public class App {
             theatrePlayRepository.save(theatrePlay);
         }
         auditService.log("added theatre plays from CSV");
-*/
-        //System.out.println("What is your client id?\n");
-        //String clientId = scanner.next();
-        //Client user = mainService.getClientById(clientId);
 
-        //List<Actor> actors = actorRepository.findAll();
-        //for(Actor actor : actors){
-        //    System.out.println(actor.getPerformerId());
-        //}
-        Client client = clientRepository.findById("CLIENT1");
-        System.out.println(client);
+        System.out.println("What is your client id?\n");
+        String clientId = scanner.next();
+        Client user = clientRepository.findById(clientId);
 
-       /* int action = 1;
+
+        int action = 1;
         while(action != 0){
             mainService.showMenu();
             action = scanner.nextInt();
@@ -276,6 +271,112 @@ public class App {
                     String evid = scanner.next();
                     Event ev = mainService.getEventById(evid);
                     mainService.displayEvent(ev);
+                    break;
+                case 30:
+                    List<Singer> singerList = singerRepository.findAll();
+                    for(Singer s : singerList)
+                        System.out.println(s);
+                    break;
+                case 31:
+                    List<Actor> actorList = actorRepository.findAll();
+                    for(Actor a : actorList)
+                        System.out.println(a);
+                    break;
+                case 32:
+                    List<Comedian> comedianList = comedianRepository.findAll();
+                    for(Comedian co : comedianList)
+                        System.out.println(co);
+                    break;
+                case 33:
+                    System.out.println("What is the client's id?");
+                    String cl_id = scanner.next();
+                    System.out.println("What is the new name?");
+                    String nn = scanner.next();
+                    System.out.println("What is the new surname?");
+                    String ns = scanner.next();
+                    System.out.println("What is the new age?");
+                    Integer na = scanner.nextInt();
+                    clientRepository.update(cl_id, nn, ns, na);
+                    System.out.println("Done!");
+                    break;
+                case 34:
+                    // singer, actor, comedian
+                    System.out.println("What is the location id?");
+                    String lid = scanner.next();
+                    System.out.println("What is the new venue name?");
+                    String vn = scanner.next();
+                    System.out.println("What is the new address?");
+                    String nad = scanner.next();
+                    System.out.println("What is the new city name?");
+                    String cit = scanner.next();
+                    Integer smth = scanner.nextInt();
+                    locationRepository.update(lid, vn, nad, cit);
+                    System.out.println("Done!");
+                    break;
+                case 35:
+                    System.out.println("What is the singer id?");
+                    String sid = scanner.next();
+                    System.out.println("What is the new singer name?");
+                    String sn = scanner.next();
+                    System.out.println("What is the new singer description?");
+                    String nsd = scanner.next();
+                    System.out.println("What is the new music_genre?");
+                    String mg = scanner.next();
+                    singerRepository.update(sid, sn, nsd, mg, true);
+                    break;
+                case 36:
+                    System.out.println("What is the actor id?");
+                    String aid = scanner.next();
+                    System.out.println("What is the new name?");
+                    String new_actor_name = scanner.next();
+                    System.out.println("What is the new description?");
+                    String new_actor_description = scanner.next();
+                    actorRepository.update(aid, new_actor_name, new_actor_description);
+                    break;
+                case 37:
+                    System.out.println("What is the comedian id?");
+                    String comedian_new_id = scanner.next();
+                    System.out.println("What is the new name?");
+                    String comedian_new_name = scanner.next();
+                    System.out.println("What is the new description");
+                    String comedian_new_description = scanner.next();
+                    System.out.println("What is the new position in show?");
+                    String comedian_new_position = scanner.next();
+                    System.out.println("What is the new tenure?");
+                    Integer new_tenure = scanner.nextInt();
+                    System.out.println("What is the new time per set?");
+                    Integer timePerSet = scanner.nextInt();
+                    break;
+                case 38:
+                    System.out.println("What is the client id you want to delete?");
+                    String cl_id_del = scanner.next();
+                    clientRepository.deleteById(cl_id_del);
+                    System.out.println("Deleted");
+                    break;
+                case 39:
+                    System.out.println("What is the location id you want to delete?");
+                    String loc_id_del = scanner.next();
+                    locationRepository.deleteById(loc_id_del);
+                    System.out.println("Deleted");
+                    break;
+                case 40:
+                    System.out.println("What is the singer id you want to delete?");
+                    String sing_id_del = scanner.next();
+                    singerRepository.deleteById(sing_id_del);
+                    System.out.println("Deleted");
+                    break;
+                case 41:
+                    System.out.println("What is the actor id you want to delete");
+                    String actor_id_del = scanner.next();
+                    actorRepository.deleteById(actor_id_del);
+                    System.out.println("Deleted");
+                    break;
+                case 42:
+                    System.out.println("What is the comedian id you want to delete");
+                    String com_id_del = scanner.next();
+                    comedianRepository.deleteById(com_id_del);
+                    System.out.println("Deleted");
+                    break;
             }
         }
         writingDataService.writeClientCSV(mainService.getClients());
@@ -303,7 +404,7 @@ public class App {
         writingDataService.writeStandUpShowCSV(mainService.getEvents().stream().filter(item -> item instanceof StandUpShow)
                 .map(item -> (StandUpShow) item).collect(Collectors.toList()));
         auditService.log("Wrote stand-up shows output");
-        auditService.close();*/
+        auditService.close();
 
     }
 }
