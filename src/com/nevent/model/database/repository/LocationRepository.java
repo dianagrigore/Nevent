@@ -81,7 +81,7 @@ public class LocationRepository {
             ResultSet resultSet = statement.executeQuery(query);
 
             while(resultSet.next()) {
-                String seating_query = "SELECT * FROM seating where locationId = " + resultSet.getString(1);
+                String seating_query = "SELECT * FROM seating where locationId = '" + resultSet.getString(1) + "'";
                 Statement statement1 = connection.createStatement();
                 ResultSet resultSet1 = statement1.executeQuery(seating_query);
                 Map<String, Integer> tickets = new HashMap<>();
@@ -108,24 +108,25 @@ public class LocationRepository {
                 seating);
     }
     //update
-    public void update(int id, String nameOfVenue, String address, String city) {
+    public void update(String id, String nameOfVenue, String address, String city) {
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String update_query = "UPDATE locations SET nameOfVenue = ?, address = ?, city = ? where id = " + id;
+            String update_query = "UPDATE locations SET nameOfVenue = ?, address = ?, city = ? where id = '" + id + "'";
             PreparedStatement preparedStatement = connection.prepareStatement(update_query);
-            preparedStatement.setString(2, nameOfVenue);
-            preparedStatement.setString(3, address);
-            preparedStatement.setString(4, city);
+            preparedStatement.setString(1, nameOfVenue);
+            preparedStatement.setString(2, address);
+            preparedStatement.setString(3, city);
             preparedStatement.executeUpdate();
         } catch (SQLException exception)
         {
+            exception.printStackTrace();
             throw new RuntimeException("Something went wrong while trying to update location with id = " + id);
         }
     }
     //delete
-    public void deleteById(int id){
+    public void deleteById(String id){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String delete_query = "DELETE FROM locations where id = " + id;
-            String delete_seating = "DELETE FROM seating where locationId = " + id;
+            String delete_query = "DELETE FROM locations where id = '" + id + "'";
+            String delete_seating = "DELETE FROM seating where locationId = '" + id + "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             statement.executeUpdate(delete_query);

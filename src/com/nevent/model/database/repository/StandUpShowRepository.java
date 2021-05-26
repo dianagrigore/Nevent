@@ -22,11 +22,13 @@ public class StandUpShowRepository {
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
+            Statement statement3= connection.createStatement();
+            Statement statement4 = connection.createStatement();
             ResultSet standup_entries = statement.executeQuery(find_standup_entry);
             ResultSet event_entries = statement1.executeQuery(find_event_entry);
             ResultSet standup_cast = statement2.executeQuery(find_standup_cast);
-            ResultSet pricing_chart = statement.executeQuery(find_pricing_chart);
-            ResultSet event_location = statement.executeQuery(find_event_location);
+            ResultSet pricing_chart = statement3.executeQuery(find_pricing_chart);
+            ResultSet event_location = statement4.executeQuery(find_event_location);
             Map<String, Double> prices = new HashMap<>();
             while(pricing_chart.next()) {
                 prices.put(pricing_chart.getString(2), pricing_chart.getDouble(3));
@@ -194,10 +196,14 @@ public class StandUpShowRepository {
             String delete_event_location = "DELETE from event_locations where id = '" + id + "'";
             Statement delete_movie_statement = connection.createStatement();
             delete_movie_statement.executeUpdate(delete_standup_entry);
-            delete_movie_statement.executeUpdate(delete_event_entry);
-            delete_movie_statement.executeUpdate(delete_standup_comedians);
-            delete_movie_statement.executeUpdate(delete_pricing_chart);
-            delete_movie_statement.executeUpdate(delete_event_location);
+            Statement delete_er_statement = connection.createStatement();
+            delete_er_statement.executeUpdate(delete_event_entry);
+            Statement delete_sc_statement = connection.createStatement();
+            delete_sc_statement.executeUpdate(delete_standup_comedians);
+            Statement delete_pc_statement = connection.createStatement();
+            delete_pc_statement.executeUpdate(delete_pricing_chart);
+            Statement delete_el_statement = connection.createStatement();
+            delete_el_statement.executeUpdate(delete_event_location);
 
         }catch (SQLException exception)
         {

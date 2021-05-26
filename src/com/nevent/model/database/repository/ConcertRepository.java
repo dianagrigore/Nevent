@@ -18,42 +18,64 @@ public class ConcertRepository {
         try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
             String find_concert_entry = "SELECT * from concerts where id = '" + id + "'";
             String find_event_entry = "SELECT * from events where id = '" + id+ "'";
-            String find_concert_performers = "SELECT * from concert_performers where concertId = '" + id+ "'";
-            String find_pricing_chart = "SELECT * from pricing_chart where id = '" + id+ "'";
-            String find_event_location = "SELECT * from event_locations where id = '" + id+ "'";
+            //String find_concert_performers = "SELECT * from concert_performers where concertId = '" + id+ "'";
+            String find_pricing_chart = "SELECT * from pricing_chart where id_event = '" + id+ "'";
+            //String find_event_location = "SELECT * from event_locations where id = '" + id+ "'";
+
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
-            Statement statement2 = connection.createStatement();
+            //Statement statement2 = connection.createStatement();
+            Statement statement3 = connection.createStatement();
+            //Statement statement4 = connection.createStatement();
+
+
+
+            Map<String, Double> prices = new HashMap<>();
             ResultSet concert_entries = statement.executeQuery(find_concert_entry);
             ResultSet event_entries = statement1.executeQuery(find_event_entry);
-            ResultSet concert_performers = statement2.executeQuery(find_concert_performers);
-            ResultSet pricing_chart = statement.executeQuery(find_pricing_chart);
-            ResultSet event_location = statement.executeQuery(find_event_location);
-            Map<String, Double> prices = new HashMap<>();
-            while (pricing_chart.next()) {
+            //ResultSet concert_performers = statement2.executeQuery(find_concert_performers);
+            ResultSet pricing_chart = statement3.executeQuery(find_pricing_chart);
+           // ResultSet event_location = statement4.executeQuery(find_event_location);
+
+
+            if (pricing_chart.next()) {
                 prices.put(pricing_chart.getString(2), pricing_chart.getDouble(3));
             }
-            SingerRepository singerRepository = new SingerRepository();
+            pricing_chart.next();
+            prices.put(pricing_chart.getString(2), pricing_chart.getDouble(3));
+            pricing_chart.next();
+            prices.put(pricing_chart.getString(2), pricing_chart.getDouble(3));
+
+
+            /*SingerRepository singerRepository = new SingerRepository();
             concert_performers.next();
             Singer opener = singerRepository.findById(concert_performers.getString(3));
-            concert_performers.next();
-            Singer mainAct = singerRepository.findById(concert_performers.getString(3));
+            Singer mainAct = null;
+            if(concert_performers.next()) {
+                mainAct = singerRepository.findById(concert_performers.getString(3));
+            }*/
 
-            LocationRepository locationRepository = new LocationRepository();
+
+            /*LocationRepository locationRepository = new LocationRepository();
             event_location.next();
-            Location location = locationRepository.findById(event_location.getString(2));
+            Location location = locationRepository.findById(event_location.getString(2));*/
+
             event_entries.next();
             concert_entries.next();
             Concert concert = new Concert(event_entries.getString(1), event_entries.getString(2),
-                    event_entries.getInt(3), event_entries.getInt(4), location, event_entries.getDate(5),
-                    prices, opener, mainAct, concert_entries.getInt(2), concert_entries.getInt(3));
-            concert_entries.close();
-            event_entries.close();
-            concert_performers.close();
+                    event_entries.getInt(3), event_entries.getInt(4), null, event_entries.getDate(5),
+                    prices, null, null, concert_entries.getInt(2), concert_entries.getInt(3));
+
+
+
             pricing_chart.close();
-            event_location.close();
+            //concert_performers.close();
+            //event_location.close();
+            event_entries.close();
+            concert_entries.close();
             return concert;
         } catch (SQLException exception) {
+            exception.printStackTrace();
             throw new RuntimeException("Something went wrong while trying to query concert with id = " + id);
         }
     }
@@ -117,13 +139,14 @@ public class ConcertRepository {
             ResultSet resultSet = statement.executeQuery(find_concerts);
             while(resultSet.next())
             {
-                String find_event_locations = "SELECT * from event_locations where id = " + resultSet.getString(1);
+                String find_event_locations = "SELECT * from event_locations where id = '" + resultSet.getString(1) + "'";
                 Statement location_statement = connection.createStatement();
                 ResultSet location_res = location_statement.executeQuery(find_event_locations);
+                location_res.next();
                 LocationRepository locationRepository = new LocationRepository();
                 Location location = locationRepository.findById(location_res.getString(2));
 
-                String find_pricing_charts = "SELECT * from pricing_chart where id = " + resultSet.getString(1);
+                String find_pricing_charts = "SELECT * from pricing_chart where id = " + resultSet.getString(1) + "''";
                 Statement chart = connection.createStatement();
                 ResultSet pricing_res = chart.executeQuery(find_pricing_charts);
                 Map<String, Double> prices = new HashMap<>();
@@ -131,16 +154,17 @@ public class ConcertRepository {
                     prices.put(pricing_res.getString(2), pricing_res.getDouble(3));
                 }
 
-                String find_concert_performers = "SELECT * from concert_performers where concertId = " + resultSet.getString(1);
+                String find_concert_performers = "SELECT * from concert_performers where concertId = '" + resultSet.getString(1) + "'";
                 Statement concert_statement = connection.createStatement();
                 ResultSet concert_res = concert_statement.executeQuery(find_concert_performers);
                 SingerRepository singerRepository = new SingerRepository();
+                concert_res.next();
                 Singer opener = singerRepository.findById(concert_res.getString(3));
                 concert_res.next();
                 Singer main = singerRepository.findById(concert_res.getString(3));
 
 
-                String find_events = "SELECT * from events where id = " + resultSet.getString(1);
+                String find_events = "SELECT * from events where id = '" + resultSet.getString(1) + "'";
                 Statement event_statement = connection.createStatement();
                 ResultSet event_res = event_statement.executeQuery(find_events);
                 Concert concert = new Concert(event_res.getString(1), event_res.getString(2),
@@ -154,7 +178,7 @@ public class ConcertRepository {
         }
     }
 
-    public void update(int id, Integer performanceTimeOpener, Integer performanceTimeMainAct){
+    public void update(String id, Integer performanceTimeOpener, Integer performanceTimeMainAct){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
             String update_query = "UPDATE concerts SET performanceTimeOpener = ?, performanceTimeMainAct = ? where id = " + id;
             PreparedStatement preparedStatement = connection.prepareStatement(update_query);
@@ -175,10 +199,14 @@ public class ConcertRepository {
             String delete_event_location = "DELETE from event_locations where id = " + id;
             Statement delete_movie_statement = connection.createStatement();
             delete_movie_statement.executeUpdate(delete_concert_entry);
-            delete_movie_statement.executeUpdate(delete_event_entry);
-            delete_movie_statement.executeUpdate(delete_concert_performers);
-            delete_movie_statement.executeUpdate(delete_pricing_chart);
-            delete_movie_statement.executeUpdate(delete_event_location);
+            Statement delete_event_statement = connection.createStatement();
+            delete_event_statement.executeUpdate(delete_event_entry);
+            Statement delete_concertperfs_statement = connection.createStatement();
+            delete_concertperfs_statement.executeUpdate(delete_concert_performers);
+            Statement delete_pc_statement = connection.createStatement();
+            delete_pc_statement.executeUpdate(delete_pricing_chart);
+            Statement delete_el_statement = connection.createStatement();
+            delete_el_statement.executeUpdate(delete_event_location);
 
         }catch (SQLException exception)
         {

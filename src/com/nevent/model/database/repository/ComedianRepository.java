@@ -73,7 +73,7 @@ public class ComedianRepository {
             ResultSet resultSet = statement.executeQuery(query);
 
             while(resultSet.next()) {
-                String podcast_query = "SELECT * FROM podcasts where comedianId = " + resultSet.getString(1);
+                String podcast_query = "SELECT * FROM podcasts where comedianId = '" + resultSet.getString(1) + "'";
                 Statement statement1 = connection.createStatement();
                 ResultSet resultSet1 = statement1.executeQuery(podcast_query);
                 List<String> pc = new ArrayList<>();
@@ -96,15 +96,15 @@ public class ComedianRepository {
            );
     }
     //update
-    public void update(int id, String name, String description, String positionInShow, Integer tenure, Integer timePerSet) {
+    public void update(String id, String name, String description, String positionInShow, Integer tenure, Integer timePerSet) {
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
             String update_query = "UPDATE comedians SET name = ?, description = ?, positionInShow = ?, tenure = ?, timePerSet = ? where performerId = " + id;
             PreparedStatement preparedStatement = connection.prepareStatement(update_query);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, description);
-            preparedStatement.setString(4, positionInShow);
-            preparedStatement.setInt(5, tenure);
-            preparedStatement.setInt(6, timePerSet);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, description);
+            preparedStatement.setString(3, positionInShow);
+            preparedStatement.setInt(4, tenure);
+            preparedStatement.setInt(5, timePerSet);
             preparedStatement.executeUpdate();
         } catch (SQLException exception)
         {
@@ -114,10 +114,13 @@ public class ComedianRepository {
     //delete
     public void deleteById(String id){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String delete_query = "DELETE FROM comedians where performerId = " + id;
-            String delete_podcasts = "DELETE FROM podcasts where  comedianId = " + id;
+            String delete_query = "DELETE FROM comedians where performerId = '" + id + "'";
+            String delete_podcasts = "DELETE FROM podcasts where  comedianId = '" + id + "'";
+            String delete_comedians = "DELETE FROM standup_comedians where comedianId = '" + id + "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
+            Statement statement2 = connection.createStatement();
+            statement2.executeUpdate(delete_comedians);
             statement.executeUpdate(delete_query);
             statement1.executeUpdate(delete_podcasts);
         } catch (SQLException exception)

@@ -66,10 +66,10 @@ public class ActorRepository {
             List<String> past_productions = actor.getPastProductions();
 
             for(String pp : past_productions) {
-                PreparedStatement preparedStatement1 = connection.prepareStatement(query_past_productions);
-                preparedStatement1.setString(1, pp);
-                preparedStatement1.setString(2, actor.getPerformerId());
-                preparedStatement1.execute();
+                PreparedStatement preparedStatement2 = connection.prepareStatement(query_past_productions);
+                preparedStatement2.setString(1, pp);
+                preparedStatement2.setString(2, actor.getPerformerId());
+                preparedStatement2.execute();
             }
             return actor;
 
@@ -86,7 +86,7 @@ public class ActorRepository {
             ResultSet resultSet = statement.executeQuery(query);
 
             while(resultSet.next()) {
-                String award_query = "SELECT * FROM awards where actorId = " + resultSet.getString(1);
+                String award_query = "SELECT * FROM awards where actorId = '" + resultSet.getString(1) + "'";
                 Statement statement1 = connection.createStatement();
                 ResultSet resultSet1 = statement1.executeQuery(award_query);
                 List<String> aw = new ArrayList<>();
@@ -94,7 +94,7 @@ public class ActorRepository {
                 {
                     aw.add(resultSet1.getString(2));
                 }
-                String pp_query = "SELECT * FROM past_productions where actorId = " + resultSet.getString(1);
+                String pp_query = "SELECT * FROM past_productions where actorId = '" + resultSet.getString(1) + "'";
                 Statement statement2 = connection.createStatement();
                 ResultSet resultSet2 = statement2.executeQuery(pp_query);
                 List<String> pp = new ArrayList<>();
@@ -119,12 +119,12 @@ public class ActorRepository {
         return actor;
     }
     //update
-    public void update(int id, String name, String description) {
+    public void update(String id, String name, String description) {
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String update_query = "UPDATE actors SET name = ?, description = ? where performerId = " + id;
+            String update_query = "UPDATE actors SET name = ?, description = ? where performerId = '" + id + "'";
             PreparedStatement preparedStatement = connection.prepareStatement(update_query);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, description);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, description);
             preparedStatement.executeUpdate();
         } catch (SQLException exception)
         {
@@ -134,17 +134,25 @@ public class ActorRepository {
     //delete
     public void deleteById(String id){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String delete_query = "DELETE FROM actors where performerId = " + id;
-            String delete_awards = "DELETE FROM awards where actorId = " + id;
-            String delete_past_productions = "DELETE FROM past_productions where actorId = " + id;
+            String delete_query = "DELETE FROM actors where performerId = '" + id + "'";
+            String delete_awards = "DELETE FROM awards where actorId = '" + id + "'";
+            String delete_past_productions = "DELETE FROM past_productions where actorId = '" + id + "'";
+            String delete_movie_cast = "DELETE FROM movie_cast where performer_id = '" + id + "'";
+            String delete_theatre_cast = "DELETE FROM theatre_cast where performer_id = '" + id + "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
-            statement.executeUpdate(delete_query);
+            Statement statement3 = connection.createStatement();
+            Statement statement4 = connection.createStatement();
+            statement4.executeUpdate(delete_theatre_cast);
+            statement3.executeUpdate(delete_movie_cast);
             statement1.executeUpdate(delete_awards);
             statement2.executeUpdate(delete_past_productions);
+            statement.executeUpdate(delete_query);
+
         } catch (SQLException exception)
         {
+            exception.printStackTrace();
             throw new RuntimeException("Something went wrong while trying to delete actor with id = " + id);
         }
     }

@@ -30,6 +30,7 @@ public class ReadingDataService {
         }
         return instance; }
     private ReadingDataService(){}
+
     public List<Client> readClientCSV(){
         List<Client> clients = new ArrayList<Client>();
         try{

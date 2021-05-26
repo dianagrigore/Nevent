@@ -17,6 +17,8 @@ import com.nevent.model.performer.Comedian;
 import com.nevent.model.performer.Performer;
 import com.nevent.model.performer.Singer;
 
+import javax.sound.midi.spi.SoundbankReader;
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.util.Random;
 import java.text.SimpleDateFormat;
@@ -806,6 +808,9 @@ public class MainService
         System.out.println("13. List all the clients");
         System.out.println("14. List all the events");
         System.out.println("15. List all the performers");
+        System.out.println("30. List all singers");
+        System.out.println("31. List all actors");
+        System.out.println("32. List all comedians");
         System.out.println("------Find events by criteria-------");
         System.out.println("16. See events by category");
         System.out.println("17. See events by location");
@@ -822,6 +827,18 @@ public class MainService
         System.out.println("27. Transform a booking to a ticket");
         System.out.println("28. Filter all underage clients.");
         System.out.println("29. Display a certain event.");
+        System.out.println("--------Updates--------");
+        System.out.println("33. Update client details");
+        System.out.println("34. Update location details");
+        System.out.println("35. Update singer details");
+        System.out.println("36. Update actor details");
+        System.out.println("37. Update comedian details");
+        System.out.println("--------Delete----------");
+        System.out.println("38. Delete a client");
+        System.out.println("39. Delete a location");
+        System.out.println("40. Delete a singer");
+        System.out.println("41. Delete an actor");
+        System.out.println("42. Delete a comedian");
     }
 
 }

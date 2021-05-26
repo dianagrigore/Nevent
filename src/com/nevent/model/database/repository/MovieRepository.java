@@ -22,11 +22,13 @@ public class MovieRepository {
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
+            Statement statement3 = connection.createStatement();
+            Statement statement4 = connection.createStatement();
             ResultSet movie_entries = statement.executeQuery(find_movie_entry);
             ResultSet event_entries = statement1.executeQuery(find_event_entry);
             ResultSet movie_cast = statement2.executeQuery(find_movie_cast);
-            ResultSet pricing_chart = statement.executeQuery(find_pricing_chart);
-            ResultSet event_location = statement.executeQuery(find_event_location);
+            ResultSet pricing_chart = statement3.executeQuery(find_pricing_chart);
+            ResultSet event_location = statement4.executeQuery(find_event_location);
             Map<String, Double> prices = new HashMap<>();
             while(pricing_chart.next()) {
                 prices.put(pricing_chart.getString(2), pricing_chart.getDouble(3));
@@ -116,13 +118,13 @@ public class MovieRepository {
                 ResultSet resultSet = statement.executeQuery(find_movies);
                 while(resultSet.next())
                  {
-                    String find_event_locations = "SELECT * from event_locations where id = " + resultSet.getString(1);
+                    String find_event_locations = "SELECT * from event_locations where id = '" + resultSet.getString(1) + "'";
                     Statement location_statement = connection.createStatement();
                     ResultSet location_res = location_statement.executeQuery(find_event_locations);
                     LocationRepository locationRepository = new LocationRepository();
                     Location location = locationRepository.findById(location_res.getString(2));
 
-                     String find_pricing_charts = "SELECT * from pricing_chart where id = " + resultSet.getString(1);
+                     String find_pricing_charts = "SELECT * from pricing_chart where id = '" + resultSet.getString(1) + "'";
                      Statement chart = connection.createStatement();
                      ResultSet pricing_res = chart.executeQuery(find_pricing_charts);
                      Map<String, Double> prices = new HashMap<>();
@@ -130,7 +132,7 @@ public class MovieRepository {
                          prices.put(pricing_res.getString(2), pricing_res.getDouble(3));
                      }
 
-                     String find_movie_casts = "SELECT * from movie_cast where movie_id = " + resultSet.getString(1);
+                     String find_movie_casts = "SELECT * from movie_cast where movie_id = '" + resultSet.getString(1) + "'";
                      Statement movie_statement = connection.createStatement();
                      ResultSet movie_res = movie_statement.executeQuery(find_movie_casts);
                      Map<Performer, String> cast = new HashMap<>();
@@ -139,7 +141,7 @@ public class MovieRepository {
                          cast.put(actorRepository.findById(movie_res.getString(2)), movie_res.getString(3));
                      }
 
-                     String find_events = "SELECT * from events where id = " + resultSet.getString(1);
+                     String find_events = "SELECT * from events where id = '" + resultSet.getString(1) + "'";
                      Statement event_statement = connection.createStatement();
                      ResultSet event_res = event_statement.executeQuery(find_events);
                      Movie movie = new Movie(resultSet.getString(1), event_res.getString(2), event_res.getInt(3),
@@ -153,13 +155,13 @@ public class MovieRepository {
     }
         }
 
-        public void update(int id, String genre, String name, String director){
+        public void update(String id, String genre, String name, String director){
             try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
                 String update_query = "UPDATE movies SET genre = ?, name = ?, director = ? where id = " + id;
                 PreparedStatement preparedStatement = connection.prepareStatement(update_query);
-                preparedStatement.setString(2, genre);
-                preparedStatement.setString(3, name);
-                preparedStatement.setString(4, director);
+                preparedStatement.setString(1, genre);
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, director);
             } catch (SQLException exception)
             {
                 throw new RuntimeException("Something went wrong while trying to update movie with id = " + id);
@@ -168,17 +170,21 @@ public class MovieRepository {
 
        public void deleteById(String id){
            try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-               String delete_movie_entry = "DELETE from movies where id = " + id;
-               String delete_event_entry = "DELETE from events where id = " + id;
-               String delete_movie_cast = "DELETE from movie_cast where movie_id = " + id;
-               String delete_pricing_chart = "DELETE from pricing_chart where id_event = " + id;
-               String delete_event_location = "DELETE from event_locations where id = " + id;
+               String delete_movie_entry = "DELETE from movies where id = '" + id + "'";
+               String delete_event_entry = "DELETE from events where id = '" + id + "'";
+               String delete_movie_cast = "DELETE from movie_cast where movie_id = '" + id + "'";
+               String delete_pricing_chart = "DELETE from pricing_chart where id_event = '" + id + "'";
+               String delete_event_location = "DELETE from event_locations where id = '" + id + "'";
                Statement delete_movie_statement = connection.createStatement();
                delete_movie_statement.executeUpdate(delete_movie_entry);
-               delete_movie_statement.executeUpdate(delete_event_entry);
-               delete_movie_statement.executeUpdate(delete_movie_cast);
-               delete_movie_statement.executeUpdate(delete_pricing_chart);
-               delete_movie_statement.executeUpdate(delete_event_location);
+               Statement delete_entry_statement = connection.createStatement();
+               delete_entry_statement.executeUpdate(delete_event_entry);
+               Statement delete_mc_statement = connection.createStatement();
+               delete_mc_statement.executeUpdate(delete_movie_cast);
+               Statement delete_pc_statement = connection.createStatement();
+               delete_pc_statement.executeUpdate(delete_pricing_chart);
+               Statement delete_el_statement = connection.createStatement();
+               delete_el_statement.executeUpdate(delete_event_location);
 
            }catch (SQLException exception)
            {

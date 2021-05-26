@@ -20,41 +20,58 @@ public class TheatrePlayRepository {
             String find_theatre_cast = "SELECT * from theatre_cast where theatre_id = '" + id+ "'";
             String find_pricing_chart = "SELECT * from pricing_chart where id = '" + id+ "'";
             String find_event_location = "SELECT * from event_locations where id = '" + id+ "'";
-            Statement statement = connection.createStatement();
-            Statement statement1 = connection.createStatement();
-            Statement statement2 = connection.createStatement();
-            ResultSet theatre_entries = statement.executeQuery(find_theatre_entry);
-            ResultSet event_entries = statement1.executeQuery(find_event_entry);
-            ResultSet theatre_cast = statement2.executeQuery(find_theatre_cast);
-            ResultSet pricing_chart = statement.executeQuery(find_pricing_chart);
-            ResultSet event_location = statement.executeQuery(find_event_location);
+
+            Statement statement2 = connection.createStatement(                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            Statement statement3 = connection.createStatement(                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            Statement statement4 = connection.createStatement(                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+
+
+            ResultSet pricing_chart = statement3.executeQuery(find_pricing_chart);
+            ResultSet event_location = statement4.executeQuery(find_event_location);
             Map<String, Double> prices = new HashMap<>();
             while(pricing_chart.next()) {
                 prices.put(pricing_chart.getString(2), pricing_chart.getDouble(3));
             }
+            pricing_chart.close();
             ActorRepository actorRepository = new ActorRepository();
             Map<Performer, String> cast = new HashMap<>();
+            ResultSet theatre_cast = statement2.executeQuery(find_theatre_cast);
             while(theatre_cast.next()) {
-                Performer performer = actorRepository.findById(theatre_cast.getString(2));
+                //Performer performer = actorRepository.findById(theatre_cast.getString(2));
+                Performer performer = null;
                 String role = theatre_cast.getString(3);
                 cast.put(performer, role);
             }
+            theatre_cast.close();
             event_location.next();
             LocationRepository locationRepository = new LocationRepository();
             Location location = locationRepository.findById(event_location.getString(2));
+            event_location.close();
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            Statement statement1 = connection.createStatement(                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            ResultSet theatre_entries = statement.executeQuery(find_theatre_entry);
+            ResultSet event_entries = statement1.executeQuery(find_event_entry);
             event_entries.next();
             theatre_entries.next();
             TheatrePlay theatrePlay = new TheatrePlay(event_entries.getString(1), event_entries.getString(2), event_entries.getInt(3),
                     event_entries.getInt(4), location, event_entries.getDate(5), prices, theatre_entries.getString(2),
                     theatre_entries.getString(3), theatre_entries.getString(4), theatre_entries.getString(5), cast);
-            theatre_entries.close();
             event_entries.close();
-            theatre_cast.close();
-            pricing_chart.close();
-            event_location.close();
+            theatre_entries.close();
             return theatrePlay;
         } catch (SQLException exception)
         {
+            exception.printStackTrace();
             throw new RuntimeException("Something went wrong while trying to query theatre play with id = " + id);
         }
     }
@@ -116,13 +133,13 @@ public class TheatrePlayRepository {
             ResultSet resultSet = statement.executeQuery(find_plays);
             while(resultSet.next())
             {
-                String find_event_locations = "SELECT * from event_locations where id = " + resultSet.getString(1);
+                String find_event_locations = "SELECT * from event_locations where id = '" + resultSet.getString(1) + "'";
                 Statement location_statement = connection.createStatement();
                 ResultSet location_res = location_statement.executeQuery(find_event_locations);
                 LocationRepository locationRepository = new LocationRepository();
                 Location location = locationRepository.findById(location_res.getString(2));
 
-                String find_pricing_charts = "SELECT * from pricing_chart where id = " + resultSet.getString(1);
+                String find_pricing_charts = "SELECT * from pricing_chart where id ='' " + resultSet.getString(1) + "''";
                 Statement chart = connection.createStatement();
                 ResultSet pricing_res = chart.executeQuery(find_pricing_charts);
                 Map<String, Double> prices = new HashMap<>();
@@ -130,7 +147,7 @@ public class TheatrePlayRepository {
                     prices.put(pricing_res.getString(2), pricing_res.getDouble(3));
                 }
 
-                String find_theatre_casts = "SELECT * from theatre_cast where theatre_id = " + resultSet.getString(1);
+                String find_theatre_casts = "SELECT * from theatre_cast where theatre_id = '" + resultSet.getString(1) + "'";
                 Statement theatre_statement = connection.createStatement();
                 ResultSet theatre_res = theatre_statement.executeQuery(find_theatre_casts);
                 Map<Performer, String> cast = new HashMap<>();
@@ -139,7 +156,7 @@ public class TheatrePlayRepository {
                     cast.put(actorRepository.findById(theatre_res.getString(2)), theatre_res.getString(3));
                 }
 
-                String find_events = "SELECT * from events where id = " + resultSet.getString(1);
+                String find_events = "SELECT * from events where id = '" + resultSet.getString(1) + "'";
                 Statement event_statement = connection.createStatement();
                 ResultSet event_res = event_statement.executeQuery(find_events);
                 TheatrePlay theatrePlay = new TheatrePlay(resultSet.getString(1), event_res.getString(2), event_res.getInt(3),
@@ -153,9 +170,9 @@ public class TheatrePlayRepository {
         }
     }
 
-    public void update(int id, String genre, String name, String director, String dress_code){
+    public void update(String id, String genre, String name, String director, String dress_code){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String update_query = "UPDATE theatre_plays SET genre = ?, name = ?, director_name = ?, dress_code = ? where id = " + id;
+            String update_query = "UPDATE theatre_plays SET genre = ?, name = ?, director_name = ?, dress_code = ? where id = '" + id + "'";
             PreparedStatement preparedStatement = connection.prepareStatement(update_query);
             preparedStatement.setString(2, genre);
             preparedStatement.setString(3, name);
@@ -169,17 +186,21 @@ public class TheatrePlayRepository {
 
     public void deleteById(String id){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String delete_theatre_entry = "DELETE from theatre_plays where id = " + id;
-            String delete_event_entry = "DELETE from events where id = " + id;
-            String delete_theatre_cast = "DELETE from theatre_cast where theatre_id = " + id;
-            String delete_pricing_chart = "DELETE from pricing_chart where id_event = " + id;
-            String delete_event_location = "DELETE from event_locations where id = " + id;
+            String delete_theatre_entry = "DELETE from theatre_plays where id = '" + id+ "'";
+            String delete_event_entry = "DELETE from events where id = '" + id+ "'";
+            String delete_theatre_cast = "DELETE from theatre_cast where theatre_id = '" + id+ "'";
+            String delete_pricing_chart = "DELETE from pricing_chart where id_event = '" + id+ "'";
+            String delete_event_location = "DELETE from event_locations where id = '" + id + "'";
             Statement delete_theatre_statement = connection.createStatement();
             delete_theatre_statement.executeUpdate(delete_theatre_entry);
-            delete_theatre_statement.executeUpdate(delete_event_entry);
-            delete_theatre_statement.executeUpdate(delete_theatre_cast);
-            delete_theatre_statement.executeUpdate(delete_pricing_chart);
-            delete_theatre_statement.executeUpdate(delete_event_location);
+            Statement delete_er_statement = connection.createStatement();
+            delete_er_statement.executeUpdate(delete_event_entry);
+            Statement delete_tc_statement = connection.createStatement();
+            delete_tc_statement.executeUpdate(delete_theatre_cast);
+            Statement delete_pc_statement = connection.createStatement();
+            delete_pc_statement.executeUpdate(delete_pricing_chart);
+            Statement delete_el_statement = connection.createStatement();
+            delete_el_statement.executeUpdate(delete_event_location);
 
         }catch (SQLException exception)
         {

@@ -14,12 +14,14 @@ public class SingerRepository {
             String find_singers = "SELECT * from singers where performerId = '" + id+ "'";
             String find_member_names = "SELECT * from member_names where singerId = '" + id+ "'";
             String find_best_known_songs = "SELECT * from best_known_songs where singerId = '" + id+ "'";
+
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(find_singers);
             ResultSet resultSet1 = statement1.executeQuery(find_member_names);
             ResultSet resultSet2 = statement2.executeQuery(find_best_known_songs);
+
             List<String> member_names = new ArrayList<>();
             while(resultSet1.next()) {
                 member_names.add(resultSet1.getString(2));
@@ -30,6 +32,7 @@ public class SingerRepository {
             }
             resultSet.next();
             Singer singer = mapToSinger(resultSet, member_names, best_known_songs);
+
             resultSet.close();
             resultSet1.close();
             resultSet2.close();
@@ -118,14 +121,14 @@ public class SingerRepository {
                 best_known_songs);
     }
     //update
-    public void update(int id, String name, String description, String music_genre, Boolean is_group) {
+    public void update(String id, String name, String description, String music_genre, Boolean is_group) {
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String update_query = "UPDATE singers SET name = ?, description = ?, music_genre=?, is_group = ? where performerId = " + id;
+            String update_query = "UPDATE singers SET name = ?, description = ?, music_genre=?, is_group = ? where performerId = '" + id + "'";
             PreparedStatement preparedStatement = connection.prepareStatement(update_query);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, description);
-            preparedStatement.setString(4, music_genre);
-            preparedStatement.setBoolean(5, is_group);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, description);
+            preparedStatement.setString(3, music_genre);
+            preparedStatement.setBoolean(4, is_group);
             preparedStatement.executeUpdate();
         } catch (SQLException exception)
         {
@@ -135,9 +138,9 @@ public class SingerRepository {
     //delete
     public void deleteById(String id){
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String delete_query = "DELETE FROM singers where performerId = " + id;
-            String delete_mn = "DELETE FROM member_names where singerId = " + id;
-            String delete_bks = "DELETE FROM best_known_songs where singerId = " + id;
+            String delete_query = "DELETE FROM singers where performerId = '" + id + "'";
+            String delete_mn = "DELETE FROM member_names where singerId = '" + id + "'";
+            String delete_bks = "DELETE FROM best_known_songs where singerId = '" + id + "'";
             Statement statement = connection.createStatement();
             Statement statement1 = connection.createStatement();
             Statement statement2 = connection.createStatement();

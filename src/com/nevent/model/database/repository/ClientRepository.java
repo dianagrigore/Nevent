@@ -7,7 +7,7 @@ import com.nevent.model.database.config.DatabaseConfiguration;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-//TODO: add account support
+
 public class ClientRepository {
     public Client findById(String id){
    try (Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
@@ -77,16 +77,17 @@ public class ClientRepository {
                 account);
     }
     //update
-    public void update(int id, String name, String surname, Integer age) {
+    public void update(String id, String name, String surname, Integer age) {
         try(Connection connection = DatabaseConfiguration.getDatabaseConnection()) {
-            String update_query = "UPDATE clients SET name = ?, surname = ?, age = ? where id = '" + id + "'";
+            String update_query = "UPDATE clients SET name = ?, surname = ?, age = ? where clientId = '" + id + "'";
             PreparedStatement preparedStatement = connection.prepareStatement(update_query);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, surname);
-            preparedStatement.setInt(4, age);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
+            preparedStatement.setInt(3, age);
             preparedStatement.executeUpdate();
         } catch (SQLException exception)
         {
+            exception.printStackTrace();
             throw new RuntimeException("Something went wrong while trying to update client with id = " + id);
         }
     }
